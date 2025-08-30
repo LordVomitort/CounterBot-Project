@@ -1,0 +1,381 @@
+[
+	{
+		"serviceId": 3,
+		"event": {
+			"type": 2,
+			"follow": {
+				"followerId": "750960972251799553",
+				"accountId": "276254003380101120",
+				"id": "799854120004497409",
+				"accountSortOrder": 1
+			}
+		}
+	},
+	{
+		"goal": {
+			"serviceId": 46,
+			"event": {
+				"type": 51,
+				"chatRoomGoal": {
+					"id": "799577119800700928",
+					"chatRoomId": "704271867631902721",
+					"accountId": "630673272698056704",
+					"type": 0,
+					"label": "☁️ Stream Goals ☁️",
+					"description": "Goals: ♡ ($50)  Collar  ♡ ($100)  Gemini ♡ ($200) Domi ♡ ($300) Cock Warming ♡ ($400) Aftermath  ♡ ($450) Swap to Mission for 15 minutes  ♡  ($500) Panties for gag + gag for 10 mins  ♡ ($600) Swap to Cock warming with Hush ♡ ($700) Add Clown to the wheel ♡ ",
+					"status": 1,
+					"currentAmount": 601000,
+					"goalAmount": 700000,
+					"version": 52,
+					"deletedAt": null
+				}
+			}
+		}
+	},
+	{
+		"t": 10000,
+		"d": {
+			"serviceId": 15,
+			"event": {
+				"type": 5,
+				"subscription": {
+					"id": "799858129008340993",
+					"historyId": "799858129079640069",
+					"accountId": "276254003380101120",
+					"subscriberId": "750960972251799553",
+					"subscriptionTierId": "799200600012107776",
+					"subscriptionTierName": "test",
+					"subscriptionTierColor": "#F73838",
+					"planId": "799200600062435328",
+					"promoId": "0",
+					"giftCodeId": "799855696030998530",
+					"paymentMethodId": "0",
+					"status": 3,
+					"price": 0,
+					"renewPrice": 6000,
+					"renewCorrelationId": "799858129079640069",
+					"autoRenew": 1,
+					"version": 2,
+					"billingCycle": 30,
+					"duration": 30,
+					"renewDate": 1752195398000,
+					"createdAt": 1752195398000,
+					"endsAt": 1754787398383,
+					"promoDuration": null,
+					"promoStartsAt": null,
+					"promoEndsAt": null,
+					"updatedAt": 1752195398385,
+					"subscriptionStreak": 0,
+					"subscriptionTotalDays": 0
+				}
+			}
+		}
+	},
+	{
+		"t": 10000,
+		"d": {
+			"serviceId": 15,
+			"event": {
+				"type": 5,
+				"subscription": {
+					"subscriberId": "750960972251799553",
+					"accountId": "276254003380101120",
+					"subscriptionTierId": "799200600012107776",
+					"planId": "799200600062435328",
+					"promoId": "",
+					"giftCode": "Nzk5ODU1Njk2MDMwOTk4NTMwOjE6MTpkMDE1NmE3MDNi",
+					"autoRenew": 1,
+					"referalCodeId": "",
+					"orderMetadata": null,
+					"id": "799858129008340993",
+					"status": 2,
+					"giftCodeId": "799855696030998530",
+					"updatedAt": 1752195398157,
+					"createdAt": 1752195398157,
+					"historyId": "799858129079640069",
+					"price": 0,
+					"giftCodeFree": true,
+					"renewPrice": 6000,
+					"renewCorrelationId": "799858129079640069",
+					"renewDate": 1752195398157,
+					"billingCycle": 30,
+					"duration": 30
+				}
+			}
+		}
+	},
+	{
+		"tip": {
+			"serviceId": 46,
+			"event": {
+				"type": 10,
+				"chatRoomMessage": {
+					"chatRoomId": "704271867631902721",
+					"senderId": "617728811034750976",
+					"content": "",
+					"type": 0,
+					"private": 0,
+					"attachments": [
+						{
+							"contentType": 7,
+							"contentId": "799618753649188864",
+							"metadata": { "amount": 18000 },
+							"chatRoomMessageId": "799618754039259137"
+						}
+					],
+					"accountFlags": 0,
+					"messageTip": null,
+					"metadata": {
+						"senderIsCreator": false,
+						"senderIsStaff": false,
+						"senderIsFollowing": true,
+						"senderSubscription": {
+							"tierId": "715477017503473665",
+							"tierColor": "#444444",
+							"tierName": "Office Rat { CUSTOM AUDIO }"
+						}
+					},
+					"chatRoomAccountId": "630673272698056704",
+					"id": "799618754039259137",
+					"createdAt": 1752138326701,
+					"embeds": [],
+					"usernameColor": "",
+					"username": "dja94",
+					"displayname": "dja94"
+				}
+			}
+		}
+	},
+	{
+		"tip": {
+			"t": 10000,
+			"d": {
+				"serviceId": 46,
+				"event": {
+					"type": 10,
+					"chatRoomMessage": {
+						"chatRoomId": "757745290047401984",
+						"senderId": "509953799532584961",
+						"content": "I'll contribute toward that handjob video.",
+						"type": 0,
+						"private": 0,
+						"attachments": [
+							{
+								"contentType": 7,
+								"contentId": "800291325260865536",
+								"metadata": { "amount": 50000 },
+								"chatRoomMessageId": "800291325562859520"
+							}
+						],
+						"accountFlags": 0,
+						"messageTip": null,
+						"metadata": {
+							"senderIsCreator": false,
+							"senderIsStaff": false,
+							"senderIsFollowing": true,
+							"senderSubscription": {
+								"tierId": "752311216990334976",
+								"tierColor": "#46A7F8",
+								"tierName": "❤︎Puppy Knight❤︎ (DM's Unlocked + VOD Access)"
+							}
+						},
+						"chatRoomAccountId": "717637147170975744",
+						"id": "800291325562859520",
+						"createdAt": 1752298680247,
+						"embeds": [],
+						"usernameColor": "#0066ff",
+						"username": "SCONvey",
+						"displayname": "SCONvey"
+					}
+				}
+			}
+		}
+	},
+	{
+		"t": 10000,
+		"d": {
+			"serviceId": 46,
+			"event": {
+				"type": 53,
+				"subAlert": {
+					"chatRoomId": "413580216410054656",
+					"senderId": "617943830208983040",
+					"historyId": "799874258741243904",
+					"subscriberId": "617943830208983040",
+					"subscriptionTierId": "412911485937790976",
+					"subscriptionTierName": "Supporter",
+					"subscriptionTierColor": "#878787",
+					"subscriptionStreak": 0,
+					"subscriptionTotalDays": 0,
+					"id": "799875838689419264",
+					"usernameColor": "",
+					"username": "user617943796230926338",
+					"displayname": "AsXo"
+				}
+			}
+		}
+	},
+	{
+		"t": 10000,
+		"d": {
+			"serviceId": 46,
+			"event": {
+				"type": 53,
+				"subAlert": {
+					"chatRoomId": "675133683492986880",
+					"senderId": "717876967705157639",
+					"historyId": "800604113816530945",
+					"subscriberId": "717876967705157639",
+					"subscriptionTierId": "672720886670827520",
+					"subscriptionTierName": "pockethub subscription",
+					"subscriptionTierColor": "#8C38F7",
+					"subscriptionStreak": 2,
+					"subscriptionTotalDays": 90,
+					"id": "802383127581319168",
+					"usernameColor": "#00b2ff",
+					"username": "ZachScratcherM",
+					"displayname": "ZachScratcherM"
+				}
+			}
+		}
+	},
+	{
+		"serviceId": 3,
+		"event": {
+			"type": 2,
+			"follow": {
+				"followerId": "750960972251799553",
+				"accountId": "276254003380101120",
+				"id": "799854120004497409",
+				"accountSortOrder": 1
+			}
+		}
+	},
+	{
+		"t": 10000,
+		"d": {
+			"serviceId": 15,
+			"event": {
+				"type": 5,
+				"subscription": {
+					"id": "799858129008340993",
+					"historyId": "802803656603738112",
+					"accountId": "276254003380101120",
+					"subscriberId": "750960972251799553",
+					"subscriptionTierId": "802801784681676801",
+					"subscriptionTierName": "test2",
+					"subscriptionTierColor": "#F73838",
+					"planId": "802801784732012544",
+					"promoId": null,
+					"giftCodeId": "802802624372944896",
+					"status": 3,
+					"price": 0,
+					"renewPrice": 5000,
+					"renewCorrelationId": "802803656603738112",
+					"autoRenew": 1,
+					"version": 5,
+					"billingCycle": 30,
+					"duration": 2,
+					"renewDate": 1752897666000,
+					"createdAt": 1752195398000,
+					"endsAt": 1753070466962,
+					"promoDuration": null,
+					"promoStartsAt": null,
+					"promoEndsAt": null,
+					"updatedAt": 1752897666964,
+					"giftCodeFree": true,
+					"subscriptionStreak": 0,
+					"subscriptionTotalDays": 0
+				}
+			}
+		}
+	},
+	{
+		"t": 10000,
+		"d": {
+			"serviceId": 15,
+			"event": {
+				"type": 5,
+				"subscription": {
+					"id": "799858129008340993",
+					"historyId": "802808653269712896",
+					"accountId": "276254003380101120",
+					"subscriberId": "750960972251799553",
+					"subscriptionTierId": "802801784681676801",
+					"subscriptionTierName": "test2",
+					"subscriptionTierColor": "#FFD700",
+					"planId": "802801784732012544",
+					"promoId": null,
+					"giftCodeId": "802808294115667968",
+					"status": 3,
+					"price": 0,
+					"renewPrice": 5000,
+					"renewCorrelationId": "802808653269712896",
+					"autoRenew": 0,
+					"version": 7,
+					"billingCycle": 30,
+					"duration": 2,
+					"renewDate": 1752898857000,
+					"createdAt": 1752195398000,
+					"endsAt": 1753071658173,
+					"promoDuration": null,
+					"promoStartsAt": null,
+					"promoEndsAt": null,
+					"updatedAt": 1752898858174,
+					"giftCodeFree": true,
+					"subscriptionStreak": 1,
+					"subscriptionTotalDays": 30,
+					"giftCodeRenew": true
+				}
+			}
+		}
+	},
+	{
+		"t": 10000,
+		"d": {
+			"serviceId": 15,
+			"event": {
+				"type": 5,
+				"subscription": {
+					"id": "799858129008340993",
+					"historyId": "802808653269712896",
+					"accountId": "276254003380101120",
+					"subscriberId": "750960972251799553",
+					"subscriptionTierId": "802801784681676801",
+					"subscriptionTierName": "test2",
+					"subscriptionTierColor": "#FFD700",
+					"planId": "802801784732012544",
+					"promoId": null,
+					"giftCodeId": "802808294115667968",
+					"status": 3,
+					"price": 0,
+					"renewPrice": 5000,
+					"renewCorrelationId": "802808653269712896",
+					"autoRenew": 0,
+					"version": 8,
+					"billingCycle": 30,
+					"duration": 2,
+					"renewDate": 1752898857000,
+					"createdAt": 1752195398000,
+					"endsAt": 1753071658000,
+					"promoDuration": null,
+					"promoStartsAt": null,
+					"promoEndsAt": null
+				}
+			}
+		}
+	},
+	{
+		"id": "801041558580244480",
+		"chatRoomId": "750481580824207361",
+		"accountId": "276254003380101120",
+		"type": 0,
+		"label": "test1",
+		"description": "",
+		"status": 1,
+		"currentAmount": 0,
+		"goalAmount": 0,
+		"version": 0,
+		"deletedAt": null
+	}
+]

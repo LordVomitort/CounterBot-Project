@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Project tool Test version</title>
+		<link rel="stylesheet" href="popup.css" />
+	</head>
+	<body>
+		<div class="app">
+			<div class="title-container">
+				<h1 style="white-space: nowrap">CounterBot v0.1 test</h1>
+				<span id="version"></span>
+			</div>
+			<div id="status-wrap" class="status-wrap" aria-hidden="true">
+				<div id="spinner" class="spinner"></div>
+				<span id="status" class="status-text">Checking server...</span>
+			</div>
+			<div id="main-panel" class="main">
+				<div>
+					<button id="settings-button" class="button" style="width: 7rem">Settings</button>
+					<div id="closed-tag" class="hidden" style="white-space: pre-wrap">
+						<span style="font-size: 2rem; font-weight: bold">Server closed.</span>
+						<span style="font-size: 1.5rem; font-weight: bold">Please restart the server.</span>
+						<span> </span>
+					</div>
+				</div>
+				<div id="counters-main" class="hidden" style="gap: 0.25rem">
+					<div id="session-buttons" class="session-buttons">
+						<button id="new-session-button" class="sess-btn" data-index="1">New session</button>
+						<button id="continue-button" class="sess-btn" data-index="2">Continue</button>
+						<span id="session-status"></span>
+					</div>
+					<div id="counters-container" class="counter-cont"></div>
+				</div>
+			</div>
+			<div class="server-status"><span id="server-status"></span> <span id="fansly-status"></span></div>
+		</div>
+
+		<template id="counter-element">
+			<div class="counter">
+				<div class="counter-tag"><span class="counter-name"></span><span>: </span><span class="counter-value"></span></div>
+				<button class="count-btn">+1</button>
+			</div>
+		</template>
+
+		<script src="popup.js"></script>
+	</body>
+</html>

@@ -1,0 +1,9 @@
+tengo que guardar la cantidad de corridas por stream
+    (proximo)   si se selecciona otro modo almacenar esas cantidades tambien 
+hacer un recuento ya sea mensual o semanal (por ahora mensual)
+almacenar el record del mes o la semana
+almacenar el record total
+
+el archivo tiene que tener el nombre de registro
+
+agregar cum goal configurables para hacer efectos 

@@ -1,0 +1,43 @@
+{
+    "registerName": "miru",
+    "mode": "cum",
+    "countingMode": "month",
+    "lastSession": "2025-02-10",
+    "registryFile": "miru-registry.json",
+    "lastSesion": "2025-02-10",
+    "counterList": [
+        {
+            "name": "counter",
+            "active": true,
+            "varList": [
+                "counterBest",
+                "counterActualBest",
+                "counterTotal",
+                "counterMonthBest",
+                "counterMonthTotal"
+            ]
+        },
+        {
+            "name": "squirt",
+            "active": true,
+            "varList": [
+                "squirtBest",
+                "squirtActualBest",
+                "squirtTotal",
+                "squirtMonthBest",
+                "squirtMonthTotal"
+            ]
+        },
+        {
+            "name": "counter2",
+            "active": true,
+            "varList": [
+                "counter2Best",
+                "counter2ActualBest",
+                "counter2Total",
+                "counter2MonthBest",
+                "counter2MonthTotal"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,21 @@
+{
+    "name" : "miru",
+    "countingMode" : "month",
+    "total" : 500,
+    "record" : 100,
+    "bestMonth" : {
+        "month" : 3,
+        "total" : 300,
+        "record" : 150,
+        "date" : "2025-03-15"
+    },
+    "sessions" : [
+        {
+            "month" : 1,
+            "total" : 50,
+            "sessions" : [
+                { "date" : "2025-01-01", "cum" : 3}
+            ]
+        }
+    ]
+}

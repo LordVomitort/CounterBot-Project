@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "CounterBot v0.1 test",
+  "version": "0.1",
+  "permissions": ["scripting", "activeTab", "alarms"],
+  "host_permissions": ["*://*.fansly.com/*", "http://localhost:3000/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://fansly.com/creator/streaming*"],
+      "js": ["content-script.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action":{
+    "default_popup":"popup.html"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["injected.js"],
+      "matches": ["https://fansly.com/*"]
+    }
+  ]
+}

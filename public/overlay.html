@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<link rel="stylesheet" href="overlayStyle.css" />
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Overlay obs</title>
+		<style>
+			body {
+				height: 100%;
+				width: 100%;
+				font-size: 50px;
+				color: white;
+				text-align: center;
+				align-items: center;
+				height: 100vh;
+				margin: 0;
+				justify-content: center;
+				display: flex;
+				background: transparent;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="overlay-container">
+			<div class="root-label-container" style="position: relative">
+				<svg width="500" height="500" id="rootLabelContainer"></svg>
+			</div>
+		</div>
+
+		<script>
+			let datos = {};
+			var LabelsList = [];
+			var LabelsText = [];
+			var labelCount;
+
+			// contenedor pincipal de los label
+			const rootLabelContainer = document.getElementById("rootLabelContainer");
+			// div principal
+			const overlayContainer = document.getElementById("overlay-container");
+			// Conectar con WebSocket para actualizar en vivo
+			const socket = new WebSocket("ws://localhost:3000");
+
+			// al abrir el ws
+			socket.onopen = () => {
+				socket.send(JSON.stringify({ tipo: "overlay" })); //identifica OBS
+			};
+
+			socket.onclose = () => {
+				overlayContainer.textContent = "Server Disconected";
+				overlayContainer.style.alignItems = "center";
+				overlayContainer.style.justifyContent = "center";
+				overlayContainer.style.fontFamily = "Arial, Verdana";
+			};
+			// mensajes del ws
+			socket.onmessage = (event) => {
+				// obetengo el contenido del mensaje
+				let _mensaje;
+				try {
+					_mensaje = JSON.parse(event.data);
+				} catch (er) {
+					return;
+				}
+
+				console.log("on message");
+				switch (_mensaje.type) {
+					// estilo general modificado
+					case "styleModify":
+						console.log("styleModify");
+						StyleSet(_mensaje.data);
+						break;
+					// tamaño modificado
+					case "sizeConfig":
+						// contadorElemento.innerText = _mensaje.data.width;
+						document.documentElement.style.setProperty("--width", _mensaje.data.width + "px");
+						document.documentElement.style.setProperty("--height", _mensaje.data.height + "px");
+
+						break;
+					// label añadido
+					case "addLabel":
+						console.log("addLabel");
+						// creo el nuevo label y lo añado a LabelList
+						LabelsList.push(AddLabel(_mensaje.data));
+						// añado el texto del label a LabelsTest
+						LabelsText.push(_mensaje.data.label);
+						UpdateNumbers();
+						break;
+					// label modificado
+					case "modifyLabel":
+						console.log("modifyLabel");
+						ModifyLabel(_mensaje.index, _mensaje.data);
+						UpdateNumbers();
+						break;
+					// label borrado
+					case "deleteLabel":
+						console.log("deleteLabel");
+						DeleteLabels();
+						MakeLabels(_mensaje.data);
+						break;
+					// actualizacion del contenido de los contadores
+					case "numberUpdate":
+						console.log("numberUpdate");
+						datos = _mensaje.data;
+						UpdateNumbers();
+						break;
+					// fuente modificada
+					case "fontModify":
+						replaceFont(_mensaje.data.family, _mensaje.data.weight, _mensaje.index);
+						// replacestyle(`https://fonts.googleapis.com/css?family=${_mensaje.data.value}`, _mensaje.index);
+						break;
+				}
+			};
+
+			// obtengo los datos de los contadores
+			fetch("/getNumberData")
+				.then((response) => response.json())
+				.then((data) => {
+					datos = data;
+				});
+
+			// obtengo todos los labels a mostrar y los establezco
+			fetch("/checkForLabels")
+				.then((response) => response.json())
+				.then((data) => {
+					if (data !== undefined) {
+						MakeLabels(data.labels);
+					}
+				});
+
+			// obtengo el estilo general del overlay
+			fetch("/configOverlay")
+				.then((response) => response.json())
+				.then((configOverlay) => {
+					StyleSet(configOverlay.data);
+				});
+
+			// funcion para establecer el estilo general
+			function StyleSet(config) {
+				// establezco el tamaño
+				document.documentElement.style.setProperty("--width", config.width + "px");
+				document.documentElement.style.setProperty("--height", config.height + "px");
+				// si tiene color de fondo lo establezco
+				if (config.background) {
+					document.documentElement.style.setProperty("--backgroundColor", config.backgroundColor);
+				} else {
+					document.documentElement.style.setProperty("--backgroundColor", "rgba(0,0,0,0)");
+				}
+				// establezco el color y espezor de borde
+				document.documentElement.style.setProperty("--borderRadius", config.borderRadius + "px");
+				document.documentElement.style.setProperty("--border", config.border + "px solid");
+				if (config.border > 0) {
+					// si el borde no es 0 establezco su color
+					document.documentElement.style.setProperty("--borderColor", config.borderColor);
+				}
+			}
+
+			// funcion para interpolar el texto del label con las variables de contadores
+			function interpolate(template, data) {
+				if (template == "" || !template) {
+					return;
+				}
+				template = template.replace(/(\r\n|\n|\r)/gm, " ");
+				// Busca patrones del tipo {clave} y los reemplaza
+				return template.replace(/\{(\w+)\}/g, (match, key) => {
+					return data.hasOwnProperty(key) ? data[key] : match;
+				});
+			}
+
+			// funcion para crear los labels
+			function MakeLabels(labels) {
+				for (let i = 0; i < labels.length; i++) {
+					LabelsList.push({});
+					LabelsText.push("");
+					LabelsList[i] = AddLabel(labels[i]);
+					LabelsText[i] = labels[i].label;
+					replaceFont(labels[i].font, labels[i].fontWeight, i);
+					SetLabelStyle(LabelsList[i], labels[i]);
+				}
+			}
+			// funcion para crear un label individual, lo crea a partir de svg
+			function AddLabel(label) {
+				const svgns = "http://www.w3.org/2000/svg";
+				const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+				const textElement = document.createElementNS("http://www.w3.org/2000/svg", "text");
+				const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+
+				group.appendChild(textElement);
+				group.insertBefore(rect, textElement);
+				textElement.textContent = label.label;
+				textElement.setAttribute("font-family", "Arial, Helvetica, sans-serif");
+
+				rootLabelContainer.appendChild(group);
+				// SetLabelStyle(group, label);
+				return group;
+			}
+			// funcion para modificar el estilo y contenido de un label
+			function ModifyLabel(index, label) {
+				LabelsText[index] = label.label;
+				SetLabelStyle(LabelsList[index], label);
+			}
+			// funcion para establecer el estilo de un label
+			function SetLabelStyle(labelGroup, data) {
+				if (data.label != null) {
+					// obtengo el rect de fondo y el text
+					const label = labelGroup.querySelector("text");
+					const rect = labelGroup.querySelector("rect");
+					// establezco su posicion
+					label.setAttribute("x", String(data.X));
+					label.setAttribute("y", String(data.Y));
+					// establezco su texto
+					label.textContent = interpolate(data.label, datos);
+					// label.setAttribute("font-family", `${data.font}, Arial, Helvetica, sans-serif`);
+					// tamaño de fuente
+					label.setAttribute("font-size", data.fontSize);
+					// color de fuente
+					label.setAttribute("fill", data.color);
+					// outline de la fuente
+					if (data.outline) {
+						label.setAttribute("stroke", data.outlineColor);
+						label.setAttribute("stroke-width", data.outlineSize / 10);
+					} else {
+						label.setAttribute("stroke", "none");
+					}
+					// rect del fondo
+					if (data.background) {
+						const bbox = label.getBBox();
+						rect.setAttribute("x", String(bbox.x - 5));
+						rect.setAttribute("y", String(bbox.y - 5));
+						rect.setAttribute("width", String(bbox.width + 10));
+						rect.setAttribute("height", String(bbox.height + 10));
+						rect.setAttribute("fill", data.backgroundColor);
+					} else {
+						rect.setAttribute("fill", "none");
+					}
+				}
+			}
+
+			// funcion para establecer la fuente
+			function replaceFont(familyName, fontWeight, index) {
+				const svg = LabelsList[index];
+				if (!svg || svg.namespaceURI !== "http://www.w3.org/2000/svg") {
+					console.error("Not a valid SVG in index: " + index);
+					return;
+				}
+
+				const linkId = `LabelFont-${index}`;
+				let link = document.getElementById(linkId);
+				if (!link) {
+					link = document.createElement("link");
+					link.rel = "stylesheet";
+					link.id = linkId;
+					document.head.appendChild(link);
+				}
+				const fontFamily = familyName.replace(/ /g, "+");
+				link.href = `https://fonts.googleapis.com/css?family=${fontFamily}:${fontWeight}`;
+
+				svg.querySelectorAll("text, tspan").forEach((node) => {
+					node.setAttribute("font-family", familyName);
+					node.setAttribute("font-weight", fontWeight);
+				});
+			}
+
+			// funcion para borrar todos los labels
+			function DeleteLabels() {
+				[...rootLabelContainer.children].forEach((child) => child.remove());
+				LabelsList = [];
+				LabelsText = [];
+			}
+
+			// funcion para actualizar los numeros de los labels
+			function UpdateNumbers() {
+				console.log("update de los numeros", datos);
+				for (let i = 0; i < LabelsList.length; i++) {
+					const label = LabelsList[i].querySelector("text");
+					const rect = LabelsList[i].querySelector("rect");
+					console.log("texto", LabelsText[i]);
+					label.textContent = interpolate(LabelsText[i], datos);
+					console.log(interpolate(LabelsText[i], datos));
+					console.log("labellist", LabelsList[i].innerText);
+
+					const bbox = label.getBBox();
+					rect.setAttribute("width", String(bbox.width + 10));
+					rect.setAttribute("height", String(bbox.height + 10));
+				}
+			}
+		</script>
+	</body>
+</html>

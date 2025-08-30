@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<link rel="stylesheet" href="controllOverlayOutput.css" />
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Panel de control</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+			}
+
+			label {
+				display: block;
+				margin-top: 10px;
+			}
+		</style>
+		<style>
+			/* Contenedor principal del menú */
+			.menu-container {
+				width: 300px;
+				border: 1px solid #ccc;
+				padding: 10px;
+				overflow: hidden;
+				transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+				max-height: 60px;
+				/* Altura mínima: solo se muestra el input principal */
+			}
+
+			/* Estado expandido: mayor altura para mostrar controles */
+			.menu-container.expanded {
+				max-height: 300px;
+				/* Ajusta según tus necesidades */
+				padding: 10px;
+			}
+
+			/* Estilos para los controles adicionales */
+			.controls {
+				opacity: 0;
+				transition: opacity 0.5s ease-out;
+				margin-top: 10px;
+			}
+
+			/* Cuando el contenedor está expandido, se muestran los controles */
+			.menu-container.expanded .controls {
+				opacity: 1;
+			}
+
+			/* Botón para expandir/colapsar */
+			.toggle-btn {
+				margin-top: 10px;
+				padding: 5px 10px;
+				font-size: 14px;
+			}
+		</style>
+	</head>
+
+	<body class="bg-stone-950 text-white">
+		<nav class="navbar bg-gray-800 shadow-md p-4">
+			<div class="max-w-6x1 mx-auto flex justify-between items-center">
+				<div class="space-x-4 hidden md:flex">
+					<li>Configuracion</li>
+					<li>Overlay</li>
+				</div>
+			</div>
+		</nav>
+
+		<div class="h-full overflow-hidden flex justify-between bg-panel-darkest">
+			<div class="flex w-full p-2 pt-2 gap-2">
+				<div class="config-panel flex flex-col w-full overflow-hidden p-2 justify-between space-y-2 rounded-xl bg-panel-primary border-panel-border border-2 border-solid">
+					<div class="overlayStyte-container flex flex-col p-0">
+						<div class="flex flex-col items-center border-2 border-slate-500 border-solid rounded-xl p-4">
+							<div>
+								<h1 style="font-size: medium">Tamaño del overlay</h1>
+							</div>
+							<div class="flex">
+								<div class="slidecontainer">
+									<label for="width" style="text-wrap: nowrap; font-size: small">Ancho:</label>
+									<input type="range" min="1" max="500" value="200" class="slider" id="widthSlider" />
+									<input type="number" id="width" value="300" class="inputSize" />
+									<label for="height" style="text-wrap: nowrap; font-size: small">px</label>
+								</div>
+
+								<div class="slidecontainer">
+									<label for="height" style="text-wrap: nowrap; font-size: small">Alto:</label>
+									<input type="range" min="1" max="500" value="100" class="slider" id="heightSlider" />
+									<input type="number" id="height" value="100" class="inputSize" />
+									<label for="height" style="text-wrap: nowrap; font-size: small">px</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="labelManager-container flex flex-col justify-between">
+						<div class="flex items-center justify-between py-1">
+							<div class="flex items-center">
+								<h2 class="text-blue-600" style="font-size: small; padding-left: 10px">Agregar label</h2>
+							</div>
+							<button id="addInputLabelButton" class="botonAgregar bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Agregar</button>
+						</div>
+						<div class="labelRootContainer flex flex-col bg-panel-secundary rounded-xl px-2 py-2 border border-panel-border">
+							<!-- template -->
+							<div class="main-label-body flex flex-col gap-1">
+								<div class="flex flex-col gap-2">
+									<!-- label y boton editar -->
+									<div class="flex flex-row justify-between items-center">
+										<div class="flex items-center space-x-2">
+											<h2 class="text-base font-semibold">Label</h2>
+										</div>
+										<input
+											type="text"
+											id="labelInput"
+											class="labelInput rounded-lg border-solid border-2 bg-slate-800 hover:bg-slate-700 px-4 py-0.5 w-76"
+											placeholder="Label"
+											value="label"
+											list="label-input"
+										/>
+									</div>
+									<div class="flex flex-col items-center">
+										<button class="buttonEdit w-full bg-blue-600">Editar</button>
+									</div>
+								</div>
+								<!-- template -->
+								<!-- todo lo que está debajo de editar -->
+								<div class="flex flex-col justify-between rounded-lg gap-1">
+									<div class="border rounded-lg p-1 bg-slate-700">
+										<div class="flex flex-col justify-between space-x-2">
+											<h3 class="font-normal text-xs">Label position</h3>
+											<div class="flex flex-col gap-1">
+												<div class="flex justify-between items-center">
+													<div class="flex items-center space-x-2">
+														<h2 class="text-sm">Posicion X</h2>
+													</div>
+													<div class="flex items-center gap-1">
+														<input class="slider" type="range" min="1" max="500" value="250" list="pos-x-slider" />
+														<input class="input-number w-24" type="text" />
+													</div>
+												</div>
+												<div class="flex justify-between items-center">
+													<div class="flex items-center space-x-2">
+														<h2 class="text-sm font-normal">Posicion Y</h2>
+													</div>
+													<div class="flex items-center gap-1">
+														<input type="range" min="1" max="500" value="250" class="slider" list="pos-y-slider" />
+														<input class="input-number w-24" type="text" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="border rounded-lg p-1 gap-1">
+										<div class="space-x-2">
+											<h3 class="font-normal text-xs">Font config</h3>
+										</div>
+										<div class="flex flex-col pl-2 gap-1 justify-between">
+											<div class="flex items-center justify-between">
+												<div>
+													<h2 class="text-sm font-normal">Fuente</h2>
+												</div>
+												<select name="fonts" id="fontSelect"></select>
+											</div>
+											<div class="flex items-center justify-between">
+												<div class="flex items-center space-x-2">
+													<h2 class="text-sm font-normal">Color</h2>
+												</div>
+												<div class="flex items-center gap-1">
+													<input class="w-6 rounded-3xl" type="color" id="labelColorPicker" value="#ffffff" />
+													<input class="input-number w-24 h-8 p-2" type="text" value="#414a3b" />
+												</div>
+											</div>
+											<div class="flex items-center justify-between">
+												<div class="flex items-center">
+													<h2 class="text-sm font-normal">Font size</h2>
+												</div>
+												<div class="flex items-start gap-1">
+													<input type="number" class="input-number w-14" />
+												</div>
+											</div>
+											<div class="flex flex-col justify-between gap-1">
+												<div class="flex items-center justify-between">
+													<div><h2 class="text-sm font-normal">Outline</h2></div>
+													<div role="switch">
+														<label class="flex items-center cursor-pointer">
+															<input type="checkbox" id="toggleBackground" class="sr-only peer" />
+															<div class="switch-toggle">
+																<div class=""></div>
+															</div>
+														</label>
+													</div>
+												</div>
+
+												<div class="gap-1 flex flex-col pl-2">
+													<div class="flex items-center justify-between">
+														<div class="flex items-center space-x-2">
+															<h2 class="text-sm font-normal">Outline size</h2>
+														</div>
+														<input class="input-number w-14 px-2" type="number" id="outLineSize" value="2" />
+													</div>
+													<div class="flex items-center justify-between">
+														<div class="flex items-center space-x-2">
+															<h2 class="text-sm font-normal">Outlice color</h2>
+														</div>
+														<div class="flex items-center gap-1">
+															<input class="w-6 rounded-3xl" type="color" id="labelColorPicker" value="#ffffff" />
+															<input class="input-number w-24 px-2" type="text" />
+														</div>
+													</div>
+													<div class="flex items-center justify-between">
+														<div class="flex items-center space-x-2">
+															<h2 class="text-sm font-normal">Outline opacity</h2>
+														</div>
+														<div class="flex items-center gap-1">
+															<input type="range" min="1" max="500" value="250" class="slider" list="pos-y-slider" />
+															<input class="input-number w-14 px-2" type="text" />
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- background color -->
+									<div class="flex flex-col border rounded-xl p-2 gap-1">
+										<div class="flex items-center justify-between">
+											<div class="flex items-center space-x-2"><h2 class="text-sm font-normal">Backgroung</h2></div>
+											<div role="switch">
+												<label class="flex items-center cursor-pointer">
+													<input type="checkbox" id="toggleBackground" class="sr-only peer" />
+													<div class="switch-toggle">
+														<div class=""></div>
+													</div>
+												</label>
+											</div>
+										</div>
+										<div class="flex items-center justify-between">
+											<div class="flex items-center space-x-2">
+												<h2 style="font-size: 1rem">Backgound color</h2>
+											</div>
+											<div class="flex items-center gap-1">
+												<input class="w-6 rounded-3xl" style="overflow: hidden" type="color" id="labelColorPicker" value="#ffffff" />
+												<input class="input-number w-24 h-8 p-2 rounded-lg" type="text" value="#414a3b" />
+											</div>
+										</div>
+										<div class="flex items-center justify-between">
+											<div class="flex items-center space-x-2">
+												<h2 class="text-sm font-normal">Backgroung opacity</h2>
+											</div>
+											<div class="flex items-center gap-1">
+												<input type="range" min="0" max="100" value="100" />
+												<input type="number" class="input-number w-12" />
+											</div>
+										</div>
+									</div>
+
+									<div class="flex items-center justify-between border-2 border-red-900 p-2 rounded-lg">
+										<div class="flex items-center space-x-2">
+											<h2 style="font-size: 1rem">Eliminar label</h2>
+										</div>
+										<button class="buttonDelete bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Eliminar</button>
+									</div>
+								</div>
+								<!-- fin template -->
+							</div>
+							<!-- fin template -->
+						</div>
+					</div>
+				</div>
+
+				<div class="overlay-visualizer flex flex-col w-full" style="background-color: blueviolet">
+					<h1 style="font-size: medium">visualizador</h1>
+				</div>
+			</div>
+		</div>
+
+		<h1>Panel de control del Overlay</h1>
+		<div id="container"></div>
+		<div id="fontselector2"></div>
+		<!-- Contenedor del menú -->
+		<div class="menu-container" id="menu">
+			<!-- Input principal -->
+			<input type="text" placeholder="Texto principal" />
+
+			<!-- Controles adicionales que se muestran al expandir -->
+			<div class="controls">
+				<div>
+					<label for="posX">Posición X:</label>
+					<input type="number" id="posX" />
+				</div>
+				<div>
+					<label for="posY">Posición Y:</label>
+					<input type="number" id="posY" />
+				</div>
+				<div>
+					<label for="color">Color:</label>
+					<input type="color" id="color" />
+				</div>
+				<!-- Puedes agregar más controles según necesites -->
+			</div>
+		</div>
+		<button class="toggle-btn" id="toggleBtn">Expandir menú</button>
+
+		<div class="labelsConstructorContainer">
+			<div id="rootLabelContainer" class="root-label-container"></div>
+		</div>
+
+		<script>
+			// Obtenemos el contenedor del menú y el botón de toggle
+			const menu = document.getElementById("menu");
+			const toggleBtn = document.getElementById("toggleBtn");
+
+			// Al hacer clic, se agrega o quita la clase 'expanded'
+			toggleBtn.addEventListener("click", () => {
+				menu.classList.toggle("expanded");
+
+				// Cambia el texto del botón según el estado del menú
+				if (menu.classList.contains("expanded")) {
+					toggleBtn.textContent = "Colapsar menú";
+				} else {
+					toggleBtn.textContent = "Expandir menú";
+				}
+			});
+
+			fetch("/setControllOverlay")
+				.then((response) => response.json())
+				.then((configControll) => {
+					MakeLabels(configControll.labels);
+					console.log(labels);
+				});
+
+			function MakeLabels(_labels) {
+				if (_labels.length > 0) {
+					for (let i = 0; i < _labels.length; i++) {
+						SetupInputLabel(_labels[i]);
+						labels[i] = _labels[i];
+						inputCount++;
+					}
+				}
+			}
+
+			function debounce(func, delay) {
+				let timeout;
+				return function (...args) {
+					clearTimeout(timeout);
+					timeout = setTimeout(() => {
+						func.apply(this, args);
+					}, delay);
+				};
+			}
+
+			// slider de ancho
+			var sliderWidth = document.getElementById("widthSlider");
+			sliderWidth.addEventListener("input", () => {
+				document.getElementById("width").value = sliderWidth.value;
+				fetch("/sliderSizeInfo", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ width: sliderWidth.value }),
+				});
+			});
+
+			// slider de alto
+			var sliderHeight = document.getElementById("heightSlider");
+			sliderHeight.addEventListener("input", () => {
+				document.getElementById("height").value = sliderHeight.value;
+				fetch("/sliderSizeInfo", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ height: sliderHeight.value }),
+				});
+			});
+
+			// -----------------------------------
+			// boton para agregar un lavel
+
+			let labels = [];
+
+			const rootLabelContainer = document.getElementById("rootLabelContainer");
+			// const inputLavelContainer = document.getElementById("inputLavelContainer");
+			const addInputLabelButton = document.getElementById("addInputLabelButton");
+			let inputCount = 0;
+			addInputLabelButton.addEventListener("click", () => {
+				console.log("entra");
+				labels.push({
+					label: null,
+					font: "Arial",
+					fontSize: 10,
+					color: "rgba(0, 0, 0, 1)",
+					posX: 0,
+					posY: 0,
+				});
+
+				SetupInputLabel(labels[inputCount]);
+				let labelJson = {
+					index: inputCount,
+					data: labels[inputCount],
+				};
+				fetch("/addLabel", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(labelJson),
+				});
+				inputCount++;
+			});
+
+			// listener de los inputs de los lavel
+			rootLabelContainer.addEventListener("input", (event) => {
+				if (event.target) {
+					// label
+					if (event.target.classList.contains("label-input")) {
+						labels[event.target.dataset.index].label = event.target.value;
+					}
+					// tamaño de fuente
+					if (event.target.classList.contains("font-size-input")) {
+						labels[event.target.dataset.index].fontSize = event.target.value;
+					}
+					// color
+					if (event.target.classList.contains("color-input")) {
+						labels[event.target.dataset.index].color = event.target.value;
+					}
+					// posicion X
+					if (event.target.classList.contains("pos-x-slider")) {
+						labels[event.target.dataset.index].posX = event.target.value;
+					}
+					// posicion Y
+					if (event.target.classList.contains("pos-y-slider")) {
+						labels[event.target.dataset.index].posY = event.target.value;
+					}
+
+					SendLabelToBackend(event.target.dataset.index, labels[event.target.dataset.index]);
+
+					// const _block = event.target.closest(".input-container");
+					// if (_block) {
+					// }
+				}
+			});
+
+			// listener de el select para las fuentes
+			rootLabelContainer.addEventListener("change", (event) => {
+				if (event.target) {
+					console.log("change");
+					// cambio de fuente
+					if (event.target.classList.contains("dynamic-fontSelect")) {
+						labels[event.target.dataset.index].font = event.target.value;
+					}
+
+					SendLabelToBackend(event.target.dataset.index, labels[event.target.dataset.index]);
+				}
+			});
+
+			rootLabelContainer.addEventListener("click", (event) => {
+				console.log("click");
+				if (event.target) {
+					if (event.target.classList.contains("boton-cerrar")) {
+						[...rootLabelContainer.children].forEach((child) => child.remove());
+						labels = [];
+						inputCount = 0;
+						BotonEliminaLabel(event.target.dataset.index);
+					}
+				}
+			});
+
+			function BotonEliminaLabel(index) {
+				fetch("/deleteLabel", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ index: index }),
+				})
+					.then((response) => response.json())
+					.then((data) => {
+						console.log("reconstruye labels");
+						let lbs = data.labels;
+						MakeLabels(lbs);
+						console.log(data);
+					});
+			}
+
+			function SendLabelToBackend(_index, label) {
+				let labelJson = { index: _index, data: label };
+				fetch("/modifyLabel", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(labelJson),
+				});
+			}
+
+			function SetupInputLabel(_content) {
+				// contenedor principal
+				const labelContainerDiv = document.createElement("div");
+				labelContainerDiv.className = "label-container";
+				labelContainerDiv.id = "labelContainer";
+				// contenedor del input, fuente, tamaño de fuente y boton de cerrar
+				let newDiv = document.createElement("div");
+				newDiv.className = "input-container";
+				newDiv.id = "inputContainer";
+				newDiv.dataset.index = inputCount;
+
+				labelContainerDiv.appendChild(newDiv);
+
+				// INPUT
+				//-----------------------------------------------
+				// label del input
+				let _newElement = document.createElement("label");
+				_newElement.htmlFor = "labelinput";
+				_newElement.innerHTML = "Label:";
+				newDiv.appendChild(_newElement);
+				// input
+				_newElement = document.createElement("input");
+				_newElement.type = "text";
+				_newElement.className = "labelInput";
+				_newElement.id = "input-" + inputCount;
+				_newElement.classList.add("label-input");
+				_newElement.placeholder = "input" + inputCount;
+				_newElement.dataset.index = inputCount;
+				_newElement.value = _content.label;
+				newDiv.appendChild(_newElement);
+
+				// fuentes
+				//-----------------------------------------------
+				// label del select de fuente
+				_newElement = document.createElement("label");
+				_newElement.htmlFor = "font";
+				_newElement.innerHTML = "Font:";
+				newDiv.appendChild(_newElement);
+				// select de las fuentes
+				_newElement = document.createElement("select");
+				_newElement.id = "fontSelect";
+				_newElement.classList.add("dynamic-fontSelect");
+				_newElement.dataset.index = inputCount;
+				MakeFontsSelect(_newElement);
+				_newElement.value = _content.font;
+				newDiv.appendChild(_newElement);
+
+				// tamaño de fuentes
+				//-----------------------------------------------
+				// label tamaño funte
+				_newElement = document.createElement("label");
+				_newElement.htmlFor = "font";
+				_newElement.innerHTML = "Tamaño fuente:";
+				newDiv.appendChild(_newElement);
+				// input tamaño fuente
+				_newElement = document.createElement("input");
+				_newElement.type = "number";
+				_newElement.className = "fontInput";
+				_newElement.id = "input-" + inputCount;
+				_newElement.classList.add("font-size-input");
+				_newElement.placeholder = "input" + inputCount;
+				_newElement.dataset.index = inputCount;
+				_newElement.value = _content.fontSize;
+				newDiv.appendChild(_newElement);
+
+				_newElement = document.createElement("button");
+				_newElement.innerText = "X";
+				_newElement.classList.add("boton-cerrar");
+				_newElement.dataset.index = inputCount;
+				newDiv.appendChild(_newElement);
+
+				// contenedor de los controles
+				let newContainerDiv = document.createElement("div");
+				newContainerDiv.className = "label-controls";
+				labelContainerDiv.appendChild(newContainerDiv);
+
+				// contenedor del color
+				newDiv = document.createElement("div");
+				newDiv.style.display = "flex";
+				newDiv.style.alignItems = "center";
+				newContainerDiv.appendChild(newDiv);
+
+				// Color
+				//-----------------------------------------------
+				// label del color
+				_newElement = document.createElement("label");
+				_newElement.htmlFor = "color";
+				_newElement.innerText = "Color:";
+				// añade el label color
+				newDiv.appendChild(_newElement);
+
+				// input del color
+				_newElement = document.createElement("input");
+				_newElement.type = "color";
+				_newElement.id = "color";
+				_newElement.classList.add("color-input");
+				_newElement.dataset.index = inputCount;
+				_newElement.value = _content.color;
+				// añade el input ed color
+				newDiv.appendChild(_newElement);
+
+				// contenedor de pos x
+				newDiv = document.createElement("div");
+				newDiv.style.display = "flex";
+				newDiv.style.alignItems = "center";
+				newContainerDiv.appendChild(newDiv);
+
+				_newElement = document.createElement("label");
+				_newElement.htmlFor = "posX";
+				_newElement.innerText = "Pos X:";
+				// label de pos x
+				newDiv.appendChild(_newElement);
+				_newElement = document.createElement("input");
+				_newElement.type = "range";
+				_newElement.min = 1;
+				_newElement.max = 500;
+				_newElement.value = 250;
+				_newElement.className = "slider";
+				_newElement.classList.add("pos-x-slider");
+				_newElement.dataset.index = inputCount;
+				_newElement.value = _content.posX;
+				// añade el slider de pos x
+				newDiv.appendChild(_newElement);
+				// añade el div de pos x
+
+				// contenedor pos y
+				newDiv = document.createElement("div");
+				newDiv.style.display = "flex";
+				newDiv.style.alignItems = "center";
+				newContainerDiv.appendChild(newDiv);
+
+				_newElement = document.createElement("label");
+				_newElement.htmlFor = "posY";
+				_newElement.innerText = "Pos Y:";
+				// añade label pos y
+				newDiv.appendChild(_newElement);
+				_newElement = document.createElement("input");
+				_newElement.type = "range";
+				_newElement.min = 1;
+				_newElement.max = 500;
+				_newElement.value = 250;
+				_newElement.className = "slider";
+				_newElement.classList.add("pos-y-slider");
+				_newElement.dataset.index = inputCount;
+				_newElement.value = _content.posY;
+				// añade el slider pos y
+				newDiv.appendChild(_newElement);
+				// añade ek div de pos y
+				newContainerDiv.appendChild(newDiv);
+
+				labelContainerDiv.appendChild(newContainerDiv);
+				// añade todo al raiz
+				rootLabelContainer.appendChild(labelContainerDiv);
+			}
+			function MakeFontsSelect(_select) {
+				let newOption = document.createElement("option");
+				newOption.value = "Arial";
+				newOption.style = "font-family: Arial;";
+				newOption.innerText = "Arial";
+				_select.appendChild(newOption);
+
+				newOption = document.createElement("option");
+				newOption.value = "Verdana";
+				newOption.style = "font-family: Verdana;";
+				newOption.innerText = "Verdana";
+				_select.appendChild(newOption);
+
+				newOption = document.createElement("option");
+				newOption.value = "Times New Roman";
+				newOption.style = "font-family: 'Times New Roman';";
+				newOption.innerText = "Times New Roman";
+				_select.appendChild(newOption);
+
+				newOption = document.createElement("option");
+				newOption.value = "Courier New";
+				newOption.style = "font-family 'Courier New';";
+				newOption.innerText = "Courier New";
+				_select.appendChild(newOption);
+
+				newOption = document.createElement("option");
+				newOption.value = "Tahoma";
+				newOption.style = "font-family: Tahoma;";
+				newOption.innerText = "Tahoma";
+				_select.appendChild(newOption);
+
+				newOption = document.createElement("option");
+				newOption.value = "Impact";
+				newOption.style = "font-family: Impact;";
+				newOption.innerText = "Impact";
+				_select.appendChild(newOption);
+
+				newOption = document.createElement("option");
+				newOption.value = "Trebuchet MS";
+				newOption.style = "font-family: 'Trebuchet MS';";
+				newOption.innerText = "Trebuchet MS";
+				_select.appendChild(newOption);
+				// fin fuentes ------------------------------------------------
+				console.log("fin fuentes");
+				return _select;
+			}
+
+			const socket = new WebSocket("ws://localhost:3000");
+
+			socket.onopen = () => {
+				socket.send(JSON.stringify({ tipo: "controllPanel" })); //identifica el panel de control
+			};
+
+			socket.onmessage = (event) => {
+				if (event.data === "reload") {
+					location.reload(); //recarga la pagina del panel de control
+				}
+			};
+
+			function recargarPanel() {
+				fetch("/reloadControllPanel", { method: "POST" });
+			}
+
+			var FragBuilder = (function () {
+				console.log("FragBuilder");
+				var applyStyles = function (element, style_object) {
+					for (var prop in style_object) {
+						element.style[prop] = style_object[prop];
+					}
+				};
+				var generateFragmentFromJSON = function (json) {
+					var tree = document.createDocumentFragment();
+					json.forEach(function (obj) {
+						if (!("tagName" in obj) && "textContent" in obj) {
+							tree.appendChild(document.createTextNode(obj["textContent"]));
+						} else if ("tagName" in obj) {
+							var el = document.createElement(obj.tagName);
+							delete obj.tagName;
+							for (part in obj) {
+								var val = obj[part];
+								switch (part) {
+									case "textContent":
+										el.appendChild(document.createTextNode(val));
+										break;
+									case "style":
+										applyStyles(el, val);
+										break;
+									case "childNodes":
+										el.appendChild(generateFragmentFromJSON(val));
+										break;
+									default:
+										if (part in el) {
+											el[part] = val;
+										}
+										break;
+								}
+							}
+							tree.appendChild(el);
+						} else {
+							throw "Error: Malformed JSON Fragment";
+						}
+					});
+					return tree;
+				};
+				var generateFragmentFromString = function (HTMLstring) {
+					console.log("generateFragmentFromString");
+					var div = document.createElement("div"),
+						tree = document.createDocumentFragment();
+					div.innerHTML = HTMLstring;
+					while (div.hasChildNodes()) {
+						tree.appendChild(div.firstChild);
+					}
+					return tree;
+				};
+				return function (fragment) {
+					console.log("fragment");
+					if (typeof fragment === "string") {
+						console.log("fragment string");
+						return generateFragmentFromString(fragment);
+					} else {
+						console.log("fragment no string");
+						return generateFragmentFromJSON(fragment);
+					}
+				};
+			})();
+			function jsonp(url) {
+				var script = document.createElement("script");
+				script.type = "text/javascript";
+				script.src = url;
+				document.getElementsByTagName("body")[0].appendChild(script);
+			}
+
+			function replacestyle(url) {
+				if (!document.getElementById("style_tag")) {
+					var style_tag = document.createElement("link");
+					style_tag.rel = "stylesheet";
+					style_tag.id = "style_tag";
+					style_tag.type = "text/css";
+					document.getElementsByTagName("head")[0].appendChild(style_tag);
+					replacestyle(url);
+				}
+				document.getElementById("style_tag").href = url;
+			}
+
+			function loadFonts(json) {
+				var select_frag = [
+					{
+						tagName: "select",
+						id: "font-selection",
+						childNodes: [
+							{
+								tagName: "option",
+								value: "default",
+								textContent: "Default",
+							},
+						],
+					},
+				];
+				json["items"].forEach(function (item) {
+					var family_name = item.family,
+						value = family_name.replace(/ /g, "+");
+
+					if (item.variants.length > 0) {
+						item.variants.forEach(function (variant) {
+							value += ":" + variant;
+						});
+					}
+
+					select_frag[0].childNodes.push({
+						tagName: "option",
+						value: value,
+						textContent: family_name,
+					});
+				});
+				console.log("fuentes");
+				document.getElementById("container").appendChild(FragBuilder(select_frag));
+				document.getElementById("font-selection").onchange = function (e) {
+					console.log("cambio");
+					var font = this.options[this.selectedIndex].value,
+						name = this.options[this.selectedIndex].textContent;
+					if (font === "default") {
+						document.getElementById("sink").style.fontFamily = "inherit";
+					} else {
+						document.getElementById("sink").style.fontFamily = name;
+						replacestyle("https://fonts.googleapis.com/css?family=" + font);
+					}
+				};
+			}
+			jsonp("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyDBzzPRqWl2eU_pBMDr_8mo1TbJgDkgst4&sort=trending&callback=loadFonts");
+
+			// Lista de fuentes (puedes agregar tantas como necesites)
+			const fonts = [
+				"Arial",
+				"Verdana",
+				"Helvetica",
+				"Times New Roman",
+				"Courier New",
+				"Georgia",
+				"Palatino",
+				"Garamond",
+				"Comic Sans MS",
+				"Trebuchet MS",
+				"Impact",
+				"Lucida Sans",
+				"Tahoma",
+				"Segoe UI",
+			];
+
+			// Función que crea el selector de fuentes
+			function createFontSelector() {
+				const select = document.createElement("select");
+
+				fonts.forEach((font) => {
+					const option = document.createElement("option");
+					option.value = font;
+					option.textContent = font;
+					// Opcional: aplica la fuente a la opción para vista previa
+					option.style.fontFamily = font;
+					select.appendChild(option);
+				});
+
+				return select;
+			}
+
+			// Función para agregar un contenedor dinámico con el selector de fuentes
+
+			const container = document.createElement("div");
+			container.className = "container";
+
+			// Puedes agregar otros elementos al contenedor si lo requieres
+
+			const fontSelector = createFontSelector();
+			container.appendChild(fontSelector);
+
+			document.getElementById("fontselector2").appendChild(container);
+		</script>
+	</body>
+</html>

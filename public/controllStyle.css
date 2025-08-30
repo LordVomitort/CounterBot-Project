@@ -1,0 +1,174 @@
+
+:root {
+    background-color: #241e33;
+    color: white;
+}
+body{
+    margin: 0px;
+}
+
+
+.navbar ul{
+    list-style-type: none;
+    background-color: #765e91;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+
+.navbar li{
+    color: white;
+    padding: 15px;
+    display: block;
+    float: left;
+}
+.navbar li:hover{
+    background-color: #413450;
+}
+
+.slidecontainer {
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.inputSize {
+    width: 50px;
+}
+
+
+
+.labelInput {
+    
+    display: flex;
+}
+
+.fontInput {
+    width: 50px;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 10rem;
+    height: 10px;
+    background: #d3d3d3;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+}
+.slider::-moz-range-thumb {
+    width: 18px;
+    height: 35px;
+    background: #04AA6D;
+    cursor: pointer;
+}
+
+.root-label-container {
+    width: 100%;
+    background-color: #586979a8;
+    border: 1px solid rgb(0, 0, 0);
+}
+
+.labelsConstructorContainer{
+    width: 650px;
+}
+
+.label-container {
+    
+    overflow: hidden;
+    border: 1px solid #ccc;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+    max-height: 50px; /* Altura mínima: solo se muestra el input principal */
+}
+
+.label-container:hover {
+    max-height: 300px; /* Ajusta según tus necesidades */
+}
+
+.label-container:hover .label-controls{
+    opacity: 1;
+}
+
+.input-container {
+    border: 2px solid black;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.label-controls {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+
+.flex {
+    display: flex;
+}
+.flex-col {
+    flex-direction: column;
+}
+.flex-row {
+    flex-direction: row;
+}
+
+.w-full {
+    width: 100%;
+}
+.w-24 {
+    width: 6rem;
+}
+.w-auto {
+    width: auto;
+}
+.w-36 {
+    width: 8rem;
+}
+.item-center {
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.input {
+    border-radius: 25px;
+    background-color: #3f3657;
+    border-style: solid;
+    border-color: #15111a;
+    border-width: 1px;
+    padding: 0px 10px;
+    height: 2rem;
+}
+.input[type="color"] {
+    width: 2rem;
+    cursor: pointer;
+    appearance: none;
+    overflow: hidden;
+    border-style: none;
+    -webkit-appearance: none;
+    padding: 0px !important;
+}
+* {
+    box-sizing: border-box;
+}

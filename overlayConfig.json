@@ -1,0 +1,22 @@
+{
+    "width": 500,
+    "height": 500,
+    "backgroundColor": "rgba(0, 0, 0, 0.7)",
+    "border": 1,
+    "borderRadius": 52,
+    "background": true,
+    "labels": [
+        {
+            "label": "{counter}",
+            "font": "Arial",
+            "fontSize": 10,
+            "fontWeight": "regular",
+            "color": "#ffffff",
+            "X": 187,
+            "Y": 157,
+            "outline": false,
+            "background": false
+        }
+    ],
+    "borderColor": "#000000"
+}

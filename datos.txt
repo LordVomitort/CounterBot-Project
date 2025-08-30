@@ -1,0 +1,1130 @@
+{"t":1,"d":"{\"session\":{\"id\":\"710703798355501056\",\"token\":\"NzEwNzAzNzk4MzU1NTAxMDU2OjE6MjplZThmOTA0YWVjOTg1NTg3Y2ZmZmI5YTYwZTRhMmI4NzYwZjIzNTJjNjYwNmYyZTY1NjFiYzliZGVhOTIzNzZh\",\"accountId\":\"276254003380101120\",\"deviceId\":null,\"status\":2,\"ip\":\"201.159.59.132\",\"lastUsed\":1740689174000,\"twofa_at\":null,\"metadata\":\"{\\\"userAgent\\\":\\\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36\\\"}\",\"createdAt\":1730939349000,\"checkToken\":null}}"}
+
+mensaje comun
+"{\"serviceId\":46,\"event\":\"{\\\"type\\\":10,\\\"chatRoomMessage\\\":{\\\"chatRoomId\\\":\\\"704271867631902721\\\",\\\"senderId\\\":\\\"617728811034750976\\\",\\\"content\\\":\\\"Uh lemme hit goal first\\\",\\\"type\\\":0,\\\"private\\\":0,\\\"attachments\\\":[],\\\"accountFlags\\\":0,\\\"metadata\\\":\\\"{\\\\\\\"senderIsCreator\\\\\\\":false,\\\\\\\"senderIsStaff\\\\\\\":false,\\\\\\\"senderIsFollowing\\\\\\\":true,\\\\\\\"senderSubscription\\\\\\\":{\\\\\\\"tierId\\\\\\\":\\\\\\\"715477017503473665\\\\\\\",\\\\\\\"tierColor\\\\\\\":\\\\\\\"#444444\\\\\\\",\\\\\\\"tierName\\\\\\\":\\\\\\\"Office Rat { CUSTOM AUDIO }\\\\\\\"}}\\\",\\\"chatRoomAccountId\\\":\\\"630673272698056704\\\",\\\"id\\\":\\\"799618735492050945\\\",\\\"createdAt\\\":1752138322278,\\\"embeds\\\":[],\\\"usernameColor\\\":\\\"\\\",\\\"username\\\":\\\"dja94\\\",\\\"displayname\\\":\\\"dja94\\\"}}\"}"
+mensaje con tip
+"{\"serviceId\":46,\"event\":\"{\\\"type\\\":10,\\\"chatRoomMessage\\\":{\\\"chatRoomId\\\":\\\"704271867631902721\\\",\\\"senderId\\\":\\\"617728811034750976\\\",\\\"content\\\":\\\"\\\",\\\"type\\\":0,\\\"private\\\":0,\\\"attachments\\\":[{\\\"contentType\\\":7,\\\"contentId\\\":\\\"799618753649188864\\\",\\\"metadata\\\":\\\"{\\\\\\\"amount\\\\\\\":18000}\\\",\\\"chatRoomMessageId\\\":\\\"799618754039259137\\\"}],\\\"accountFlags\\\":0,\\\"messageTip\\\":null,\\\"metadata\\\":\\\"{\\\\\\\"senderIsCreator\\\\\\\":false,\\\\\\\"senderIsStaff\\\\\\\":false,\\\\\\\"senderIsFollowing\\\\\\\":true,\\\\\\\"senderSubscription\\\\\\\":{\\\\\\\"tierId\\\\\\\":\\\\\\\"715477017503473665\\\\\\\",\\\\\\\"tierColor\\\\\\\":\\\\\\\"#444444\\\\\\\",\\\\\\\"tierName\\\\\\\":\\\\\\\"Office Rat { CUSTOM AUDIO }\\\\\\\"}}\\\",\\\"chatRoomAccountId\\\":\\\"630673272698056704\\\",\\\"id\\\":\\\"799618754039259137\\\",\\\"createdAt\\\":1752138326701,\\\"embeds\\\":[],\\\"usernameColor\\\":\\\"\\\",\\\"username\\\":\\\"dja94\\\",\\\"displayname\\\":\\\"dja94\\\"}}\"}"
+
+goals actualizados, tenia 3, se actualizaron los 3
+"{\"serviceId\":46,\"event\":\"{\\\"type\\\":51,\\\"chatRoomGoal\\\":{\\\"id\\\":\\\"799577119800700928\\\",\\\"chatRoomId\\\":\\\"704271867631902721\\\",\\\"accountId\\\":\\\"630673272698056704\\\",\\\"type\\\":0,\\\"label\\\":\\\"☁️ Stream Goals ☁️\\\",\\\"description\\\":\\\"Goals: ♡ ($50)  Collar  ♡ ($100)  Gemini ♡ ($200) Domi ♡ ($300) Cock Warming ♡ ($400) Aftermath  ♡ ($450) Swap to Mission for 15 minutes  ♡  ($500) Panties for gag + gag for 10 mins  ♡ ($600) Swap to Cock warming with Hush ♡ ($700) Add Clown to the wheel ♡ \\\",\\\"status\\\":1,\\\"currentAmount\\\":601000,\\\"goalAmount\\\":700000,\\\"version\\\":52,\\\"deletedAt\\\":null}}\"}"
+"{\"serviceId\":46,\"event\":\"{\\\"type\\\":51,\\\"chatRoomGoal\\\":{\\\"id\\\":\\\"796314564902789120\\\",\\\"chatRoomId\\\":\\\"704271867631902721\\\",\\\"accountId\\\":\\\"630673272698056704\\\",\\\"type\\\":0,\\\"label\\\":\\\"🔮 Monthly Goal 🔮\\\",\\\"description\\\":\\\"Top donor picks next art. Current: dja94\\\",\\\"status\\\":1,\\\"currentAmount\\\":1242200,\\\"goalAmount\\\":5000000,\\\"version\\\":88,\\\"deletedAt\\\":null}}\"}"
+"{\"serviceId\":46,\"event\":\"{\\\"type\\\":51,\\\"chatRoomGoal\\\":{\\\"id\\\":\\\"799580609440653312\\\",\\\"chatRoomId\\\":\\\"704271867631902721\\\",\\\"accountId\\\":\\\"630673272698056704\\\",\\\"type\\\":0,\\\"label\\\":\\\"💜 Welcome in 💜 - Mouthussy in recovery (No BJ)\\\",\\\"description\\\":\\\" !menu !rules !socials Safe word is Shark 🦈\\\",\\\"status\\\":1,\\\"currentAmount\\\":601000,\\\"goalAmount\\\":50000,\\\"version\\\":45,\\\"deletedAt\\\":null}}\"}"
+
+
+wss://wsv3.fansly.com/?v=3
+
+envia 
+{
+  "t": 1,
+  "d": "{\"token\":\"Nzk3NTU0MDU3NzQ4MTY0NjA4OjE6Mjo3MDM3MzAzM2Y5ODQ3NGVjNWUwODZmNTViZGE3OTI\",\"v\":3}"
+}
+recibe
+{
+  "t": 1,
+  "d": "{\"session\":{\"id\":\"797554057748164608\",\"token\":\"Nzk3NTU0MDU3NzQ4MTY0NjA4OjE6MjplZDBjMGI5Y2MyNTNmNmQwNmNjZWM1N2QzMjgyODEzODVjYWJlN2IyMTU0MGE4N2I5NDdiZjJhZmM0ODM3YmVj\",\"accountId\":\"276254003380101120\",\"deviceId\":null,\"status\":2,\"ip\":null,\"lastUsed\":1752190888000,\"twofa_at\":null,\"metadata\":null,\"createdAt\":1751646065000,\"checkToken\":null,\"websocketSessionId\":\"799854035447324672\"}}"
+}
+
+mantiene conectado enviando p
+
+recibe
+{
+  "t": 2,
+  "d": "{\"lastPing\":1752194636437}"
+}
+
+
+follow en 
+"{\"serviceId\":3,\"event\":\"{\\\"type\\\":2,\\\"follow\\\":{\\\"followerId\\\":\\\"750960972251799553\\\",\\\"accountId\\\":\\\"276254003380101120\\\",\\\"id\\\":\\\"799854120004497409\\\",\\\"accountSortOrder\\\":1}}\"}"
+
+sub 
+
+{
+  "t": 10000,
+  "d": "{\"serviceId\":15,\"event\":\"{\\\"type\\\":5,\\\"subscription\\\":{\\\"id\\\":\\\"799858129008340993\\\",\\\"historyId\\\":\\\"799858129079640069\\\",\\\"accountId\\\":\\\"276254003380101120\\\",\\\"subscriberId\\\":\\\"750960972251799553\\\",\\\"subscriptionTierId\\\":\\\"799200600012107776\\\",\\\"subscriptionTierName\\\":\\\"test\\\",\\\"subscriptionTierColor\\\":\\\"#F73838\\\",\\\"planId\\\":\\\"799200600062435328\\\",\\\"promoId\\\":\\\"0\\\",\\\"giftCodeId\\\":\\\"799855696030998530\\\",\\\"paymentMethodId\\\":\\\"0\\\",\\\"status\\\":3,\\\"price\\\":0,\\\"renewPrice\\\":6000,\\\"renewCorrelationId\\\":\\\"799858129079640069\\\",\\\"autoRenew\\\":1,\\\"version\\\":2,\\\"billingCycle\\\":30,\\\"duration\\\":30,\\\"renewDate\\\":1752195398000,\\\"createdAt\\\":1752195398000,\\\"endsAt\\\":1754787398383,\\\"promoDuration\\\":null,\\\"promoStartsAt\\\":null,\\\"promoEndsAt\\\":null,\\\"updatedAt\\\":1752195398385,\\\"subscriptionStreak\\\":0,\\\"subscriptionTotalDays\\\":0}}\"}"
+}
+{
+  "t": 10000,
+  "d": "{\"serviceId\":15,\"event\":\"{\\\"type\\\":5,\\\"subscription\\\":{\\\"subscriberId\\\":\\\"750960972251799553\\\",\\\"accountId\\\":\\\"276254003380101120\\\",\\\"subscriptionTierId\\\":\\\"799200600012107776\\\",\\\"planId\\\":\\\"799200600062435328\\\",\\\"promoId\\\":\\\"\\\",\\\"giftCode\\\":\\\"Nzk5ODU1Njk2MDMwOTk4NTMwOjE6MTpkMDE1NmE3MDNi\\\",\\\"autoRenew\\\":1,\\\"referalCodeId\\\":\\\"\\\",\\\"orderMetadata\\\":null,\\\"id\\\":\\\"799858129008340993\\\",\\\"status\\\":2,\\\"giftCodeId\\\":\\\"799855696030998530\\\",\\\"updatedAt\\\":1752195398157,\\\"createdAt\\\":1752195398157,\\\"historyId\\\":\\\"799858129079640069\\\",\\\"price\\\":0,\\\"giftCodeFree\\\":true,\\\"renewPrice\\\":6000,\\\"renewCorrelationId\\\":\\\"799858129079640069\\\",\\\"renewDate\\\":1752195398157,\\\"billingCycle\\\":30,\\\"duration\\\":30}}\"}"
+}
+
+
+en chat
+subs
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":53,\\\"subAlert\\\":{\\\"chatRoomId\\\":\\\"413580216410054656\\\",\\\"senderId\\\":\\\"617943830208983040\\\",\\\"historyId\\\":\\\"799874258741243904\\\",\\\"subscriberId\\\":\\\"617943830208983040\\\",\\\"subscriptionTierId\\\":\\\"412911485937790976\\\",\\\"subscriptionTierName\\\":\\\"Supporter\\\",\\\"subscriptionTierColor\\\":\\\"#878787\\\",\\\"subscriptionStreak\\\":0,\\\"subscriptionTotalDays\\\":0,\\\"id\\\":\\\"799875838689419264\\\",\\\"usernameColor\\\":\\\"\\\",\\\"username\\\":\\\"user617943796230926338\\\",\\\"displayname\\\":\\\"AsXo\\\"}}\"}"
+}
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":53,\\\"subAlert\\\":{\\\"chatRoomId\\\":\\\"413580216410054656\\\",\\\"senderId\\\":\\\"645487151194058752\\\",\\\"historyId\\\":\\\"799871281917865984\\\",\\\"subscriberId\\\":\\\"645487151194058752\\\",\\\"subscriptionTierId\\\":\\\"414734030274048001\\\",\\\"subscriptionTierName\\\":\\\"Big Fan\\\",\\\"subscriptionTierColor\\\":\\\"#5736DC\\\",\\\"subscriptionStreak\\\":0,\\\"subscriptionTotalDays\\\":0,\\\"id\\\":\\\"799875849368117248\\\",\\\"usernameColor\\\":\\\"\\\",\\\"username\\\":\\\"Discmelon\\\",\\\"displayname\\\":\\\"Discomelon\\\"}}\"}"
+}
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":53,\\\"subAlert\\\":{\\\"chatRoomId\\\":\\\"413580216410054656\\\",\\\"senderId\\\":\\\"799869136715919361\\\",\\\"historyId\\\":\\\"799870431988297728\\\",\\\"subscriberId\\\":\\\"799869136715919361\\\",\\\"subscriptionTierId\\\":\\\"412911485937790976\\\",\\\"subscriptionTierName\\\":\\\"Supporter\\\",\\\"subscriptionTierColor\\\":\\\"#878787\\\",\\\"subscriptionStreak\\\":0,\\\"subscriptionTotalDays\\\":0,\\\"id\\\":\\\"799875930481766401\\\",\\\"usernameColor\\\":\\\"\\\",\\\"username\\\":\\\"SpiritHunterX\\\",\\\"displayname\\\":\\\"SpiritHunterX\\\"}}\"}"
+}
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":53,\\\"subAlert\\\":{\\\"chatRoomId\\\":\\\"413580216410054656\\\",\\\"senderId\\\":\\\"404453988272975872\\\",\\\"historyId\\\":\\\"797354741125357568\\\",\\\"subscriberId\\\":\\\"404453988272975872\\\",\\\"subscriptionTierId\\\":\\\"414734030274048001\\\",\\\"subscriptionTierName\\\":\\\"Big Fan\\\",\\\"subscriptionTierColor\\\":\\\"#5736DC\\\",\\\"subscriptionStreak\\\":0,\\\"subscriptionTotalDays\\\":30,\\\"id\\\":\\\"799876822014636032\\\",\\\"usernameColor\\\":\\\"\\\",\\\"username\\\":\\\"Eshii\\\",\\\"displayname\\\":\\\"Eshii\\\"}}\"}"
+}
+mensaje de 90
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":10,\\\"chatRoomMessage\\\":{\\\"chatRoomId\\\":\\\"413580216410054656\\\",\\\"senderId\\\":\\\"600947681807839232\\\",\\\"content\\\":\\\"\\\",\\\"type\\\":0,\\\"private\\\":0,\\\"attachments\\\":[{\\\"contentType\\\":7,\\\"contentId\\\":\\\"799877263481905152\\\",\\\"metadata\\\":\\\"{\\\\\\\"amount\\\\\\\":90000}\\\",\\\"chatRoomMessageId\\\":\\\"799877263880364035\\\"}],\\\"accountFlags\\\":0,\\\"messageTip\\\":null,\\\"metadata\\\":\\\"{\\\\\\\"senderIsCreator\\\\\\\":false,\\\\\\\"senderIsStaff\\\\\\\":false,\\\\\\\"senderIsFollowing\\\\\\\":true,\\\\\\\"senderSubscription\\\\\\\":{\\\\\\\"tierId\\\\\\\":\\\\\\\"521246892961570816\\\\\\\",\\\\\\\"tierColor\\\\\\\":\\\\\\\"#0DCD4E\\\\\\\",\\\\\\\"tierName\\\\\\\":\\\\\\\"HOLY MILKERS!!!\\\\\\\"}}\\\",\\\"chatRoomAccountId\\\":\\\"412899806545977344\\\",\\\"id\\\":\\\"799877263880364035\\\",\\\"createdAt\\\":1752199960249,\\\"embeds\\\":[],\\\"usernameColor\\\":\\\"\\\",\\\"username\\\":\\\"jarvis2122\\\",\\\"displayname\\\":\\\"jarvis2122\\\"}}\"}"
+}
+
+resub
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":53,\\\"subAlert\\\":{\\\"chatRoomId\\\":\\\"413580216410054656\\\",\\\"senderId\\\":\\\"568323226409639936\\\",\\\"historyId\\\":\\\"799870561508401152\\\",\\\"subscriberId\\\":\\\"568323226409639936\\\",\\\"subscriptionTierId\\\":\\\"412911485937790976\\\",\\\"subscriptionTierName\\\":\\\"Supporter\\\",\\\"subscriptionTierColor\\\":\\\"#878787\\\",\\\"subscriptionStreak\\\":3,\\\"subscriptionTotalDays\\\":90,\\\"id\\\":\\\"799878322489143297\\\",\\\"usernameColor\\\":\\\"#00ffff\\\",\\\"username\\\":\\\"KapitainQC\\\",\\\"displayname\\\":\\\"CapitainQC04 \\\"}}\"}"
+}
+
+
+
+
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":51,\\\"chatRoomGoal\\\":{\\\"id\\\":\\\"799905127031910401\\\",\\\"chatRoomId\\\":\\\"451661431666913280\\\",\\\"accountId\\\":\\\"447938816754331648\\\",\\\"type\\\":0,\\\"label\\\":\\\"🐰PUSSY CAM $300🐰SQUIRT SQUIRT SQUIRT $400🐰FREE DILDO RIDING VIDEO FOR SUBS $500🐰\\\",\\\"description\\\":\\\"\\\",\\\"status\\\":1,\\\"currentAmount\\\":116000,\\\"goalAmount\\\":500000,\\\"version\\\":7,\\\"deletedAt\\\":null}}\"}"
+}
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":51,\\\"chatRoomGoal\\\":{\\\"id\\\":\\\"799904658511376384\\\",\\\"chatRoomId\\\":\\\"451661431666913280\\\",\\\"accountId\\\":\\\"447938816754331648\\\",\\\"type\\\":0,\\\"label\\\":\\\"IRL Cosplay Stream @ 1k ~ Tipo $5 for Aftermath Photos\\\",\\\"description\\\":\\\"!store ~ !lovense ~ !menu ~ !sublink ~ !wheel ~ !rules ~\\\",\\\"status\\\":1,\\\"currentAmount\\\":116000,\\\"goalAmount\\\":1000000,\\\"version\\\":7,\\\"deletedAt\\\":null}}\"}"
+}
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":51,\\\"chatRoomGoal\\\":{\\\"id\\\":\\\"799904844197404672\\\",\\\"chatRoomId\\\":\\\"451661431666913280\\\",\\\"accountId\\\":\\\"447938816754331648\\\",\\\"type\\\":0,\\\"label\\\":\\\"🐰NAKED AND COLLARED $50🐰SLOPPY BJ $100 🐰PUSSY ASMR $200🐰\\\",\\\"description\\\":\\\"\\\",\\\"status\\\":1,\\\"currentAmount\\\":116000,\\\"goalAmount\\\":200000,\\\"version\\\":7,\\\"deletedAt\\\":null}}\"}"
+}
+
+
+
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":51,\\\"chatRoomGoal\\\":{\\\"id\\\":\\\"799908861011046400\\\",\\\"chatRoomId\\\":\\\"685698571474841600\\\",\\\"accountId\\\":\\\"680969309417119745\\\",\\\"type\\\":0,\\\"label\\\":\\\"💜Tease me until I can't sit still💜\\\",\\\"description\\\":\\\"!discord !kinks !menu !throne !socials\\\",\\\"status\\\":1,\\\"currentAmount\\\":1000,\\\"goalAmount\\\":300000,\\\"version\\\":1,\\\"deletedAt\\\":null}}\"}"
+}
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":51,\\\"chatRoomGoal\\\":{\\\"id\\\":\\\"799909549015314432\\\",\\\"chatRoomId\\\":\\\"685698571474841600\\\",\\\"accountId\\\":\\\"680969309417119745\\\",\\\"type\\\":0,\\\"label\\\":\\\"👀 Nakey Time 👀\\\",\\\"description\\\":\\\"Lush x Gemini\\\",\\\"status\\\":1,\\\"currentAmount\\\":1000,\\\"goalAmount\\\":50000,\\\"version\\\":2,\\\"deletedAt\\\":null}}\"}"
+}
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":51,\\\"chatRoomGoal\\\":{\\\"id\\\":\\\"799909437874647040\\\",\\\"chatRoomId\\\":\\\"685698571474841600\\\",\\\"accountId\\\":\\\"680969309417119745\\\",\\\"type\\\":0,\\\"label\\\":\\\"🐾I'm already so needy🐾\\\",\\\"description\\\":\\\"at $150 change my toy to my Nora x Gravity at $600\\\",\\\"status\\\":1,\\\"currentAmount\\\":1000,\\\"goalAmount\\\":150000,\\\"version\\\":1,\\\"deletedAt\\\":null}}\"}"
+}
+
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":51,\\\"chatRoomGoal\\\":{\\\"id\\\":\\\"799908861011046400\\\",\\\"chatRoomId\\\":\\\"685698571474841600\\\",\\\"accountId\\\":\\\"680969309417119745\\\",\\\"type\\\":0,\\\"label\\\":\\\"💜Tease me until I can't sit still💜\\\",\\\"description\\\":\\\"!discord !kinks !menu !throne !socials\\\",\\\"status\\\":1,\\\"currentAmount\\\":2000,\\\"goalAmount\\\":300000,\\\"version\\\":2,\\\"deletedAt\\\":null}}\"}"
+}
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":51,\\\"chatRoomGoal\\\":{\\\"id\\\":\\\"799909437874647040\\\",\\\"chatRoomId\\\":\\\"685698571474841600\\\",\\\"accountId\\\":\\\"680969309417119745\\\",\\\"type\\\":0,\\\"label\\\":\\\"🐾I'm already so needy🐾\\\",\\\"description\\\":\\\"at $150 change my toy to my Nora x Gravity at $600\\\",\\\"status\\\":1,\\\"currentAmount\\\":2000,\\\"goalAmount\\\":150000,\\\"version\\\":2,\\\"deletedAt\\\":null}}\"}"
+}
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":51,\\\"chatRoomGoal\\\":{\\\"id\\\":\\\"799909549015314432\\\",\\\"chatRoomId\\\":\\\"685698571474841600\\\",\\\"accountId\\\":\\\"680969309417119745\\\",\\\"type\\\":0,\\\"label\\\":\\\"👀 Nakey Time 👀\\\",\\\"description\\\":\\\"Lush x Gemini\\\",\\\"status\\\":1,\\\"currentAmount\\\":2000,\\\"goalAmount\\\":50000,\\\"version\\\":3,\\\"deletedAt\\\":null}}\"}"
+}
+
+
+
+
+actual 100 goal 101         goal mayor
+modifico el goal a 102      curren menor    era menor
+el actual sigue siendo menor que goal, el completado va a ser falso porque no se completó
+
+actual 110 goal 100         goal mayor
+modifico el goal a 102      current mayor   era mayor
+el actual sigue siendo mayor que goal, el goal tiene que valer completado pero no activa trigger
+
+actual 102 goal 101         goal mayor
+modifico el goal a 103      current menor   era mayor
+el actual pasa a ser menor que goal por lo tanto completado pasa a ser falso
+
+actual 100 goal a 102       goal menor
+modifico el goal a 101      current menor
+el goal es menor pero el actual sigue siendo menor por lo tanto el completado va a seguir siendo falso
+
+actual 100 goal 101         goal menor
+modifico el goal a 99       current mayor
+actual pasa a ser mayor que goal, pero yo modifique goal asi que si bien ahora está completo no activa 
+el trigger porque se completó artificialmente
+
+
+
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":10,\\\"chatRoomMessage\\\":{\\\"chatRoomId\\\":\\\"757745290047401984\\\",\\\"senderId\\\":\\\"340301586049806337\\\",\\\"content\\\":\\\"\\\",\\\"type\\\":0,\\\"private\\\":0,\\\"attachments\\\":[{\\\"contentType\\\":7,\\\"contentId\\\":\\\"800290375515250688\\\",\\\"metadata\\\":\\\"{\\\\\\\"amount\\\\\\\":12000}\\\",\\\"chatRoomMessageId\\\":\\\"800290375821434880\\\"}],\\\"accountFlags\\\":0,\\\"messageTip\\\":null,\\\"metadata\\\":\\\"{\\\\\\\"senderIsCreator\\\\\\\":false,\\\\\\\"senderIsStaff\\\\\\\":false,\\\\\\\"senderIsFollowing\\\\\\\":true,\\\\\\\"senderSubscription\\\\\\\":{\\\\\\\"tierId\\\\\\\":\\\\\\\"783640733394415616\\\\\\\",\\\\\\\"tierColor\\\\\\\":\\\\\\\"#0DCD4E\\\\\\\",\\\\\\\"tierName\\\\\\\":\\\\\\\"★彡Puppy Master★彡 (Private streams weekly 1 on 1)\\\\\\\"}}\\\",\\\"chatRoomAccountId\\\":\\\"717637147170975744\\\",\\\"id\\\":\\\"800290375821434880\\\",\\\"createdAt\\\":1752298453811,\\\"embeds\\\":[],\\\"usernameColor\\\":\\\"#00ffff\\\",\\\"username\\\":\\\"Mainmate\\\",\\\"displayname\\\":\\\"Mainmate\\\"}}\"}"
+}
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":10,\\\"chatRoomMessage\\\":{\\\"chatRoomId\\\":\\\"757745290047401984\\\",\\\"senderId\\\":\\\"335718921837486080\\\",\\\"content\\\":\\\"\\\",\\\"type\\\":0,\\\"private\\\":0,\\\"attachments\\\":[{\\\"contentType\\\":7,\\\"contentId\\\":\\\"800290815577432064\\\",\\\"metadata\\\":\\\"{\\\\\\\"amount\\\\\\\":70000}\\\",\\\"chatRoomMessageId\\\":\\\"800290815904587776\\\"}],\\\"accountFlags\\\":0,\\\"messageTip\\\":null,\\\"metadata\\\":\\\"{\\\\\\\"senderIsCreator\\\\\\\":false,\\\\\\\"senderIsStaff\\\\\\\":false,\\\\\\\"senderIsFollowing\\\\\\\":true,\\\\\\\"senderSubscription\\\\\\\":{\\\\\\\"tierId\\\\\\\":\\\\\\\"752311988184424451\\\\\\\",\\\\\\\"tierColor\\\\\\\":\\\\\\\"#3B5998\\\\\\\",\\\\\\\"tierName\\\\\\\":\\\\\\\"-`♡´- Puppy Prince -`♡´- (Priority DM's + IRL Streams + NSFW Audios)\\\\\\\"}}\\\",\\\"chatRoomAccountId\\\":\\\"717637147170975744\\\",\\\"id\\\":\\\"800290815904587776\\\",\\\"createdAt\\\":1752298558735,\\\"embeds\\\":[],\\\"usernameColor\\\":\\\"#ff0000\\\",\\\"username\\\":\\\"aloofpython\\\",\\\"displayname\\\":\\\"aloofpython\\\"}}\"}"
+}
+{
+  "t": 10000,
+  "d": "{\"serviceId\":46,\"event\":\"{\\\"type\\\":10,\\\"chatRoomMessage\\\":{\\\"chatRoomId\\\":\\\"757745290047401984\\\",\\\"senderId\\\":\\\"509953799532584961\\\",\\\"content\\\":\\\"I'll contribute toward that handjob video.\\\",\\\"type\\\":0,\\\"private\\\":0,\\\"attachments\\\":[{\\\"contentType\\\":7,\\\"contentId\\\":\\\"800291325260865536\\\",\\\"metadata\\\":\\\"{\\\\\\\"amount\\\\\\\":50000}\\\",\\\"chatRoomMessageId\\\":\\\"800291325562859520\\\"}],\\\"accountFlags\\\":0,\\\"messageTip\\\":null,\\\"metadata\\\":\\\"{\\\\\\\"senderIsCreator\\\\\\\":false,\\\\\\\"senderIsStaff\\\\\\\":false,\\\\\\\"senderIsFollowing\\\\\\\":true,\\\\\\\"senderSubscription\\\\\\\":{\\\\\\\"tierId\\\\\\\":\\\\\\\"752311216990334976\\\\\\\",\\\\\\\"tierColor\\\\\\\":\\\\\\\"#46A7F8\\\\\\\",\\\\\\\"tierName\\\\\\\":\\\\\\\"❤︎Puppy Knight❤︎ (DM's Unlocked + VOD Access)\\\\\\\"}}\\\",\\\"chatRoomAccountId\\\":\\\"717637147170975744\\\",\\\"id\\\":\\\"800291325562859520\\\",\\\"createdAt\\\":1752298680247,\\\"embeds\\\":[],\\\"usernameColor\\\":\\\"#0066ff\\\",\\\"username\\\":\\\"SCONvey\\\",\\\"displayname\\\":\\\"SCONvey\\\"}}\"}"
+}
+
+{
+  id: '799200600012107776',
+  accountId: '276254003380101120',
+  name: 'test',
+  color: '#F73838',
+  pos: 0,
+  price: 5000,
+  maxSubscribers: 0,
+  subscriptionBenefits: [],
+  includedTierIds: [ '799197659062611970' ],
+  plans: [
+    {
+      id: '799200600062435328',
+      status: 1,
+      billingCycle: 30,
+      price: 6000,
+      useAmounts: 0,
+      promos: [Array],
+      uses: 0
+    },
+    {
+      id: '799229133665087488',
+      status: 2,
+      billingCycle: 60,
+      price: 12000,
+      useAmounts: 0,
+      promos: [],
+      uses: 0
+    },
+    {
+      id: '799229133665087489',
+      status: 2,
+      billingCycle: 90,
+      price: 18000,
+      useAmounts: 0,
+      promos: [],
+      uses: 0
+    },
+    {
+      id: '799229133665087490',
+      status: 2,
+      billingCycle: 180,
+      price: 18000,
+      useAmounts: 0,
+      promos: [],
+      uses: 0
+    }
+  ]
+}
+{
+  id: '799197659062611970',
+  accountId: '276254003380101120',
+  name: 'test 2',
+  color: '#46A7F8',
+  pos: 1,
+  price: 5000,
+  maxSubscribers: 0,
+  subscriptionBenefits: [],
+  includedTierIds: [],
+  plans: [
+    {
+      id: '799197659091968001',
+      status: 1,
+      billingCycle: 30,
+      price: 15000,
+      useAmounts: 0,
+      promos: [],
+      uses: 0
+    }
+  ]
+}
+
+
+
+    "success": true,
+    "response": [
+        {
+            "id": "503026622799028224",
+            "username": "PocketTrash",
+            "displayName": "pocket trash",
+            "flags": 18,
+            "version": 6,
+            "followCount": 14230,
+            "subscriberCount": 0,
+            "permissions": {
+                "accountPermissionFlags": {
+                    "flags": 2
+                }
+            },
+            "timelineStats": {
+                "accountId": "503026622799028224",
+                "imageCount": 531,
+                "videoCount": 98,
+                "bundleCount": 61,
+                "bundleImageCount": 141,
+                "bundleVideoCount": 18,
+                "fetchedAt": 1752848156097
+            },
+            "accountMediaLikes": 9760,
+            "postLikes": 15109,
+            "following": true,
+            "statusId": 3,
+            "lastSeenAt": 0,
+            "profileAccessFlags": 0,
+            "profileFlags": 0,
+            "about": "your lil pocket pussy, eager to be used 😉💜\n\n😈 cutest switch ever  - i can be your sub or you can be mine\n💦 LIVE every Monday & Thursday @ 7:30 EST\n✨ multi lovense toys to use on me\n🎮 plays ero and hentai games and watches porn with you on stream!!\n\ni have a spoil kink 🥺 GET A FREE EXCLUSIVE PIC if you buy me something: \nhttps://throne.com/pockettrashvt\n\n⚠️All of my content is for my Fansly profile only. ⚠️\n\nYou may not reproduce, copy, or redistribute any of the content posted on this page without my explicit permission. Any unauthorized distribution of my content & live streams will result in a ban from ALL platforms.",
+            "location": "under your desk",
+            "profileSocials": [
+                {
+                    "providerId": "1",
+                    "handle": "pockettrashvt"
+                },
+                {
+                    "providerId": "5",
+                    "handle": "pockettrashvt"
+                }
+            ],
+            "profileBadges": [
+                {
+                    "accountId": "503026622799028224",
+                    "badgeId": "775851075247812608",
+                    "badgeType": 1001,
+                    "badgeDescription": "This badge was awarded for competing in the April 2025 leaderboard competition.",
+                    "displayFlags": 2,
+                    "metadata": "{\"badge_title\":\"Top 500 Apr '25\",\"badge_url\":\"\\/assets\\/images\\/badges\\/badge--blue--nobg.png\",\"badge_color\":\"var(--blue-1)\"}",
+                    "createdAt": 1746471670000
+                }
+            ],
+            "pinnedPosts": [
+                {
+                    "postId": "730140754369847296",
+                    "accountId": "503026622799028224",
+                    "pos": 0,
+                    "wallId": "785796500675371008",
+                    "createdAt": 1735574433000
+                },
+                {
+                    "postId": "762201111238025216",
+                    "accountId": "503026622799028224",
+                    "pos": 1,
+                    "wallId": "785796500675371008",
+                    "createdAt": 1743302572000
+                }
+            ],
+            "walls": [
+                {
+                    "id": "674937873274777600",
+                    "accountId": "503026622799028224",
+                    "pos": 2,
+                    "name": "💜 IRL",
+                    "description": "",
+                    "private": 0,
+                    "metadata": ""
+                },
+                {
+                    "id": "674938823343349760",
+                    "accountId": "503026622799028224",
+                    "pos": 3,
+                    "name": "✨photosets",
+                    "description": "",
+                    "private": 0,
+                    "metadata": ""
+                },
+                {
+                    "id": "675123768997191681",
+                    "accountId": "503026622799028224",
+                    "pos": 4,
+                    "name": "🍓 vtuber art",
+                    "description": "",
+                    "private": 0,
+                    "metadata": ""
+                },
+                {
+                    "id": "677087455618281473",
+                    "accountId": "503026622799028224",
+                    "pos": 5,
+                    "name": "🎥 VODs",
+                    "description": "",
+                    "private": 0,
+                    "metadata": ""
+                },
+                {
+                    "id": "680014396570738689",
+                    "accountId": "503026622799028224",
+                    "pos": 6,
+                    "name": "🦶🏼feet ",
+                    "description": "",
+                    "private": 0,
+                    "metadata": ""
+                },
+                {
+                    "id": "683587259391287296",
+                    "accountId": "503026622799028224",
+                    "pos": 7,
+                    "name": "📣 audios",
+                    "description": "",
+                    "private": 0,
+                    "metadata": ""
+                },
+                {
+                    "id": "723543688482922496",
+                    "accountId": "503026622799028224",
+                    "pos": 8,
+                    "name": "💄 cosplay",
+                    "description": "",
+                    "private": 0,
+                    "metadata": ""
+                },
+                {
+                    "id": "730051638655463424",
+                    "accountId": "503026622799028224",
+                    "pos": 1,
+                    "name": "📝 page info",
+                    "description": "",
+                    "private": 0,
+                    "metadata": ""
+                },
+                {
+                    "id": "762216798895480834",
+                    "accountId": "503026622799028224",
+                    "pos": 9,
+                    "name": "🎬 video clips",
+                    "description": "",
+                    "private": 0,
+                    "metadata": ""
+                },
+                {
+                    "id": "785796500675371008",
+                    "accountId": "503026622799028224",
+                    "pos": 0,
+                    "name": "Posts",
+                    "description": "",
+                    "private": 0,
+                    "metadata": "",
+                    "defaultWall": true,
+                    "mainWall": true
+                }
+            ],
+            "hasMainWall": true,
+            "subscriptionTiers": [
+                {
+                    "id": "672720886670827520",
+                    "accountId": "503026622799028224",
+                    "name": "pockethub subscription",
+                    "color": "#8C38F7",
+                    "pos": 0,
+                    "price": 5000,
+                    "maxSubscribers": 0,
+                    "subscriptionBenefits": [
+                        "FANSLY EXCLUSIVE IRL PIC (pastel succubus outfit)",
+                        "VOD access",
+                        "first look at photoset teaser pics",
+                        "basic audio access",
+                        "basic access to irl pics"
+                    ],
+                    "includedTierIds": [],
+                    "plans": [
+                        {
+                            "id": "672720886708580352",
+                            "status": 1,
+                            "billingCycle": 30,
+                            "price": 5000,
+                            "useAmounts": 0,
+                            "promos": [],
+                            "uses": 0
+                        },
+                        {
+                            "id": "673025157442314240",
+                            "status": 1,
+                            "billingCycle": 60,
+                            "price": 9000,
+                            "useAmounts": 0,
+                            "promos": [],
+                            "uses": 0
+                        },
+                        {
+                            "id": "673025157442314241",
+                            "status": 1,
+                            "billingCycle": 90,
+                            "price": 12750,
+                            "useAmounts": 0,
+                            "promos": [],
+                            "uses": 0
+                        },
+                        {
+                            "id": "673025157442314242",
+                            "status": 1,
+                            "billingCycle": 180,
+                            "price": 22500,
+                            "useAmounts": 0,
+                            "promos": [],
+                            "uses": 0
+                        }
+                    ]
+                },
+                {
+                    "id": "519044064914448384",
+                    "accountId": "503026622799028224",
+                    "name": "pocket gf experience",
+                    "color": "#D226E1",
+                    "pos": 1,
+                    "price": 5000,
+                    "maxSubscribers": 0,
+                    "subscriptionBenefits": [
+                        "get to DM your pocky gf!",
+                        "25% off body ratings",
+                        "more exclusive audio access",
+                        "25% off photosets",
+                        "can send me free cum tributes"
+                    ],
+                    "includedTierIds": [
+                        "672720886670827520"
+                    ],
+                    "plans": [
+                        {
+                            "id": "519044064943812608",
+                            "status": 1,
+                            "billingCycle": 30,
+                            "price": 25000,
+                            "useAmounts": 0,
+                            "promos": [
+                                {
+                                    "id": "709750498873319424",
+                                    "status": 1,
+                                    "price": 17500,
+                                    "duration": 30,
+                                    "maxUses": 1,
+                                    "maxUsesBefore": 1743828581000,
+                                    "newSubscribersOnly": 0,
+                                    "description": "april promo!",
+                                    "startsAt": 1743827477000,
+                                    "endsAt": 1746936000000,
+                                    "uses": 0
+                                }
+                            ],
+                            "uses": 0
+                        },
+                        {
+                            "id": "673027177276518400",
+                            "status": 1,
+                            "billingCycle": 60,
+                            "price": 45000,
+                            "useAmounts": 0,
+                            "promos": [],
+                            "uses": 0
+                        },
+                        {
+                            "id": "673027177276518401",
+                            "status": 1,
+                            "billingCycle": 90,
+                            "price": 63750,
+                            "useAmounts": 0,
+                            "promos": [],
+                            "uses": 0
+                        },
+                        {
+                            "id": "673027177276518402",
+                            "status": 1,
+                            "billingCycle": 180,
+                            "price": 112500,
+                            "useAmounts": 0,
+                            "promos": [],
+                            "uses": 0
+                        }
+                    ]
+                },
+                {
+                    "id": "675621540577943552",
+                    "accountId": "503026622799028224",
+                    "name": "pocky pedicures",
+                    "color": "#EAAA2F",
+                    "pos": 2,
+                    "price": 5000,
+                    "maxSubscribers": 0,
+                    "subscriptionBenefits": [
+                        "pick my monthly pedicure colour",
+                        "access to feet/toe pics"
+                    ],
+                    "includedTierIds": [
+                        "672720886670827520",
+                        "519044064914448384"
+                    ],
+                    "plans": [
+                        {
+                            "id": "675621540628279298",
+                            "status": 1,
+                            "billingCycle": 30,
+                            "price": 35000,
+                            "useAmounts": 0,
+                            "promos": [
+                                {
+                                    "id": "719914676732829696",
+                                    "status": 1,
+                                    "price": 24500,
+                                    "duration": 30,
+                                    "maxUses": 1,
+                                    "maxUsesBefore": 1743828588000,
+                                    "newSubscribersOnly": 0,
+                                    "description": "april promo!",
+                                    "startsAt": 1743827484000,
+                                    "endsAt": 1746936000000,
+                                    "uses": 0
+                                }
+                            ],
+                            "uses": 0
+                        },
+                        {
+                            "id": "675622836747902977",
+                            "status": 1,
+                            "billingCycle": 60,
+                            "price": 63000,
+                            "useAmounts": 0,
+                            "promos": [],
+                            "uses": 0
+                        },
+                        {
+                            "id": "675622899486302208",
+                            "status": 1,
+                            "billingCycle": 90,
+                            "price": 89250,
+                            "useAmounts": 0,
+                            "promos": [],
+                            "uses": 0
+                        },
+                        {
+                            "id": "675622899486302209",
+                            "status": 1,
+                            "billingCycle": 180,
+                            "price": 157500,
+                            "useAmounts": 0,
+                            "promos": [],
+                            "uses": 0
+                        }
+                    ]
+                },
+                {
+                    "id": "675621592058830850",
+                    "accountId": "503026622799028224",
+                    "name": "pocket sugardaddy experience",
+                    "color": "#0DCD4E",
+                    "pos": 3,
+                    "price": 5000,
+                    "maxSubscribers": 1,
+                    "subscriptionBenefits": [
+                        "everyone knows you’re my official Daddy",
+                        "FREE body rating! (once a month for every month this sub is active!)",
+                        "1 FREE photoset of your choice delivered to your dms!",
+                        "toy control for 5 minutes every stream (for every month the sub is active!) ",
+                        "free sexting privileges",
+                        "my absolute adoration for spoiling me "
+                    ],
+                    "includedTierIds": [
+                        "675621540577943552",
+                        "519044064914448384",
+                        "672720886670827520"
+                    ],
+                    "plans": [
+                        {
+                            "id": "675621592134332417",
+                            "status": 1,
+                            "billingCycle": 30,
+                            "price": 499990,
+                            "useAmounts": 0,
+                            "promos": [
+                                {
+                                    "id": "764392998883565568",
+                                    "status": 1,
+                                    "price": 250000,
+                                    "duration": 30,
+                                    "maxUses": 1,
+                                    "maxUsesBefore": 1743828594000,
+                                    "newSubscribersOnly": 0,
+                                    "description": "april promo!",
+                                    "startsAt": 1743827726000,
+                                    "endsAt": 1746936000000,
+                                    "uses": 0
+                                }
+                            ],
+                            "uses": 0
+                        },
+                        {
+                            "id": "681439198783217664",
+                            "status": 1,
+                            "billingCycle": 60,
+                            "price": 899982,
+                            "useAmounts": 0,
+                            "promos": [],
+                            "uses": 0
+                        },
+                        {
+                            "id": "681439198783217665",
+                            "status": 1,
+                            "billingCycle": 90,
+                            "price": 1124977,
+                            "useAmounts": 0,
+                            "promos": [],
+                            "uses": 0
+                        },
+                        {
+                            "id": "681439198783217666",
+                            "status": 1,
+                            "billingCycle": 180,
+                            "price": 1649967,
+                            "useAmounts": 0,
+                            "promos": [],
+                            "uses": 0
+                        }
+                    ],
+                    "maxSubscribersReached": true
+                },
+                {
+                    "id": "727159324303958016",
+                    "accountId": "503026622799028224",
+                    "name": "pocket’s subby experience",
+                    "color": "#F73838",
+                    "pos": 4,
+                    "price": 5000,
+                    "maxSubscribers": 1,
+                    "subscriptionBenefits": [
+                        "everyone knows you’re my official sub/pet",
+                        "FREE body rating (for every month the sub is active)",
+                        "1 FREE photoset of your choices in your dms",
+                        "i will control your toy for 5 mins during stream",
+                        "degrading or praising dms ",
+                        "free sexting privileges",
+                        "knowing you’re a good little toy for spoiling me"
+                    ],
+                    "includedTierIds": [
+                        "675621540577943552",
+                        "672720886670827520",
+                        "519044064914448384"
+                    ],
+                    "plans": [
+                        {
+                            "id": "727159324505288704",
+                            "status": 1,
+                            "billingCycle": 30,
+                            "price": 499990,
+                            "useAmounts": 0,
+                            "promos": [
+                                {
+                                    "id": "764393113744584704",
+                                    "status": 1,
+                                    "price": 250000,
+                                    "duration": 30,
+                                    "maxUses": 1,
+                                    "maxUsesBefore": 1743828602000,
+                                    "newSubscribersOnly": 0,
+                                    "description": "april promo!",
+                                    "startsAt": 1743777003000,
+                                    "endsAt": 1746936000000,
+                                    "uses": 0
+                                }
+                            ],
+                            "uses": 0
+                        },
+                        {
+                            "id": "727159479631622146",
+                            "status": 1,
+                            "billingCycle": 60,
+                            "price": 899982,
+                            "useAmounts": 0,
+                            "promos": [],
+                            "uses": 0
+                        },
+                        {
+                            "id": "727159479631622147",
+                            "status": 1,
+                            "billingCycle": 90,
+                            "price": 1124977,
+                            "useAmounts": 0,
+                            "promos": [],
+                            "uses": 0
+                        },
+                        {
+                            "id": "727159479631622148",
+                            "status": 1,
+                            "billingCycle": 180,
+                            "price": 1649967,
+                            "useAmounts": 0,
+                            "promos": [],
+                            "uses": 0
+                        }
+                    ]
+                }
+            ],
+            "avatar": {
+                "id": "749109808304500736",
+                "type": 1,
+                "status": 1,
+                "accountId": "503026622799028224",
+                "mimetype": "image/jpeg",
+                "flags": 6,
+                "location": "/503026622799028224/749109808304500736.jpeg",
+                "width": 1646,
+                "height": 1646,
+                "metadata": "{\"dominant\":{\"r\":248,\"g\":232,\"b\":248},\"resolutionMode\":1}",
+                "updatedAt": 1740096058,
+                "createdAt": 1740096056,
+                "variants": [
+                    {
+                        "id": "749109808304500737",
+                        "type": 1,
+                        "status": 1,
+                        "mimetype": "image/jpeg",
+                        "flags": 0,
+                        "location": "/503026622799028224/749109808304500737.jpeg",
+                        "width": 1080,
+                        "height": 1080,
+                        "metadata": "{\"resolutionMode\":1}",
+                        "updatedAt": 1740096058,
+                        "locations": [
+                            {
+                                "locationId": "1",
+                                "location": "https://cdn3.fansly.com/503026622799028224/749109808304500737.jpeg?ngsw-bypass=true&Expires=1753444326&Key-Pair-Id=K23PG5J1AWEZX5&Signature=lYZUlQV8GXpp5BJ1ABhO~V4kLEXr7Gn3t4UuspxPwrw0yHqVDEzEatLTJYqIFQXaNjT9IaEqBPlVyyORys5ZNKx-8Xw6zXGfTa7ipMeJUQkJnW9W0~oRRfglrfDs7XcLTo5bxQya90r9oMuqgFC6ut6JB13NI1jcB7s21ZL5pgpIa9kuHbpPzYcAqukBMQ4ZraWdZoW5vBcPkTMkLv7MqS0y4klTL9goTpdJiAbG9BMPhycTFDa7f0Bc1mtfncubmzKO0HZSwXzN3vQ2kGFRgQSTB8A5s3v3al9q-wRmmiooVQnquhbVaG7hxBONjW~d-rE0OQRmVeBantKiSrWfvg__"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "749109808304500738",
+                        "type": 1,
+                        "status": 1,
+                        "mimetype": "image/jpeg",
+                        "flags": 0,
+                        "location": "/503026622799028224/749109808304500738.jpeg",
+                        "width": 720,
+                        "height": 720,
+                        "metadata": "{\"resolutionMode\":1}",
+                        "updatedAt": 1740096058,
+                        "locations": [
+                            {
+                                "locationId": "1",
+                                "location": "https://cdn3.fansly.com/503026622799028224/749109808304500738.jpeg?ngsw-bypass=true&Expires=1753443935&Key-Pair-Id=K23PG5J1AWEZX5&Signature=g3iQOKEDdPfpm40TN3R1GCS56Ss7-wD1ABpU4tnCwz-PBLKIIRTK6PyMm6DbrAx2dqPQLktDfN-vByTnAntSOdOSBTnIW0Lth-9BU-GxoT55mWKWR0uaAZNSk9ycdT8~yJYEjuNHWeB6dhbykc3w72E~xEee42chZJcrgXoA-sZeKCkkng24odHTqVrKEgwFBXGjAXWAzYeZ238u1WNHt21BZoYiLDK5LWmBuV-k7KZZrI25RQR7JV3iCBTKRx7Lh8p3EyRvQjVU03867jXry8iFR5fcD7~p9-X3xXuLyzuHXZin1q1qS3b-epOOJ3WjD6H731CxfuLBpFLs8w4kbg__"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "749109808304500739",
+                        "type": 1,
+                        "status": 1,
+                        "mimetype": "image/jpeg",
+                        "flags": 0,
+                        "location": "/503026622799028224/749109808304500739.jpeg",
+                        "width": 480,
+                        "height": 480,
+                        "metadata": "{\"resolutionMode\":1}",
+                        "updatedAt": 1740096058,
+                        "locations": [
+                            {
+                                "locationId": "1",
+                                "location": "https://cdn3.fansly.com/503026622799028224/749109808304500739.jpeg?ngsw-bypass=true&Expires=1753433006&Key-Pair-Id=K23PG5J1AWEZX5&Signature=GwX-9YqBHSQItflUZOU1OCi5NInDfgyY8O0Gkh4HXs3VQTivYh~GETyBQxGWdK7igx2AZRqyqEHrH6ySj0pMe0Pz9M6aUP8JPbM3SMu34Ib4c8QxIUB0XmCrpDDntxEcCp~6iyXLI3QlO7hTumby-bovAv97jBv2B9IR37jaUyTvfOuyPOiUgQPfNC6--UpfVUtQ~hsk1oauqG1yho9OX24dwb67QY1EA4hlOnud7MhcQCigpQZwbB1im1xFFePSBAkIjdWSQJnoRrj0rvGyHz8r09oYIqn~OcQ2U3o3GCjj~kOzcJroC-29mnPJqGcQNc8SryPd-rqf-55cZpv4zA__"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "749109808304500740",
+                        "type": 1,
+                        "status": 1,
+                        "mimetype": "image/jpeg",
+                        "flags": 0,
+                        "location": "/503026622799028224/749109808304500740.jpeg",
+                        "width": 360,
+                        "height": 360,
+                        "metadata": "{\"resolutionMode\":1}",
+                        "updatedAt": 1740096058,
+                        "locations": [
+                            {
+                                "locationId": "1",
+                                "location": "https://cdn3.fansly.com/503026622799028224/749109808304500740.jpeg?ngsw-bypass=true&Expires=1753435702&Key-Pair-Id=K23PG5J1AWEZX5&Signature=pXTBLmRb-CO0gzD0vG-tyVRZgHQdt8S0jCS3NhtriD9iaX--Sg4LboCbz7di4Uq4YzRhHZv1fLlRLsFFIZEx7EyfrYjkS2h2PApc75hV4XUKbGEE41ZTEOSO1uJ1mI9HRolVqGrvoFfTaTLC6A00-dQvVmLbg8G9cOqAKFmwsTPtRQk~lwerKM2bfjFM8ldhlR6LyPq3gARJGGUBugdCncpf-EG0-3TL9aMZV2nZYI46RQH~naheQXcxP4ofmfjDYK8U0WFp80YV58vd69Wbld-FcEzY6JKgMCLywlqHzSBeazqSNd~ddJ~jE7-5UZGPuCRucRZ3Hpu-BW1-JIHFTg__"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "749109808304500741",
+                        "type": 1,
+                        "status": 1,
+                        "mimetype": "image/jpeg",
+                        "flags": 0,
+                        "location": "/503026622799028224/749109808304500741.jpeg",
+                        "width": 240,
+                        "height": 240,
+                        "metadata": "{\"resolutionMode\":1}",
+                        "updatedAt": 1740096058,
+                        "locations": [
+                            {
+                                "locationId": "1",
+                                "location": "https://cdn3.fansly.com/503026622799028224/749109808304500741.jpeg?ngsw-bypass=true&Expires=1753439044&Key-Pair-Id=K23PG5J1AWEZX5&Signature=FI3PQmeaZpMgjiL1n4b8O8MglBZ~UpcR1kWezYE~JAaj~zSLjQWWgH61Fehr0DjyLX0mVUoMQJhzn-6gwWtsU1eorIqPqCxjQwT4ctnpB6~gSBfr8NtGPnxn3TH9YM~q~-w3yn2HRWQwnR6obUuZbFhZrI40uwPD~QWuaz~Kbg1Rs4BH988F8TS2BvYkgYDhfFu8RbWn-kzHDCQeH0yLk1DMv3H9KHjluATYfFUqRwt2ZErrnKqFUdhXtuOUb2NVIXrTO322PcCy4I6AmOSduR41fTPkbc7OYY63tGnJ0iPDjOnWkLW1uJUThi2ehdpJ9z4kJYDld5ZNzwK2KAdTQg__"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "749109808304500742",
+                        "type": 3,
+                        "status": 1,
+                        "mimetype": "image/jpeg",
+                        "flags": 0,
+                        "location": "/503026622799028224/749109808304500742.jpeg",
+                        "width": 240,
+                        "height": 240,
+                        "metadata": "{\"resolutionMode\":1}",
+                        "updatedAt": 1740096058,
+                        "locations": [
+                            {
+                                "locationId": "1",
+                                "location": "https://cdn3.fansly.com/503026622799028224/749109808304500742.jpeg?ngsw-bypass=true&Expires=1753448341&Key-Pair-Id=K23PG5J1AWEZX5&Signature=DCNZDtBCRVSeUQLwBCeJu6SwdwBIEZlOLkoHQxfrZmDzVjJgQpdwrB1bF4y5Wr87UwewH37hujEnsyyBuzMLFBgoB17JGk1cRVAGSBH0e3nGvRUCeNWM2oT3lskNiKoabieQcV-RdYuHcJRNAawneF06lLV-5VdX0PJIahP~LOEiWpjCUnu04jfZklLLrfNhXOw3LWaR4qqweyu99KQSEZN9GVOGFLRqUAGnU4~GQX9n-eyI1SH~NQ~N1i-yjh82LA6duy5skWhyA8TBkvSvXff8SCgUAres5MmGxlzAF2C21nwhParWjWVjeQdNBTuoW7azE2dofR7OZddnnL6mJg__"
+                            }
+                        ]
+                    }
+                ],
+                "variantHash": {},
+                "locations": [
+                    {
+                        "locationId": "1",
+                        "location": "https://cdn3.fansly.com/503026622799028224/749109808304500736.jpeg?ngsw-bypass=true&Expires=1753454086&Key-Pair-Id=K23PG5J1AWEZX5&Signature=LDU4v~wjnjJNr7PaFVBSsAxehikFJgPLiZhIlusV0V82zGV0fwuzT6bD9eGNaGH~rR5i3kDpSp1VfrMIIzDecJ4MdTBP~ZH5AfJ8C38e16MjhnDyI6EVxLPdxVDhWXPNam43WjrEWd6u2eF5gbG35WhqTtO3JEJqrRMiBEmpT8D6I3REQet-wmiC3dNP4hdEwhPnO95HfLgaQeAyFnVe4FaUbjqPuMU~hECHntbqEXy3U~8YD9pIbc5j8y4NzRis4FSJDZ-ywt-OeRM5frt1~3l7Ikt3QILpN1hwtCHo9WxsaY5JxfH7ihB82h91eM7kRg~-slsMbMuWdaAg0MrRag__"
+                    }
+                ]
+            },
+            "streaming": {
+                "accountId": "503026622799028224",
+                "channel": {
+                    "id": "674414645427052544",
+                    "accountId": "503026622799028224",
+                    "playbackUrl": "https://8e69c661e048.us-east-1.playback.live-video.net/api/video/v1/us-east-1.862541535858.channel.q2F9ExDn1bGP.m3u8",
+                    "chatRoomId": "675133683492986880",
+                    "status": 2,
+                    "version": 4,
+                    "createdAt": 1722287341000,
+                    "updatedAt": null,
+                    "stream": {
+                        "id": "674414645427052545",
+                        "historyId": "802373530107781120",
+                        "channelId": "674414645427052544",
+                        "accountId": "503026622799028224",
+                        "title": "",
+                        "status": 2,
+                        "viewerCount": 67,
+                        "version": 8787,
+                        "createdAt": 1722287342000,
+                        "updatedAt": null,
+                        "lastFetchedAt": 1752796920000,
+                        "startedAt": 1752795117000,
+                        "permissions": {
+                            "permissionFlags": [
+                                {
+                                    "id": "675137990913175552",
+                                    "streamId": "674414645427052545",
+                                    "type": 0,
+                                    "flags": 2,
+                                    "price": 0,
+                                    "metadata": ""
+                                },
+                                {
+                                    "id": "675137990913175553",
+                                    "streamId": "674414645427052545",
+                                    "type": 0,
+                                    "flags": 1,
+                                    "price": 0,
+                                    "metadata": "{\"1\":\"{\\\"duration\\\":86400000,\\\"price\\\":5000}\"}"
+                                }
+                            ]
+                        }
+                    },
+                    "arn": null,
+                    "ingestEndpoint": null
+                },
+                "enabled": true
+            },
+            "profileAccess": true
+        }
+    ]
+}
+
+{
+  "t": 10000,
+  "d": "{\"
+    serviceId\":46,\"event\":\"{\\\"type\\\":53,\\\"subAlert\\\":{\\\
+    "chatRoomId\\\":\\\"675133683492986880\\\",\\\"senderId\\\":\\\"717876967705157639\\\",\\\"historyId\\\":\\\"800604113816530945\\\",\\\"subscriberId\\\":\\\"717876967705157639\\\",\\\"subscriptionTierId\\\":\\\"672720886670827520\\\",\\\"subscriptionTierName\\\":\\\"pockethub subscription\\\",\\\"subscriptionTierColor\\\":\\\"#8C38F7\\\",\\\"subscriptionStreak\\\":2,\\\"subscriptionTotalDays\\\":90,\\\"id\\\":\\\"802383127581319168\\\",\\\"usernameColor\\\":\\\"#00b2ff\\\",\\\"username\\\":\\\"ZachScratcherM\\\",\\\"displayname\\\":\\\"ZachScratcherM\\\"}}\"}"
+}
+
+follow
+{
+  "t": 10000,
+  "d": "{\"serviceId\":3,\"event\":\"{\\\"type\\\":2,\\\"follow\\\":{\\\"followerId\\\":\\\"750960972251799553\\\",\\\"accountId\\\":\\\"276254003380101120\\\",\\\"id\\\":\\\"802527640643706880\\\",\\\"accountSortOrder\\\":1}}\"}"
+}
+unfollow
+{
+  "t": 10000,
+  "d": "{\"serviceId\":3,\"event\":\"{\\\"type\\\":3,\\\"follow\\\":{\\\"followerId\\\":\\\"750960972251799553\\\",\\\"accountId\\\":\\\"276254003380101120\\\",\\\"id\\\":\\\"799854120004497409\\\",\\\"createdAt\\\":1752194442000}}\"}"
+}
+
+
+sub en ws
+{
+  "t": 10000,
+  "d": "{\"serviceId\":15,\"event\":\"{\\\"type\\\":5,\\\"subscription\\\":{\\\"id\\\":\\\"799858129008340993\\\",\\\"historyId\\\":\\\"802803656603738112\\\",\\\"accountId\\\":\\\"276254003380101120\\\",\\\"subscriberId\\\":\\\"750960972251799553\\\",\\\"subscriptionTierId\\\":\\\"802801784681676801\\\",\\\"subscriptionTierName\\\":\\\"test2\\\",\\\"subscriptionTierColor\\\":\\\"#F73838\\\",\\\"planId\\\":\\\"802801784732012544\\\",\\\"promoId\\\":null,\\\"giftCodeId\\\":\\\"802802624372944896\\\",\\\"status\\\":3,\\\"price\\\":0,\\\"renewPrice\\\":5000,\\\"renewCorrelationId\\\":\\\"802803656603738112\\\",\\\"autoRenew\\\":1,\\\"version\\\":5,\\\"billingCycle\\\":30,\\\"duration\\\":2,\\\"renewDate\\\":1752897666000,\\\"createdAt\\\":1752195398000,\\\"endsAt\\\":1753070466962,\\\"promoDuration\\\":null,\\\"promoStartsAt\\\":null,\\\"promoEndsAt\\\":null,\\\"updatedAt\\\":1752897666964,\\\"giftCodeFree\\\":true,\\\"subscriptionStreak\\\":0,\\\"subscriptionTotalDays\\\":0}}\"}"
+}
+{
+  "t": 10000,
+  "d": "{\"serviceId\":9,\"event\":\"{\\\"type\\\":1,\\\"notification\\\":{\\\"accountId\\\":\\\"276254003380101120\\\",\\\"type\\\":15016,\\\"correlationId\\\":\\\"802803656603738112\\\",\\\"correlationGroupId\\\":\\\"750960972251799553\\\",\\\"id\\\":\\\"802803669685772293\\\"}}\"}"
+}
+{
+  "t": 10000,
+  "d": "{\"serviceId\":9,\"event\":\"{\\\"type\\\":1,\\\"notification\\\":{\\\"accountId\\\":\\\"276254003380101120\\\",\\\"type\\\":15006,\\\"correlationId\\\":\\\"799858129008340993\\\",\\\"correlationGroupId\\\":\\\"750960972251799553\\\",\\\"id\\\":\\\"802803669685772292\\\"}}\"}"
+}
+{
+  "t": 10000,
+  "d": "{\"serviceId\":15,\"event\":\"{\\\"type\\\":5,\\\"subscription\\\":{\\\"id\\\":\\\"799858129008340993\\\",\\\"historyId\\\":\\\"802808653269712896\\\",\\\"accountId\\\":\\\"276254003380101120\\\",\\\"subscriberId\\\":\\\"750960972251799553\\\",\\\"subscriptionTierId\\\":\\\"802801784681676801\\\",\\\"subscriptionTierName\\\":\\\"test2\\\",\\\"subscriptionTierColor\\\":\\\"#FFD700\\\",\\\"planId\\\":\\\"802801784732012544\\\",\\\"promoId\\\":null,\\\"giftCodeId\\\":\\\"802808294115667968\\\",\\\"status\\\":3,\\\"price\\\":0,\\\"renewPrice\\\":5000,\\\"renewCorrelationId\\\":\\\"802808653269712896\\\",\\\"autoRenew\\\":0,\\\"version\\\":7,\\\"billingCycle\\\":30,\\\"duration\\\":2,\\\"renewDate\\\":1752898857000,\\\"createdAt\\\":1752195398000,\\\"endsAt\\\":1753071658173,\\\"promoDuration\\\":null,\\\"promoStartsAt\\\":null,\\\"promoEndsAt\\\":null,\\\"updatedAt\\\":1752898858174,\\\"giftCodeFree\\\":true,\\\"subscriptionStreak\\\":1,\\\"subscriptionTotalDays\\\":30,\\\"giftCodeRenew\\\":true}}\"}"
+}
+
+goal {
+  id: '801041558580244480',
+  chatRoomId: '750481580824207361',
+  accountId: '276254003380101120',
+  type: 0,
+  label: 'test',
+  description: '',
+  status: 1,
+  currentAmount: 0,
+  goalAmount: 0,
+  version: 0
+}
+
+funciones de test
+
+function FakeSub() {
+	const fake = {
+		t: 10000,
+		d: {
+			serviceId: 46,
+			event: {
+				type: 53,
+				subAlert: {
+					chatRoomId: "413580216410054656",
+					senderId: "617943830208983040",
+					historyId: "799874258741243904",
+					subscriberId: "617943830208983040",
+					subscriptionTierId: "802801784681676801",
+					subscriptionTierName: "Supporter",
+					subscriptionTierColor: "#878787",
+					subscriptionStreak: 0,
+					subscriptionTotalDays: 0,
+					id: "799875838689419264",
+					usernameColor: "",
+					username: "user617943796230926338",
+					displayname: "AsXo",
+				},
+			},
+		},
+	};
+	tipG += 1000;
+	fanslyChatWs.emit("message", JSON.stringify(fake));
+}
+
+function FakeGoal() {
+	const fake = {
+		t: 10000,
+		d: {
+			serviceId: 46,
+			event: {
+				type: 51,
+				chatRoomGoal: {
+					id: "801041558580244480",
+					chatRoomId: "704271867631902721",
+					accountId: "630673272698056704",
+					type: 0,
+					label: fanslyGoals.find((g) => g.id == "801041558580244480").label,
+					description:
+						"Goals: ♡ ($50)  Collar  ♡ ($100)  Gemini ♡ ($200) Domi ♡ ($300) Cock Warming ♡ ($400) Aftermath  ♡ ($450) Swap to Mission for 15 minutes  ♡  ($500) Panties for gag + gag for 10 mins  ♡ ($600) Swap to Cock warming with Hush ♡ ($700) Add Clown to the wheel ♡ ",
+					status: 1,
+					currentAmount: fanslyGoals.find((g) => g.id == "801041558580244480").currentAmount + 1000,
+					goalAmount: fanslyGoals.find((g) => g.id == "801041558580244480").goalAmount,
+					version: 52,
+					deletedAt: null,
+				},
+			},
+		},
+	};
+	fanslyChatWs.emit("message", JSON.stringify(fake));
+}
+tipG = 43000;
+function FakeTip() {
+	const fake = {
+		t: 10000,
+		d: {
+			serviceId: 46,
+			event: {
+				type: 10,
+				chatRoomMessage: {
+					chatRoomId: "757745290047401984",
+					senderId: "509953799532584961",
+					content: "I'll contribute toward that handjob video.",
+					type: 0,
+					private: 0,
+					attachments: [
+						{
+							contentType: 7,
+							contentId: "800291325260865536",
+							metadata: { amount: tipG },
+							chatRoomMessageId: "800291325562859520",
+						},
+					],
+					accountFlags: 0,
+					messageTip: null,
+					metadata: {
+						senderIsCreator: false,
+						senderIsStaff: false,
+						senderIsFollowing: true,
+						senderSubscription: {
+							tierId: "752311216990334976",
+							tierColor: "#46A7F8",
+							tierName: "❤︎Puppy Knight❤︎ (DM's Unlocked + VOD Access)",
+						},
+					},
+					chatRoomAccountId: "717637147170975744",
+					id: "800291325562859520",
+					createdAt: 1752298680247,
+					embeds: [],
+					usernameColor: "#0066ff",
+					username: "SCONvey",
+					displayname: "SCONvey",
+				},
+			},
+		},
+	};
+	tipG += 1000;
+	fanslyChatWs.emit("message", JSON.stringify(fake));
+}
+const fakems = {
+		t: 10000,
+		d: {
+			serviceId: 15,
+			event: {
+				type: 5,
+				subscription: {
+					id: "799858129008340993",
+					historyId: "802808653269712896",
+					accountId: "276254003380101120",
+					subscriberId: "750960972251799553",
+					subscriptionTierId: "802801784681676801",
+					subscriptionTierName: "test2",
+					subscriptionTierColor: "#FFD700",
+					planId: "802801784732012544",
+					promoId: null,
+					giftCodeId: "802808294115667968",
+					status: 3,
+					price: 0,
+					renewPrice: 5000,
+					renewCorrelationId: "802808653269712896",
+					autoRenew: 0,
+					version: 7,
+					billingCycle: 30,
+					duration: 2,
+					renewDate: 1752898857000,
+					createdAt: 1752195398000,
+					endsAt: 1753071658173,
+					promoDuration: null,
+					promoStartsAt: null,
+					promoEndsAt: null,
+					updatedAt: 1752898858174,
+					giftCodeFree: true,
+					subscriptionStreak: 1,
+					subscriptionTotalDays: 30,
+					giftCodeRenew: true,
+				},
+			},
+		},
+	};

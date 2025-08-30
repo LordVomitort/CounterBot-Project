@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="timer_overlay_style.css" />
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Timer Overlay</title>
+		<style>
+			body {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- contenedor principal -->
+		<div class="root-container">
+			<div id="main-container" class="main">
+				<div id="top-container" class="top-cont">
+					<div id="left-container" class="l-cont">
+						<span>-</span>
+						<span id="minusSecondsTag"></span>
+						<span> sec</span>
+					</div>
+					<div id="right-container" class="r-cont">
+						<span style="font-size: 2.6vw">+</span>
+						<span id="secondsTag"></span>
+						<span> sec</span>
+					</div>
+				</div>
+				<div id="timer-container" class="timer"><h1 id="timer-container"></h1></div>
+				<div id="bot-container" class="b-cont"></div>
+			</div>
+		</div>
+
+		<script>
+			var TIMERPING_INTERVAL = 0;
+			var TIMERDISCONNECT_INTERVAL = 0;
+			var pingInterval;
+			var disconnectInterval;
+
+			var timerSeconds = 0;
+			var timerText;
+			const ws = new WebSocket("ws://localhost:3000");
+
+			var timeouts = {
+				right: null,
+				left: null,
+			};
+			var alertFade = {
+				right: null,
+				left: null,
+			};
+			var alerts = {
+				right: 0,
+				left: 0,
+			};
+
+			const timerContainer = document.getElementById("timer-container");
+
+			ws.onopen = () => {
+				ws.send(JSON.stringify({ type: "timerOverlay", data: "connect" }));
+			};
+
+			ws.onclose = () => {
+				console.log("cerrado");
+				ServerDisconnected();
+			};
+			ws.onmessage = (evnt) => {
+				let msg;
+				try {
+					msg = JSON.parse(evnt.data);
+				} catch (er) {
+					return;
+				}
+
+				switch (msg.type) {
+					case "connectPing":
+						TIMERPING_INTERVAL = msg.data.ping;
+						TIMERDISCONNECT_INTERVAL = msg.data.disconnect;
+						if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ type: "timerOverlay", data: "p" }));
+						pingInterval = setInterval(() => {
+							if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ type: "timerOverlay", data: "p" }));
+							disconnectInterval = setTimeout(() => {
+								ServerDisconnected();
+								clearInterval(pingInterval);
+							}, TIMERDISCONNECT_INTERVAL);
+						}, TIMERPING_INTERVAL);
+
+						break;
+
+					case "ping":
+						console.log("ping");
+						clearTimeout(disconnectInterval);
+						break;
+					case "timerUpdate":
+						// se actualiza el reloj
+						UpdateTimer(msg.data);
+						console.log(msg.data);
+						break;
+					case "styleUpdate":
+						// se actualiza la fuente
+						break;
+					case "timerStopped":
+						// se detiene el timer
+						break;
+					case "addedTime":
+						// se muestra la alerta de que se agrega tiempo
+						console.log("addedtime", msg.data);
+						AddedTime(msg.data);
+						break;
+				}
+			};
+
+			function ServerDisconnected() {
+				timerContainer.innerText = "Server Disconected";
+				timerContainer.style.fontSize = "7vw";
+			}
+
+			function FormatNumber(num) {
+				return num.toString().padStart(2, "0");
+			}
+			function UpdateTimer(sec) {
+				timerSeconds = sec;
+				timerText = `${FormatNumber(Math.floor(timerSeconds / 3600))}:${FormatNumber(Math.floor((timerSeconds / 60) % 60))}:${FormatNumber(timerSeconds % 60)}`;
+				timerContainer.innerText = timerText;
+			}
+
+			function AddedTime(sec) {
+				const pos = sec >= 0;
+				const side = pos ? "right" : "left";
+				const elm = pos ? document.getElementById("right-container") : document.getElementById("left-container");
+				const secTag = document.getElementById(pos ? "secondsTag" : "minusSecondsTag");
+
+				if (timeouts[side]) {
+					clearTimeout(timeouts[side]);
+					alerts[side] += pos ? sec : -sec;
+				} else alerts[side] = pos ? sec : -sec;
+
+				secTag.innerText = alerts[side];
+
+				elm.classList.add("show-alert");
+
+				timeouts[side] = setTimeout(() => {
+					elm.classList.remove("show-alert");
+					alerts[side] = 0;
+					alertFade[side] = setTimeout(() => {
+						timeouts[side] = null;
+					}, 1000);
+				}, 2000);
+			}
+		</script>
+	</body>
+</html>

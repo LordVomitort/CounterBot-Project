@@ -1,0 +1,11 @@
+#overlay-container {
+	position: absolute;
+	display: flex;
+
+	width: var(--width, 300px);
+	height: var(--height, 150px);
+	background-color: var(--backgroundColor, rgba(0, 0, 0, 0.7));
+	border-radius: var(--borderRadius, 15px);
+	border: var(--border);
+	border-color: var(--borderColor);
+}
