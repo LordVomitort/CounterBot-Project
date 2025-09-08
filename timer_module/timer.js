@@ -8,7 +8,8 @@ const donothonEmitter = new EventEmitter();
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-var timer, endTime;
+var timer,
+	endTime = 0;
 var timerStarted = false;
 
 var timerHandler;
@@ -51,6 +52,10 @@ var donothonStats = {
 	goals: 0,
 	tips: 0,
 };
+
+function getTimer() {
+	return timer;
+}
 
 function setRemaining(t) {
 	timer = t;
@@ -151,7 +156,7 @@ function LoadBaseParameters(timerBase, baseTimes, events) {
 	timerParameters.event.followers = !!events.followers;
 	timerParameters.event.tips = !!events.tips;
 	timerParameters.event.subs = !!events.subs;
-	timerParameters.event.subsOnlyShared = !!events.subsOnlyShared;
+	timerParameters.event.subsOnlyShared = !!events.subs_only_shared;
 	timerParameters.event.goals = !!events.goals;
 	timerParameters.event.counters = !!events.counters;
 }
@@ -375,7 +380,7 @@ function TriggerFollower(databaseUpdate) {
 
 function TriggerTip(tipAmount, databaseUpdate) {
 	if (!timerParameters.enabled || !timerParameters.event.tips) return;
-	const seconds = Math.floor((timer.timerParameters.tips * tipAmount) / 1000);
+	const seconds = Math.floor((timerParameters.tips * tipAmount) / 1000);
 	AddTime(seconds);
 
 	donothonStats.tips += tipAmount;
@@ -386,7 +391,7 @@ function TriggerTip(tipAmount, databaseUpdate) {
 
 function TriggerSubs(subId, databaseUpdate) {
 	if (!timerParameters.enabled || !timerParameters.event.subs) return;
-	const sub = timer.timerParameters.subs.find((s) => s.d == subId);
+	const sub = timerParameters.subs.find((s) => s.id == subId);
 	if (!sub || !sub.enabled) return;
 	AddTime(sub.amount);
 	const dSub = donothonStats.subs.find((s) => s.id == subId);
@@ -397,8 +402,17 @@ function TriggerSubs(subId, databaseUpdate) {
 	donothonEmitter.emit("subsTrigger");
 }
 
+function TriggerGoal(goalId, databaseUpdate) {
+	if (!timerParameters.enabled || !timerParameters.event.goals) return;
+	const goal = timerParameters.goals.find((g) => g.id, goalId);
+	if (!goal || !goal.enabled) return;
+	AddTime(goal.amount);
+	donothonStats.goals += 1;
+	databaseUpdate(donothonStats.goals, donothonStats.id);
+	donothonEmitter.emit("goalsTrigger");
+}
 module.exports = {
-	timer,
+	getTimer,
 	timerParameters,
 	donothonStats,
 	LoadBaseParameters,
@@ -439,4 +453,5 @@ module.exports = {
 	TriggerFollower,
 	TriggerTip,
 	TriggerSubs,
+	TriggerGoal,
 };

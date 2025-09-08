@@ -1962,7 +1962,7 @@ function ConectarFanslyWs() {
 	});
 
 	fanslyWs.on("close", (event) => {
-		console.log("WebSocket Closed:", event.code);
+		console.log("WebSocket Closed:", event);
 		clearInterval(fanslyWsHeartbeat);
 		clearInterval(fanslyChatWsHeartbeat);
 		fanslyChatWs.close(1000);
@@ -2015,6 +2015,10 @@ function ConectarFanslyChatWs() {
 		fanslyChatWs.send(JSON.stringify(authMessage));
 	});
 
+	fanslyChatWs.on("close", (evnt) => {
+		if (evnt) console.log("Chat WebSocket closed:", evnt);
+	});
+
 	fanslyChatWs.on("message", (data) => {
 		// console.log(JSON.parse(data.toString()));
 		// let _datos = JSON.parse(data.toString());
@@ -2056,6 +2060,11 @@ function ConectarFanslyChatWs() {
 							const pp = `@${event.chatRoomMessage.username} PP is ${Math.floor(Math.random() * 40)}cm long`;
 							SendMessageToChat(pp);
 						}
+						if (event.chatRoomMessage.content == "!s") {
+							FakeSub();
+						} else if (event.chatRoomMessage.content == "!g") FakeGoal();
+						else if (event.chatRoomMessage.content == "!t") FakeTip();
+
 						switch (FanslyChatCommandMode) {
 							case "all":
 								ProccessChatMessages(event.chatRoomMessage);
@@ -2400,11 +2409,12 @@ function DonothonUpdateGoals() {
 	}
 }
 function DonothonUpdateSubs(subsList) {
+	if (!subsList) subsList = timer.donothonStats.subs;
 	if (donothonClients && donothonClients.length > 0 && subsList && subsList.length > 0) {
 		let subs = [];
 		subsList.forEach((s) => {
 			let enabled = false;
-			const sub = timer.timerParameters.subs.find((su) => su.subId == s.id);
+			const sub = timer.timerParameters.subs.find((su) => su.id == s.id);
 			if (sub && sub.enabled) {
 				enabled = true;
 			} else enabled = !!(s.amount > 0);
@@ -2439,7 +2449,7 @@ app.get("/timer/preview", (req, res) => {
 	if (timerPreviewClients && timerPreviewClients.length > 0) {
 		timerPreviewClients.forEach((res) => res.write(`data: ${JSON.stringify({ type: "set", data: timer.timerParameters.enabled })}\n\n`));
 	}
-	SendTimerToPreview(timer.timer);
+	SendTimerToPreview(timer.getTimer());
 	req.on("close", () => {
 		timerPreviewClients = timerPreviewClients.filter((c) => c !== res);
 	});
@@ -2677,7 +2687,7 @@ function CheckGoalsTimerDatabase() {
 }
 
 function GoalCompleted(id) {
-	TriggerTimerGoal(id);
+	timer.TriggerGoal(id, TriggerTimerGoal);
 }
 // funcion llamada al dispararse un contador (no se llamaran se se usa !set)
 // recibe el id del contador y la cantidad de unidades sumadas
@@ -2691,16 +2701,8 @@ function TriggerTimerSub(subId, subAmount, donothonId) {
 }
 
 // lo mismo que la funcion anterior pero aplica a los goals
-function TriggerTimerGoal(goalId) {
-	if (timer.timerParameters.enabled && timer.timerParameters.event.goals) {
-		const tG = timer.timerParameters.goals.find((g) => g.goalId == goalId);
-		if (tG.enabled) {
-			donothonStats.goals += 1;
-			db.prepare("UPDATE donothon_stats SET goals = ? WHERE id = ?").run(donothonStats.goals, donothonStats.id);
-		}
-		AddTimerAmountObject(tG);
-		DonothonUpdateGoals();
-	}
+function TriggerTimerGoal(goalAmount, donothonId) {
+	db.prepare("UPDATE donothon_stats SET goals = ? WHERE id = ?").run(goalAmount, donothonId);
 }
 // funcion disparada al recibir un tip, recibe la cantidad en milesimas de dolar
 function TriggerTimerTip(tipAmount, donothonId) {
@@ -2725,7 +2727,7 @@ app.get("/extension/notify", (req, res) => {
 	let list = [];
 	counterList.forEach((c) => list.push({ name: c.name, value: c.value, id: c.id }));
 	res.json({
-		server: { server: true, fansly: fanslyWs && fanslyWs.readyState === WebSocket.OPEN },
+		server: { server: true, fansly: fanslyWs && fanslyWs.readyState === WebSocket.OPEN && fanslyChatWs && fanslyChatWs.readyState === WebSocket.OPEN },
 		counterList: list,
 		started: sessionStarted,
 	});
@@ -2874,9 +2876,117 @@ timer.donothonEmitter.on("subsUpdated", (subsList) => {
 	}
 });
 
+timer.donothonEmitter.on("goalsTrigger", () => {
+	DonothonUpdateGoals();
+});
+
 // llamada al resetear el timer
 function ResetTimer() {
 	timer.Reset();
+}
+
+function FakeSub() {
+	const fake = {
+		t: 10000,
+		d: {
+			serviceId: 46,
+			event: {
+				type: 53,
+				subAlert: {
+					chatRoomId: "413580216410054656",
+					senderId: "617943830208983040",
+					historyId: "799874258741243904",
+					subscriberId: "617943830208983040",
+					subscriptionTierId: "802801784681676801",
+					subscriptionTierName: "Supporter",
+					subscriptionTierColor: "#878787",
+					subscriptionStreak: 0,
+					subscriptionTotalDays: 0,
+					id: "799875838689419264",
+					usernameColor: "",
+					username: "user617943796230926338",
+					displayname: "AsXo",
+				},
+			},
+		},
+	};
+	tipG += 1000;
+	fanslyChatWs.emit("message", JSON.stringify(fake));
+}
+
+function FakeGoal() {
+	const fake = {
+		t: 10000,
+		d: {
+			serviceId: 46,
+			event: {
+				type: 51,
+				chatRoomGoal: {
+					id: "801041558580244480",
+					chatRoomId: "704271867631902721",
+					accountId: "630673272698056704",
+					type: 0,
+					label: fanslyGoals.find((g) => g.id == "801041558580244480").label,
+					description:
+						"Goals: ♡ ($50)  Collar  ♡ ($100)  Gemini ♡ ($200) Domi ♡ ($300) Cock Warming ♡ ($400) Aftermath  ♡ ($450) Swap to Mission for 15 minutes  ♡  ($500) Panties for gag + gag for 10 mins  ♡ ($600) Swap to Cock warming with Hush ♡ ($700) Add Clown to the wheel ♡ ",
+					status: 1,
+					currentAmount: fanslyGoals.find((g) => g.id == "801041558580244480").currentAmount + 1000,
+					goalAmount: fanslyGoals.find((g) => g.id == "801041558580244480").goalAmount,
+					version: 52,
+					deletedAt: null,
+				},
+			},
+		},
+	};
+	fanslyChatWs.emit("message", JSON.stringify(fake));
+}
+tipG = 43000;
+function FakeTip() {
+	const fake = {
+		t: 10000,
+		d: {
+			serviceId: 46,
+			event: {
+				type: 10,
+				chatRoomMessage: {
+					chatRoomId: "757745290047401984",
+					senderId: "509953799532584961",
+					content: "I'll contribute toward that handjob video.",
+					type: 0,
+					private: 0,
+					attachments: [
+						{
+							contentType: 7,
+							contentId: "800291325260865536",
+							metadata: { amount: tipG },
+							chatRoomMessageId: "800291325562859520",
+						},
+					],
+					accountFlags: 0,
+					messageTip: null,
+					metadata: {
+						senderIsCreator: false,
+						senderIsStaff: false,
+						senderIsFollowing: true,
+						senderSubscription: {
+							tierId: "752311216990334976",
+							tierColor: "#46A7F8",
+							tierName: "❤︎Puppy Knight❤︎ (DM's Unlocked + VOD Access)",
+						},
+					},
+					chatRoomAccountId: "717637147170975744",
+					id: "800291325562859520",
+					createdAt: 1752298680247,
+					embeds: [],
+					usernameColor: "#0066ff",
+					username: "SCONvey",
+					displayname: "SCONvey",
+				},
+			},
+		},
+	};
+	tipG += 1000;
+	fanslyChatWs.emit("message", JSON.stringify(fake));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

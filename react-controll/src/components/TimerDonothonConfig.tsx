@@ -34,7 +34,6 @@ export function TimerDonothonConfig() {
 			const evento = JSON.parse(evnt.data);
 			switch (evento.type) {
 				case "set":
-					console.log(evento.data.followers);
 					setInputStartTime(formatSecondsToTime(evento.data.start));
 					inputStartNumber.current = evento.data.start;
 					setInputFollowersTime(formatSecondsToTime(evento.data.followers));
