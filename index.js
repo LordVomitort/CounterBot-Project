@@ -17,14 +17,10 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 const carpeta = join(__dirname, "/db");
-
-// if (fs.existsSync(carpeta)) {
-// 	console.log("existe");
-// } else {
 fs.mkdirSync(carpeta, { recursive: true });
-// }
 
 const db = require("./db/database");
+
 const CONFIG_PATH = "config.json";
 var OVERLAYSTYLE_PATH = "overlayConfig.json";
 
@@ -107,27 +103,6 @@ var sessionStarted = false;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-// Parametros de timer
-//
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Parametros del donothon
-
-var donothonStats = {
-	id: "",
-	followers: 0,
-	subs: [
-		// { subscriptionTier: {}, amount: 0 }
-	],
-	counters: [
-		// { id: 0, amount: 0 }
-	],
-	goals: 0,
-	tips: 0,
-};
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
 //	Conexiones y clientes
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,8 +116,6 @@ var clientes = {
 
 const TIMERPING_INTERVAL = 40000;
 const TIMERDISCONNECT_INTERVAL = 4000;
-var timerOverlayPing = [];
-var timerOverlayDisconnect = [];
 
 var overlayPreviewClients = [];
 var counterStatsClients = [];
@@ -217,22 +190,22 @@ if (!fs.existsSync(OVERLAYSTYLE_PATH)) {
 	console.log("New Overlay Config created");
 }
 
-// CheckAccessMode();
-// LoadCommandsList();
+CheckAccessMode();
+LoadCommandsList();
 
 LoadCounterList();
 CheckGlobalTable();
 CheckMonthlyTable();
 
-// if (fs.existsSync(OVERLAYSTYLE_PATH)) {
-// 	(async () => {
-// 		await loadOverlayConfig();
-// 	})();
-// }
+if (fs.existsSync(OVERLAYSTYLE_PATH)) {
+	(async () => {
+		await loadOverlayConfig();
+	})();
+}
 
 LoadTimerDatabase();
 
-// LoadDonothonDatabase();
+LoadDonothonDatabase();
 
 function deepParse(obj) {
 	if (typeof obj === "string") {
@@ -256,8 +229,6 @@ function deepParse(obj) {
 	}
 	return obj;
 }
-
-function NewOverlayConfig() {}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 //---------------------------------------------------------------------------------------------------------
@@ -595,61 +566,53 @@ async function loadOverlayConfig() {
 	}
 }
 
+// carga los datos guardados en la database en timer
 function LoadTimerDatabase() {
 	console.log("Loading timer database...");
+	// cargo el remaining y el timerEnabled
 	let timerRow = db.prepare("SELECT * FROM timer WHERE timer_id = 1").get();
 	if (!timerRow) {
 		db.prepare("INSERT INTO timer (remaining_time, timer_id, enabled) VALUES (?, ?, ?)").run(0, 1, 0);
 		timerRow = db.prepare("SELECT * FROM timer WHERE timer_id = 1").get();
 	}
-	timer.setRemaining(timerRow.remaining_time);
-	timer.getParameters().enabled = !!timerRow.enabled;
-
-	let paramRow = db.prepare("SELECT * FROM timer_parameters WHERE id = ?").get(1);
-	if (!paramRow) {
+	// cargo los parametros base (start, followers, tips)
+	let baseTimeRow = db.prepare("SELECT * FROM timer_parameters WHERE id = ?").get(1);
+	if (!baseTimeRow) {
 		db.prepare("INSERT INTO timer_parameters (id) VALUES (?)").run(1);
-		paramRow = db.prepare("SELECT * FROM timer_parameters WHERE id = ?").get(1);
+		baseTimeRow = db.prepare("SELECT * FROM timer_parameters WHERE id = ?").get(1);
 	}
-	timer.getParameters().start = paramRow.start;
-	timer.getParameters().followers = paramRow.follower;
-	timer.getParameters().tips = paramRow.tip;
-
-	paramRow = db.prepare("SELECT * FROM timer_events WHERE timer_id = ?").get(1);
-	if (!paramRow) {
+	// cargo los events
+	eventsRow = db.prepare("SELECT * FROM timer_events WHERE timer_id = ?").get(1);
+	if (!eventsRow) {
 		db.prepare("INSERT INTO timer_events (timer_id, followers, tips, subs, subs_only_shared, goals, counters) VALUES (?, ?, ?, ?, ?, ?, ?)").run(1, 1, 1, 1, 0, 1, 1);
-		paramRow = db.prepare("SELECT * FROM timer_events WHERE id = ?").get(1);
+		eventsRow = db.prepare("SELECT * FROM timer_events WHERE id = ?").get(1);
 	}
 
-	timer.getParameters().event.followers = !!paramRow.followers;
-	timer.getParameters().event.tips = !!paramRow.tips;
-	timer.getParameters().event.subs = !!paramRow.subs;
-	timer.getParameters().event.subsOnlyShared = !!paramRow.subs_only_shared;
-	timer.getParameters().event.goals = !!paramRow.goals;
-	timer.getParameters().event.counters = !!paramRow.counters;
+	//guardo los datos base en timer
+	timer.LoadBaseParameters(timerRow, baseTimeRow, eventsRow);
+	// cargo la info de los contadores
+	let cList = [];
+	counterList.forEach((c) => cList.push({ id: c.id, amount: 0, enabled: true }));
+	// cList no puede ser menor que 1 ya que siempre existe 1 constador
+	if (!cList || cList.length < 1) throw new Error("missing default counter");
+	timer.LoadCountersParameters(cList);
 
-	counterList.forEach((c) => timer.getParameters().counters.push({ counterId: c.id, amount: 0, enabled: true }));
-
-	const timerCountersRow = db.prepare("SELECT counter_id FROM timer_counters").all();
-	if (!timer.getParameters().counters || timer.getParameters().counters.length <= 0) return;
-
-	const countersIdMap = timerCountersRow.map((c) => c.counter_id);
-	const objCountersId = timer.getParameters().counters.map((c) => c.counterId);
-
-	const toDelete = countersIdMap.filter((id) => !objCountersId.includes(id));
-
-	toDelete.forEach((id) => {
-		db.prepare("DELETE FROM timer_counters WHERE counter_id = ?").run(id);
-	});
-
-	timer.getParameters().counters.forEach((c) => {
-		let idRow = db.prepare("SELECT * FROM timer_counters WHERE counter_id = ?").get(c.counterId);
-		if (!idRow) {
-			db.prepare("INSERT INTO timer_counters (timer_id, counter_id, amount, enabled) VALUES (?, ?, ?, ?)").run(1, c.counterId, c.amount, c.enabled ? 1 : 0);
-			idRow = db.prepare("SELECT * FROM timer_counters WHERE counter_id = ?").get(c.counterId);
+	// cargo los id de contadores desde la database
+	const timerCountersRow = db.prepare("SELECT * FROM timer_counters WHERE timer_id = ?").all(1);
+	// cargo los datos completos de contadores en timer
+	timer.UpdateCounters(
+		timerCountersRow,
+		(id) => db.prepare("DELETE FROM timer_counters WHERE counter_id = ?").run(id),
+		(c) => {
+			let idRow = db.prepare("SELECT * FROM timer_counters WHERE counter_id = ?").get(c.id);
+			if (!idRow) {
+				db.prepare("INSERT INTO timer_counters (timer_id, counter_id, amount, enabled) VALUES (?, ?, ?, ?)").run(1, c.id, c.amount, c.enabled ? 1 : 0);
+				idRow = db.prepare("SELECT * FROM timer_counters WHERE counter_id = ?").get(c.id);
+			}
+			return idRow;
 		}
-		c.amount = idRow.amount;
-		c.enabled = !!idRow.enabled;
-	});
+	);
+
 	console.log("Timer loaded");
 }
 
@@ -662,19 +625,15 @@ function LoadDonothonDatabase() {
 		const row = db.prepare("INSERT INTO donothon_stats (followers, tips, goals) VALUES (?, ?, ?)").run(0, 0, 0);
 		donothonRow = db.prepare("SELECT * FROM donothon_stats WHERE id = ?").get(row.lastInsertRowid);
 	}
-	// cargo los datos en memoria
-	donothonStats.id = donothonRow.id;
-	donothonStats.followers = donothonRow.followers;
-	donothonStats.tips = donothonRow.tips;
-	donothonStats.goals = donothonRow.goals;
-
 	// compruebo si hay datos de subs, so los hay los cargo en memoria
 	let donothonSubRow = db.prepare("SELECT * FROM donothon_subs WHERE donothon_id = ?").all(donothonRow.id);
+	let subs = [];
 	if (donothonSubRow && donothonSubRow.length > 0) {
-		donothonSubRow.forEach((sR) => donothonStats.subs.push({ id: sR.sub_id, name: sR.name, color: sR.color, price: sR.price, amount: sR.amount }));
+		donothonSubRow.forEach((sR) => subs.push({ id: sR.sub_id, name: sR.name, color: sR.color, price: sR.price, amount: sR.amount }));
 	}
-	// cargo la informacion de los contadores en el donothon
-	LoadDonothonCountersDatabase(donothonRow.id);
+	// cargo la informacion de los contadores del donothon
+	timer.LoadBaseDonothonStats(donothonRow, subs, LoadDonothonCountersDatabase(donothonRow.id));
+
 	console.log("Donothon database loaded");
 }
 
@@ -683,89 +642,85 @@ function LoadDonothonDatabase() {
 function LoadDonothonCountersDatabase(id) {
 	// cargo la fila de los stats de contadores
 	let donothonCounterRow = db.prepare("SELECT * FROM donothon_counters WHERE donothon_id = ?").all(id);
-	if (donothonCounterRow && donothonCounterRow.length > 0) {
-		// en caso de que no esté vacia, paso a comprovar si falta algun contador los añado a la cola para añadirlo a la database
-		let missing = [];
-		let update = [];
-		counterList.forEach((c) => {
-			const find = donothonCounterRow.find((cR) => cR.counter_id == c.id);
-			if (!find) {
-				missing.push({ id: c.id, name: c.name, amount: 0 });
-			} else {
-				update.push({ id: c.id, name: c.name, amount: find.amount });
-			}
-		});
-		if (update && update.length > 0) {
-			update.forEach((u) => {
-				db.prepare("UPDATE donothon_counters SET name = ? WHERE donothon_id = ? AND  counter_id = ?") //
-					.run(u.name, id, u.id);
-			});
-			donothonCounterRow = db.prepare("SELECT * FROM donothon_counters WHERE donothon_id = ?").all(id);
-		}
-		// si hay algun faltante los agrego a la database y vuelvo a llamar para volver a leer
-		if (missing && missing.length > 0) {
-			missing.forEach((m) => db.prepare("INSERT INTO donothon_counters (donothon_id, counter_id, name, amount) VALUES (?, ?, ?, ?)").run(id, m.id, m.name, 0));
-			LoadDonothonCountersDatabase(id);
-		}
-		// si no falta ninguno  lo agrego a memoria
-		if (missing.length < 1) {
-			donothonStats.counters = donothonCounterRow.map((cR) => {
-				return { id: cR.counter_id, name: cR.name, amount: cR.amount };
-			});
-			// console.log("stats", donothonStats.counters);
-		}
-	} else if (donothonCounterRow.length < 1) {
+	// si entro acá es porque la base de datos estaba vacia, por ende la voy a rellenar con datos nuevos, no necesito seguir procesando nada mas
+	if (!donothonCounterRow || donothonCounterRow.length < 1) {
+		let counters = [];
 		// si la tabla está vacia inserto una nueva fila con la informacion de cada contador y vuevo a llamar a si misma para que se vuelva a leer
 		counterList.forEach((c) => {
 			db.prepare("INSERT INTO donothon_counters (donothon_id, counter_id, name, amount) VALUES (?, ?, ?, ?)").run(id, c.id, c.name, 0);
+			counters.push({ id: c.counter_id, name: c.name, amount: c.amount });
 		});
-		LoadDonothonCountersDatabase(id);
+		// retorno con la lista ed los contadores de donothon
+		return counters;
 	}
-	DonothonUpdateCounters();
+	// en caso de que no esté vacia, paso a comprovar si falta algun contador los añado a la cola para añadirlo a la database
+	let missing = [];
+	let update = [];
+	let counters = [];
+	counterList.forEach((c) => {
+		const find = donothonCounterRow.find((c) => c.counter_id == c.id);
+		if (!find) {
+			missing.push({ id: c.id, name: c.name, amount: 0 });
+			counters.push({ id: c.id, name: c.name, amount: 0 });
+		} else {
+			update.push({ id: c.id, name: c.name, amount: find.amount });
+			counters.push({ id: c.id, name: c.name, amount: find.amount });
+		}
+	});
+	// actualizo lo que haya para actualizar en la database
+	if (update && update.length > 0) {
+		update.forEach((u) => {
+			db.prepare("UPDATE donothon_counters SET name = ? WHERE donothon_id = ? AND  counter_id = ?") //
+				.run(u.name, id, u.id);
+		});
+		donothonCounterRow = db.prepare("SELECT * FROM donothon_counters WHERE donothon_id = ?").all(id);
+	}
+	// si hay algun faltante los agrego a la database
+	if (missing && missing.length > 0) {
+		missing.forEach((m) => db.prepare("INSERT INTO donothon_counters (donothon_id, counter_id, name, amount) VALUES (?, ?, ?, ?)").run(id, m.id, m.name, 0));
+	}
+	// retorno con la lista
+	return counters;
 }
 function LoadDonothonSubsDatabase(id) {
 	let donothonSubRow = db.prepare("SELECT * FROM donothon_subs WHERE donothon_id = ?").all(id);
-	if (donothonSubRow && donothonSubRow.length > 0) {
-		let missing = [];
-		let update = [];
-		subscriptionTiers.forEach((s) => {
-			const find = donothonSubRow.find((r) => r.sub_id == s.id);
-			if (!find) {
-				missing.push({ id: s.id, name: s.name, color: s.color, price: s.plans.find((p) => p.status == 1).price, amount: 0 });
-			} else {
-				update.push({ id: s.id, name: s.name, color: s.color, price: s.plans.find((p) => p.status == 1).price, amount: find.amount });
-			}
-		});
-		if (update && update.lenght > 0) {
-			update.forEach((u) => {
-				db.prepare("UPDATE donothon_subs SET name = ?, color = ?, price = ? WHERE donothon_id = ? AND sub_id = ?") //
-					.run(u.name, u.color, u.price, id, u.id);
-			});
-		}
-		if (missing && missing.length > 0) {
-			missing.forEach((m) => {
-				db.prepare("INSERT INTO donothon_subs (donothon_id, sub_id, name, color, price, amount) VALUES (?, ?, ?, ?, ?, ?)") //
-					.run(id, m.id, m.name, m.color, m.plans && m.plans.length > 0 ? m.plans.find((p) => p.status == 1).price : m.price, m.amount);
-			});
-			LoadDonothonSubsDatabase(id);
-		}
-		if (missing.length < 1) {
-			donothonStats.subs = donothonSubRow.map((s) => {
-				const find = subscriptionTiers.find((su) => su.id == s.sub_id);
-				if (find) {
-					return { id: find.id, name: find.name, color: find.color, price: find.plans.find((p) => p.status == 1).price, amount: s.amount };
-				}
-				return { id: s.sub_id, name: s.name, color: s.color, price: s.price, amount: s.amount };
-			});
-		}
-	} else if (donothonSubRow.length < 1) {
+	if (!donothonSubRow || donothonSubRow.length < 1) {
+		let subs = [];
 		subscriptionTiers.forEach((s) => {
 			db.prepare("INSERT INTO donothon_subs (donothon_id, sub_id, name, color, price, amount) VALUES (?, ?, ?, ?, ?, ?)") //
 				.run(id, s.id, s.name, s.color, s.plans.find((p) => p.status == 1).price, 0);
+			subs.push({ id: s.id, name: s.name, color: s.color, price: s.plans.find((p) => p.status == 1).price, amount: 0 });
 		});
-		LoadDonothonSubsDatabase(id);
+		return subs;
 	}
+	let missing = [];
+	let update = [];
+	let subs = [];
+	subscriptionTiers.forEach((s) => {
+		const find = donothonSubRow.find((r) => r.sub_id == s.id);
+		if (!find) {
+			subs.push({ id: s.id, name: s.name, color: s.color, price: s.plans.find((p) => p.status == 1).price, amount: 0 });
+			missing.push({ id: s.id, name: s.name, color: s.color, price: s.plans.find((p) => p.status == 1).price, amount: 0 });
+		} else {
+			subs.push({ id: s.id, name: s.name, color: s.color, price: s.plans.find((p) => p.status == 1).price, amount: find.amount });
+			update.push({ id: s.id, name: s.name, color: s.color, price: s.plans.find((p) => p.status == 1).price, amount: find.amount });
+		}
+	});
+	if (update && update.lenght > 0) {
+		update.forEach((u) => {
+			db.prepare("UPDATE donothon_subs SET name = ?, color = ?, price = ? WHERE donothon_id = ? AND sub_id = ?") //
+				.run(u.name, u.color, u.price, id, u.id);
+		});
+	}
+	if (missing && missing.length > 0) {
+		missing.forEach((m) => {
+			db.prepare("INSERT INTO donothon_subs (donothon_id, sub_id, name, color, price, amount) VALUES (?, ?, ?, ?, ?, ?)") //
+				.run(id, m.id, m.name, m.color, m.plans && m.plans.length > 0 ? m.plans.find((p) => p.status == 1).price : m.price, m.amount);
+		});
+	}
+	return subs;
 }
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 //---------------------------------------------------------------------------------------------------------
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1084,8 +1039,8 @@ function CounterCommand(command, newSession = true, isSet = false) {
 				Count(comm.id, comm.amount);
 				const c = counterList.find((c) => comm.id);
 				if (c) SendMessageToChat(`${c.name}: ${c.value}`);
-				if (!isSet && timer.getParameters().event.counters) {
-					TriggerTimerCounter(comm.id, comm.amount);
+				if (!isSet && timer.timerParameters.event.counters) {
+					timer.TriggerCounter(comm.id, comm.amount, TriggerTimerCounter);
 				}
 			});
 		}
@@ -1705,23 +1660,19 @@ function AddNewCounter() {
 	};
 	// lo añado a counterList
 	counterList.push(contador);
-	TimerDonothonAddCounter(contador);
-	DonothonAddCounter(contador, donothonStats.id);
+	timer.AddCounterToTimer(contador.id, contador.name, AddCounterDonothonDatabase);
+	// TimerDonothonAddCounter(contador);
+	// DonothonAddCounter(contador, timer.donothonStats.id);
 	sendToCounterStats();
 	SendCountersToPreview();
-	SendCountersToTimerClients();
-	DonothonUpdateCounters();
+
 	enviarInfo();
 	return counterList;
 }
-function TimerDonothonAddCounter(counter) {
-	timer.getParameters().counters.push({ counterId: counter.id, amount: 0, enabled: true });
 
-	db.prepare("INSERT INTO timer_counters (timer_id, counter_id, amount, enabled) VALUES (?, ?, ?, ?)").run(1, counter.id, 0, 1);
-}
-function DonothonAddCounter(counter, donothonId) {
-	donothonStats.counters.push({ id: counter.id, name: counter.name, amount: 0 });
-	db.prepare("INSERT INTO donothon_counters (donothon_id, counter_id, name, amount) VALUES (?, ?, ?, ?)").run(donothonId, counter.id, counter.name, 0);
+function AddCounterDonothonDatabase(id, name, donothonId) {
+	db.prepare("INSERT INTO timer_counters (timer_id, counter_id, amount, enabled) VALUES (?, ?, ?, ?)").run(1, id, 0, 1);
+	db.prepare("INSERT INTO donothon_counters (donothon_id, counter_id, name, amount) VALUES (?, ?, ?, ?)").run(donothonId, id, name, 0);
 }
 
 app.post("/counterModify", async (req, res) => {
@@ -1738,7 +1689,7 @@ function ModifyCounter(data, index) {
 	if (data.name && data.name != "" && counterList.findIndex((elem, ind) => (elem.name == data.name || (data.shortcut != "" && elem.shortcut == data.shortcut && isNaN(data.shortcut))) && ind != index) == -1) {
 		// actualizo la linea del contador
 		const fila = db.prepare("UPDATE counters SET name = @name, shortcut = @shortcut WHERE id = @id").run({ name: data.name, shortcut: data.shortcut == "" ? null : data.shortcut, id: counterList[index].id });
-		console.log("Updated: ", fila);
+		// console.log("Updated: ", fila);
 
 		// prefijos de las variables asociadas
 		const suffixes = ["Total", "Best", "ActualBest", "MonthTotal", "MonthBest", "MonthActualBest"];
@@ -1753,7 +1704,7 @@ function ModifyCounter(data, index) {
 		});
 		// lo añado a counterList
 		counterList[index] = contador;
-		UpdateDonothonCounter(contador, donothonStats.id);
+		timer.ModifyCounter(contador.id, contador.name, UpdateDonothonCounter);
 	} else {
 		console.log("(ModifyCounter) Incorrect name");
 		// if (counterList.findIndex((elem, ind) => data.shortcut != "" && elem.shortcut == data.shortcut && isNaN(data.shortcut)) != -1) {
@@ -1767,20 +1718,13 @@ function ModifyCounter(data, index) {
 
 	sendToCounterStats();
 	SendCountersToPreview();
-	SendCountersToTimerClients();
-	DonothonUpdateCounters();
 	enviarInfo();
 	// retorno el objeto del contador
 	return contador;
 }
-function UpdateDonothonCounter(counter, donothonId) {
-	const find = donothonStats.counters.find((c) => c.id == counter.id);
-	if (find) {
-		console.log("update donothon counter");
-		find.name = counter.name;
-		if (db.prepare("SELECT * FROM donothon_counters WHERE donothon_id = ? AND counter_id = ?").get(donothonId, counter.id)) {
-			db.prepare("UPDATE donothon_counters SET name = ? WHERE donothon_id = ? AND counter_id = ?").run(counter.name, donothonId, counter.id);
-		}
+function UpdateDonothonCounter(counterId, name, donothonId) {
+	if (db.prepare("SELECT * FROM donothon_counters WHERE donothon_id = ? AND counter_id = ?").get(donothonId, counterId)) {
+		db.prepare("UPDATE donothon_counters SET name = ? WHERE donothon_id = ? AND counter_id = ?").run(name, donothonId, counterId);
 	}
 }
 
@@ -1794,22 +1738,19 @@ function DeleteCounter(index) {
 
 	// si el borrado de la linea en al tabla fue efectivo actualizo la lista de contadores
 	if (deleted) {
-		DonothonDeleteCounter(counterList[index].id, donothonStats.id);
+		timer.DeleteCounterFromTimer(counterList[index].id, DonothonDeleteCounter);
 		counterList = counterList.filter((c) => c !== counterList[index]);
 	}
 
 	sendToCounterStats();
 	SendCountersToPreview();
-	SendCountersToTimerClients();
-	DonothonUpdateCounters();
+
 	enviarInfo();
 	return counterList;
 }
 
 function DonothonDeleteCounter(counterId, donothonId) {
 	db.prepare("DELETE FROM donothon_counters WHERE donothon_id = ? AND counter_id = ?").run(donothonId, counterId);
-
-	donothonStats.counters = donothonStats.counters.filter((c) => c.id !== counterId);
 }
 
 app.get("/counters/statsPanel", (req, res) => {
@@ -1844,7 +1785,6 @@ app.get("/overlay/counters/preview", (req, res) => {
 	SendLabelsToPreview();
 	req.on("close", () => {
 		overlayPreviewClients = overlayPreviewClients.filter((c) => c !== res);
-		console.log("cerrado");
 	});
 });
 
@@ -1893,35 +1833,36 @@ function SendLabelsToPreview() {
 
 // obtiene los datos de acceso a traves de la extencion
 app.post("/FanslyAccess", (req, res) => {
-	if (req.body) {
-		console.log("Connecting to Fansly WebSocket");
-		FanslyAccess.chatRoomId = req.body.chatRoomId;
-		FanslyAccess.token = req.body.token;
-		FanslyAccess.id = req.body.id;
-		subscriptionTiers = req.body.subscriptionTiers;
-		subscriptionTiers.map((s) => {
-			timer.getParameters().subs.push({ subId: s.id, amount: 0, enabled: true });
-		});
-
-		CheckSubsTimerDatabase();
-		SendSubsToClient();
-		DonothonUpdateSubs();
-
-		if (fanslyWs && fanslyWs.readyState === WebSocket.OPEN) {
-			fanslyWs.close(1000);
-			if (fanslyChatWs && fanslyChatWs.readyState === WebSocket.OPEN) {
-				fanslyChatWs.close(1000);
-			}
-		}
-		setTimeout(() => {
-			ConectarFanslyWs();
-			ConectarFanslyChatWs();
-		}, 500);
-
-		res.json(true);
-	} else {
+	if (!req.body) {
 		res.json(false);
+		return;
 	}
+	console.log("Connecting to Fansly WebSocket");
+	// cargo chatRoomId, token, id y la lista de subs tiers
+	FanslyAccess.chatRoomId = req.body.chatRoomId;
+	FanslyAccess.token = req.body.token;
+	FanslyAccess.id = req.body.id;
+	subscriptionTiers = req.body.subscriptionTiers;
+
+	// cargo en el timer la lista de subs
+	timer.LoadSubsParameters(subscriptionTiers);
+
+	CheckSubsTimerDatabase();
+	// SendSubsToClient();
+	// DonothonUpdateSubs();
+
+	if (fanslyWs && fanslyWs.readyState === WebSocket.OPEN) {
+		fanslyWs.close(1000);
+		if (fanslyChatWs && fanslyChatWs.readyState === WebSocket.OPEN) {
+			fanslyChatWs.close(1000);
+		}
+	}
+	setTimeout(() => {
+		ConectarFanslyWs();
+		ConectarFanslyChatWs();
+	}, 500);
+
+	res.json(true);
 });
 
 // obtiene los datos de los goals, los datos se guardan solo la primera vez
@@ -1932,12 +1873,9 @@ app.post("/FanslyGoals", (req, res) => {
 		fanslyGoals = req.body;
 		fanslyGoalsReady = true;
 
-		fanslyGoals.map((g) => {
-			timer.getParameters().goals.push({ goalId: g.id, amount: 0, enabled: true });
-		});
+		timer.LoadGoalsParameters(fanslyGoals);
 		CheckGoalsTimerDatabase();
 		console.log("Goals loaded");
-		SendGoalsToTimerClient();
 
 		res.json(true);
 	} else {
@@ -2002,7 +1940,7 @@ function ConectarFanslyWs() {
 					if (msg.d.serviceId == 3) {
 						if (msg.d.event && msg.d.event.type && msg.d.event.type == 2) {
 							if (msg.d.event.follow) {
-								if (msg.d.event.follow.hasOwnProperty("accountSortOrder")) TriggerTimerNewFollower();
+								if (msg.d.event.follow.hasOwnProperty("accountSortOrder")) timer.TriggerFollower(TriggerTimerNewFollower);
 							}
 						}
 					} else if (msg.d.serviceId == 15) {
@@ -2010,8 +1948,8 @@ function ConectarFanslyWs() {
 							if (msg.d.event.subscription) {
 								if (msg.d.event.subscription.hasOwnProperty("subscriptionTotalDays")) {
 									if (msg.d.event.subscription.subscriptionTierId) {
-										if (!timer.getParameters().event.subsOnlyShared) {
-											TriggerTimerSub(msg.d.event.subscription.subscriptionTierId);
+										if (!timer.timerParameters.event.subsOnlyShared) {
+											timer.TriggerSubs(msg.d.event.subscription.subscriptionTierId, TriggerTimerSub);
 										}
 									}
 								}
@@ -2110,7 +2048,7 @@ function ConectarFanslyChatWs() {
 					if (event.chatRoomMessage.attachments && event.chatRoomMessage.attachments.length > 0 && event.chatRoomMessage.attachments[0].contentType === 7) {
 						const tip = event.chatRoomMessage.attachments[0].metadata.amount;
 						console.log(tip);
-						TriggerTimerTip(tip);
+						timer.TriggerTip(tip, TriggerTimerTip);
 					}
 					if (event.chatRoomMessage.content) {
 						//
@@ -2163,8 +2101,8 @@ function ConectarFanslyChatWs() {
 			} else if (event.type == 53) {
 				// console.log("sub");
 				if (event.subAlert.subscriptionTierId !== undefined) {
-					if (timer.getParameters().enabled && timer.getParameters().event.subs && timer.getParameters().event.subsOnlyShared) {
-						TriggerTimerSub(event.subAlert.subscriptionTierId);
+					if (timer.timerParameters.enabled && timer.timerParameters.event.subs && timer.timerParameters.event.subsOnlyShared) {
+						timer.TriggerSubs(event.subAlert.subscriptionTierId, TriggerTimerSub);
 					}
 				}
 			}
@@ -2380,53 +2318,41 @@ app.post("/timer/update/:mode", (req, res) => {
 });
 // actualiza los valores de cada parametro
 function SetTimerParams(mode, params) {
-	switch (mode) {
-		case "start":
-			timer.getParameters().start = params.time;
-			db.prepare("UPDATE timer_parameters SET start = ? WHERE id = ?").run(params.time, 1);
-			break;
-		case "follower":
-			timer.getParameters().followers = params.time;
-			timer.getParameters().event.followers = params.enabled;
-			db.prepare("UPDATE timer_parameters SET followers = ? WHERE id = ?").run(params.time, 1);
-			db.prepare("UPDATE timer_events SET followers = ? WHERE timer_id = ?").run(params.enabled ? 1 : 0, 1);
-			break;
-		case "tip":
-			timer.getParameters().tips = params.time;
-			timer.getParameters().event = params.enabled;
-			db.prepare("UPDATE timer_parameters SET tips = ? WHERE id = ?").run(params.time, 1);
-			db.prepare("UPDATE timer_events SET tips = ? WHERE timer_id = ?").run(params.enabled ? 1 : 0, 1);
-			break;
-		case "subs": {
-			const tS = timer.getParameters().subs.find((s) => s.subId == params.id);
-			tS.amount = params.time;
-			tS.enabled = params.enabled;
-			db.prepare("UPDATE timer_subs SET amount = ?, enabled = ? WHERE sub_id = ?").run(params.time, params.enabled ? 1 : 0, params.id);
-			break;
-		}
-		case "goals": {
-			const tG = timer.getParameters().goals.find((g) => g.goalId == params.id);
-			tG.amount = params.time;
-			tG.enabled = params.enabled;
-			db.prepare("UPDATE timer_goals SET amount = ?, enabled = ? WHERE goal_id = ?").run(params.time, params.enabled ? 1 : 0, params.id);
-			break;
-		}
-		case "counters": {
-			const tC = timer.getParameters().counters.find((c) => c.counterId == params.id);
-			tC.amount = params.time;
-			tC.enabled = params.enabled;
-			db.prepare("UPDATE timer_counters SET amount = ?, enabled = ? WHERE counter_id = ?").run(params.time, params.enabled ? 1 : 0, params.id);
-			break;
-		}
-		case "events": {
-			timer.getParameters().event.subs = params.subs;
-			timer.getParameters().event.goals = params.goals;
-			timer.getParameters().event.counters = params.counters;
-			timer.getParameters().event.subsOnlyShared = params.subsOnlyShared;
-			db.prepare("UPDATE timer_events SET subs = ?, goals = ?, counters = ?, subs_only_shared = ? WHERE timer_id = ?").run(params.subs ? 1 : 0, params.goals ? 1 : 0, params.counters ? 1 : 0, params.subsOnlyShared ? 1 : 0, 1);
-			break;
-		}
-	}
+	const MODES = {
+		start: (prms) => {
+			timer.timerParameters.start = prms.time;
+			db.prepare("UPDATE timer_parameters SET start = ? WHERE id = ?").run(prms.time, 1);
+		},
+		follower: (prms) => {
+			timer.setFollowersParams(prms.time, prms.enabled);
+			db.prepare("UPDATE timer_parameters SET follower = ? WHERE id = ?").run(prms.time, 1);
+			db.prepare("UPDATE timer_events SET followers = ? WHERE timer_id = ?").run(prms.enabled ? 1 : 0, 1);
+		},
+		tip: (prms) => {
+			timer.setTipsParams(prms.time, prms.enabled);
+			db.prepare("UPDATE timer_parameters SET tip = ? WHERE id = ?").run(prms.time, 1);
+			db.prepare("UPDATE timer_events SET tips = ? WHERE timer_id = ?").run(prms.enabled ? 1 : 0, 1);
+		},
+		subs: (prms) => {
+			timer.setSubParam(prms.id, prms.time, prms.enabled);
+			db.prepare("UPDATE timer_subs SET amount = ?, enabled = ? WHERE sub_id = ?").run(prms.time, prms.enabled ? 1 : 0, prms.id);
+		},
+		goals: (prms) => {
+			timer.setGoalParams(prms.id, prms.time, prms.enabled);
+			db.prepare("UPDATE timer_goals SET amount = ?, enabled = ? WHERE goal_id = ?").run(prms.time, prms.enabled ? 1 : 0, prms.id);
+		},
+		counters: (prms) => {
+			timer.setCounterParams(prms.id, prms.time, prms.enabled);
+			db.prepare("UPDATE timer_counters SET amount = ?, enabled = ? WHERE counter_id = ?").run(prms.time, prms.enabled ? 1 : 0, prms.id);
+		},
+		events: (prms) => {
+			timer.setEventsParams(prms.subs, prms.subsOnlyShared, prms.goals, prms.counters);
+			db.prepare("UPDATE timer_events SET subs = ?, goals = ?, counters = ?, subs_only_shared = ? WHERE timer_id = ?").run(prms.subs ? 1 : 0, prms.goals ? 1 : 0, prms.counters ? 1 : 0, prms.subsOnlyShared ? 1 : 0, 1);
+		},
+	};
+
+	MODES[mode](params);
+
 	DonothonUpdateFollowers();
 	DonothonUpdateTips();
 	DonothonUpdateGoals();
@@ -2453,53 +2379,32 @@ app.get("/timer/donothon", (req, res) => {
 });
 
 app.get("/timer/donothon/newpage", (req, res) => {
-	NewDonothonStatsPage();
+	let donothonInsertedRow = db.prepare("INSERT INTO donothon_stats (followers, tips, goals) VALUES (?, ?, ?)").run(0, 0, 0);
+	timer.NewDonothonPage(donothonInsertedRow.lastInsertRowid, LoadDonothonCountersDatabase, LoadDonothonSubsDatabase);
 	res.json({});
 });
 
-function NewDonothonStatsPage() {
-	let donothonInsertedRow = db.prepare("INSERT INTO donothon_stats (followers, tips, goals) VALUES (?, ?, ?)").run(0, 0, 0);
-	donothonStats.id = donothonInsertedRow.lastInsertRowid;
-	donothonStats.followers = 0;
-	donothonStats.tips = 0;
-	donothonStats.goals = 0;
-	donothonStats.subs = [];
-	donothonStats.counters = [];
-
-	if (counterList.length > 0) {
-		LoadDonothonCountersDatabase(donothonStats.id);
-	}
-	if (subscriptionTiers.length > 0) {
-		LoadDonothonSubsDatabase(donothonStats.id);
-	}
-
-	DonothonUpdateFollowers();
-	DonothonUpdateTips();
-	DonothonUpdateGoals();
-	DonothonUpdateSubs();
-	DonothonUpdateCounters();
-}
 function DonothonUpdateFollowers() {
 	if (donothonClients && donothonClients.length > 0) {
-		donothonClients.forEach((res) => res.write(`data: ${JSON.stringify({ type: "followers", data: { amount: donothonStats.followers, active: true } })}\n\n`));
+		donothonClients.forEach((res) => res.write(`data: ${JSON.stringify({ type: "followers", data: { amount: timer.donothonStats.followers, active: true } })}\n\n`));
 	}
 }
 function DonothonUpdateTips() {
 	if (donothonClients && donothonClients.length > 0) {
-		donothonClients.forEach((res) => res.write(`data: ${JSON.stringify({ type: "tips", data: { amount: donothonStats.tips, active: true } })}\n\n`));
+		donothonClients.forEach((res) => res.write(`data: ${JSON.stringify({ type: "tips", data: { amount: timer.donothonStats.tips, active: true } })}\n\n`));
 	}
 }
 function DonothonUpdateGoals() {
 	if (donothonClients && donothonClients.length > 0) {
-		donothonClients.forEach((res) => res.write(`data: ${JSON.stringify({ type: "goals", data: { amount: donothonStats.goals, active: true } })}\n\n`));
+		donothonClients.forEach((res) => res.write(`data: ${JSON.stringify({ type: "goals", data: { amount: timer.donothonStats.goals, active: true } })}\n\n`));
 	}
 }
-function DonothonUpdateSubs() {
-	if (donothonClients && donothonClients.length > 0 && donothonStats.subs && donothonStats.subs.length > 0) {
+function DonothonUpdateSubs(subsList) {
+	if (donothonClients && donothonClients.length > 0 && subsList && subsList.length > 0) {
 		let subs = [];
-		donothonStats.subs.forEach((s) => {
+		subsList.forEach((s) => {
 			let enabled = false;
-			const sub = timer.getParameters().subs.find((su) => su.subId == s.id);
+			const sub = timer.timerParameters.subs.find((su) => su.subId == s.id);
 			if (sub && sub.enabled) {
 				enabled = true;
 			} else enabled = !!(s.amount > 0);
@@ -2508,12 +2413,13 @@ function DonothonUpdateSubs() {
 		donothonClients.forEach((res) => res.write(`data: ${JSON.stringify({ type: "subs", data: subs })}\n\n`));
 	}
 }
+
 function DonothonUpdateCounters() {
-	if (donothonClients && donothonClients.length > 0 && donothonStats.subs && donothonStats.subs.length > 0) {
+	if (donothonClients && donothonClients.length > 0) {
 		let counters = [];
-		donothonStats.counters.forEach((c) => {
+		timer.donothonStats.counters.forEach((c) => {
 			let enabled = false;
-			const coun = timer.getParameters().counters.find((co) => co.counterId == c.id);
+			const coun = timer.timerParameters.counters.find((co) => co.id == c.id);
 			if (coun && coun.enabled) {
 				enabled = true;
 			} else enabled = !!(c.amount > 0);
@@ -2531,9 +2437,9 @@ app.get("/timer/preview", (req, res) => {
 	timerPreviewClients.push(res);
 
 	if (timerPreviewClients && timerPreviewClients.length > 0) {
-		timerPreviewClients.forEach((res) => res.write(`data: ${JSON.stringify({ type: "set", data: timer.getParameters().enabled })}\n\n`));
+		timerPreviewClients.forEach((res) => res.write(`data: ${JSON.stringify({ type: "set", data: timer.timerParameters.enabled })}\n\n`));
 	}
-	SendTimerToPreview();
+	SendTimerToPreview(timer.timer);
 	req.on("close", () => {
 		timerPreviewClients = timerPreviewClients.filter((c) => c !== res);
 	});
@@ -2587,9 +2493,9 @@ app.get("/timer/addings", (req, res) => {
 
 	// una vez que haya el primer cliente envio la informacion para pupolar el panel
 	if (timerAddingsClients && timerAddingsClients.length > 0) {
-		const params = timer.getParameters();
+		const params = timer.timerParameters;
 		const c = counterList.map((co) => {
-			const tc = params.counters.find((u) => co.id == u.counterId);
+			const tc = params.counters.find((u) => co.id == u.id);
 			if (tc) return { id: co.id, name: co.name, value: co.value, time: tc.amount, enabled: tc.enabled };
 			else return { id: co.id, name: co.name, value: co.value, time: 0, enabled: false };
 		});
@@ -2617,8 +2523,8 @@ app.get("/timer/addings", (req, res) => {
 		);
 	}
 	// envio las subs y los goal si los hubiera
-	SendSubsToClient();
-	SendGoalsToTimerClient();
+	SendSubsToClient(timer.timerParameters.subs);
+	SendGoalsToTimerClient(timer.timerParameters.goals);
 	// elimino el cliente si se cierra el EventSource
 	req.on("close", () => {
 		timerAddingsClients = timerAddingsClients.filter((c) => c !== res);
@@ -2629,7 +2535,7 @@ app.get("/timer/addings", (req, res) => {
 function SendCountersToTimerClients() {
 	// creo un lista a enviar con id, name, value, time y enabled
 	const c = counterList.map((co) => {
-		const tc = timer.getParameters().counters.find((u) => co.id == u.counterId);
+		const tc = timer.timerParameters.counters.find((u) => co.id == u.id);
 		if (tc) return { id: co.id, name: co.name, value: co.value, time: tc.amount, enabled: tc.enabled };
 		else return { id: co.id, name: co.name, value: co.value, time: 0, enabled: false };
 	});
@@ -2640,11 +2546,11 @@ function SendCountersToTimerClients() {
 }
 
 // funcion que envia los subs tiers a los clientes de panel
-function SendSubsToClient() {
+function SendSubsToClient(subsList) {
 	// creo una lista a enviar con subId, name, color, price, time y enabled
 	const subs = subscriptionTiers.map((s) => {
-		const sub = timer.getParameters().subs.find((sub) => sub.subId === s.id);
-		return { id: sub.subId, name: s.name, color: s.color, price: s.plans[0].price, time: sub.amount, enabled: sub.enabled };
+		const sub = subsList.find((sub) => sub.id === s.id);
+		return { id: sub.id, name: s.name, color: s.color, price: s.plans[0].price, time: sub.amount, enabled: sub.enabled };
 	});
 	// envio los subs tiers a los clientes
 	if (timerAddingsClients && timerAddingsClients.length > 0) {
@@ -2653,10 +2559,10 @@ function SendSubsToClient() {
 }
 
 // funcion que envia los goals a los clientes de panel
-function SendGoalsToTimerClient() {
+function SendGoalsToTimerClient(goalsList) {
 	// creo la lista a enviar con goalId, label, currentAmount, goalAmount, time y enabled
 	const goals = fanslyGoals.map((g) => {
-		const goal = timer.getParameters().goals.find((gl) => gl.goalId === g.id);
+		const goal = timer.timerParameters.goals.find((gl) => gl.id === g.id);
 		return { id: g.id, label: g.label, currentAmount: g.currentAmount, goalAmount: g.goalAmount, time: goal.amount, enabled: goal.enabled };
 	});
 	// envio los goals al preview para renderizarlos
@@ -2669,7 +2575,7 @@ function SendGoalsToTimerClient() {
 // lo inserta en la lista de goals, en timerParameters y en la database
 function GoalCreated(goal) {
 	fanslyGoals.push(goal);
-	timer.getParameters().goals.push({ goalId: goal.id, amount: 0, enabled: true });
+	timer.timerParameters.goals.push({ goalId: goal.id, amount: 0, enabled: true });
 	db.prepare("INSERT INTO timer_goals (goal_id, amount, enabled, timer_id) VALUES (?, ?, ?, ?)").run(goal.id, 0, 1, 1);
 	SendGoalsToTimerClient();
 }
@@ -2678,7 +2584,7 @@ function GoalCreated(goal) {
 function GoalDeleted(goal) {
 	// borro el goal del la lista general, luego de timerParameters y luego de database
 	fanslyGoals = fanslyGoals.filter((fg) => fg.id !== goal.id);
-	timer.getParameters().goals = timer.getParameters().goals.filter((fg) => fg.goalId !== goal.id);
+	timer.timerParameters.goals = timer.timerParameters.goals.filter((fg) => fg.goalId !== goal.id);
 	db.prepare("DELETE FROM timer_goals WHERE goal_id = ?").run(goal.id);
 	SendGoalsToTimerClient();
 }
@@ -2719,62 +2625,55 @@ function GoalModified(goal) {
 // en timerParameters, se actualizan los valores de dicho objeto, los que no existan en el objeto se borran de la base de datos
 function CheckSubsTimerDatabase() {
 	// obtengo la lista de subs de la base de datos
-	const timerSubsRow = db.prepare("SELECT sub_id FROM timer_subs").all();
-	if (!timer.getParameters.subs || timer.getParameters.subs.length <= 0) return;
-	// creo un array de los ids en la base de datos y en timerParameters
-	const subsIdMap = timerSubsRow.map((s) => s.sub_id);
-	const objSubsId = timer.getParameters().subs.map((s) => s.subId);
-	// creo un array de los ids a borrar de la database que no coincidan en timerParameters
-	const toDelete = subsIdMap.filter((id) => !objSubsId.includes(id));
-	// realizo el borrado de la database
-	toDelete.forEach((id) => {
-		db.prepare("DELETE FROM timer_subs WHERE sub_id = ?").run(id);
-	});
-	// relleno los valores en timerParameters
-	timer.getParameters().subs.forEach((s) => {
-		// obtengo la fila de la sub a partir de su id, si no existe la creo
-		let idRow = db.prepare("SELECT * FROM timer_subs WHERE sub_id = ?").get(s.subId);
-		if (!idRow) {
-			db.prepare("INSERT INTO timer_subs (timer_id, sub_id, amount, enabled) VALUES (?, ?, ?, ?)").run(1, s.subId, s.amount, s.enabled ? 1 : 0);
-			idRow = db.prepare("SELECT * FROM timer_subs WHERE sub_id = ?").get(s.subId);
+	const subsList = db.prepare("SELECT * FROM timer_subs").all();
+	let exito = timer.UpdateSubs(
+		subsList,
+		(id) => {
+			db.prepare("DELETE FROM timer_subs WHERE sub_id = ?").run(id);
+		},
+		(sub) => {
+			let idRow = db.prepare("SELECT * FROM timer_subs WHERE sub_id = ?").get(sub.id);
+			if (!idRow) {
+				db.prepare("INSERT INTO timer_subs (timer_id, sub_id, amount, enabled) VALUES (?, ?, ?, ?)").run(1, sub.id, sub.amount, sub.enabled ? 1 : 0);
+				idRow = db.prepare("SELECT * FROM timer_subs WHERE sub_id = ?").get(sub.id);
+			}
+			return idRow;
 		}
-		// relleno los datos
-		s.amount = idRow.amount;
-		s.enabled = !!idRow.enabled;
-	});
-
-	LoadDonothonSubsDatabase(donothonStats.id);
-	console.log("Subscription tiers list loaded");
-	DonothonUpdateSubs();
+	);
+	if (!exito) {
+		console.log("Timer Subs Database failed to update");
+		return;
+	}
+	console.log("Timer Subs Database updated");
+	exito = timer.LoadDonothonSubs(LoadDonothonSubsDatabase(timer.getDonothonId()));
+	if (!exito) {
+		console.log("Donothon Subs Failed to update");
+		return;
+	}
 }
 
 // funcion que comprueba los goal almacenados en la base de datos, los que coincidan con los alamcenados
 // en timerParameters, se actualizan los valores de dicho objeto, los que no existan en el objeto se borran de la base de datos
 function CheckGoalsTimerDatabase() {
 	// obtengo la lista de goals de la base de datos
-	const timerGoalsRow = db.prepare("SELECT goal_id FROM timer_goals").all();
-	if (!timer.getParameters().goals || timer.getParameters().goals.length <= 0) return;
-	// creo un array de los ids en la base de datos y en timerParameters
-	const goalsIdMap = timerGoalsRow.map((g) => g.goal_id);
-	const objGoalsId = timer.getParameters().goals.map((g) => g.goalId);
-	// creo un array de los ids a borrar de la database que no coincidan en timerParameters
-	const toDelete = goalsIdMap.filter((id) => !objGoalsId.includes(id));
-	// realizo el borrado de la database
-	toDelete.forEach((id) => {
-		db.prepare("DELETE FROM timer_goals WHERE goal_id = ?").run(id);
-	});
-	// relleno los valores en timerParameters
-	timer.getParameters().goals.forEach((g) => {
-		// obtengo la fila del goal a partir de su id, si no existe la creo
-		let idRow = db.prepare("SELECT * FROM timer_goals WHERE goal_id = ?").get(g.goalId);
-		if (!idRow) {
-			db.prepare("INSERT INTO timer_goals (timer_id, goal_id, amount, enabled) VALUES (?, ?, ?, ?)").run(1, g.goalId, g.amount, g.enabled ? 1 : 0);
-			idRow = db.prepare("SELECT * FROM timer_goals WHERE goal_id = ?").get(g.goalId);
+	const goalsList = db.prepare("SELECT * FROM timer_goals").all();
+
+	const exito = timer.UpdateGoals(
+		goalsList,
+		(id) => {
+			b.prepare("DELETE FROM timer_goals WHERE goal_id = ?").run(id);
+		},
+		(goal) => {
+			// obtengo la fila del goal a partir de su id, si no existe la creo
+			let row = db.prepare("SELECT * FROM timer_goals WHERE goal_id = ?").get(goal.id);
+			if (!row) {
+				db.prepare("INSERT INTO timer_goals (timer_id, goal_id, amount, enabled) VALUES (?, ?, ?, ?)").run(1, goal.id, goal.amount, goal.enabled ? 1 : 0);
+				row = db.prepare("SELECT * FROM timer_goals WHERE goal_id = ?").get(goal.id);
+			}
+			return row;
 		}
-		// relleno los datos
-		g.amount = idRow.amount;
-		g.enabled = !!idRow.enabled;
-	});
+	);
+	console.log(exito ? "Timer Goals Database updated" : "Timer Goals Database failed to update");
 }
 
 function GoalCompleted(id) {
@@ -2782,43 +2681,19 @@ function GoalCompleted(id) {
 }
 // funcion llamada al dispararse un contador (no se llamaran se se usa !set)
 // recibe el id del contador y la cantidad de unidades sumadas
-function TriggerTimerCounter(counterId, amount) {
-	if (timer.getParameters().enabled && timer.getParameters().event.counters) {
-		// realizo una copia del objeto counters en timerParameters y multiplico el amount por la cantidad de unidades
-		const tC = { ...timer.getParameters().counters.find((c) => c.counterId == counterId) };
-		tC.amount = tC.amount * amount;
-		// llamo a la funcion para completar el proceso con el objeto como parametro
-		AddTimerAmountObject(tC);
-		if (tC.enabled) {
-			const co = donothonStats.counters.find((c) => c.id == counterId);
-			if (co) {
-				co.amount += amount;
-				db.prepare("UPDATE donothon_counters SET amount = ? WHERE donothon_id = ? AND counter_id = ?").run(co.amount, donothonStats.id, counterId);
-			}
-		}
-		DonothonUpdateCounters();
-	}
+function TriggerTimerCounter(counterId, amount, donothonId) {
+	db.prepare("UPDATE donothon_counters SET amount = ? WHERE donothon_id = ? AND counter_id = ?").run(amount, donothonId, counterId);
 }
 
 // funcion llamada al dispararse una Sub, recibe la id de la sub para obtener su objeto asociado
-function TriggerTimerSub(subId) {
-	if (timer.getParameters().enabled && timer.getParameters().event.subs) {
-		const tS = timer.getParameters().subs.find((s) => s.subId == subId);
-		AddTimerAmountObject(tS);
-		if (tS.enabled) {
-			const sub = donothonStats.subs.find((s) => s.id == tS.subId);
-			if (sub) {
-				sub.amount += 1;
-				db.prepare("UPDATE donothon_subs SET amount = ? WHERE donothon_id = ? AND sub_id = ?").run(sub.amount, donothonStats.id, subId);
-			}
-		}
-		DonothonUpdateSubs();
-	}
+function TriggerTimerSub(subId, subAmount, donothonId) {
+	db.prepare("UPDATE donothon_subs SET amount = ? WHERE donothon_id = ? AND sub_id = ?").run(subAmount, donothonId, subId);
 }
+
 // lo mismo que la funcion anterior pero aplica a los goals
 function TriggerTimerGoal(goalId) {
-	if (timer.getParameters().enabled && timer.getParameters().event.goals) {
-		const tG = timer.getParameters().goals.find((g) => g.goalId == goalId);
+	if (timer.timerParameters.enabled && timer.timerParameters.event.goals) {
+		const tG = timer.timerParameters.goals.find((g) => g.goalId == goalId);
 		if (tG.enabled) {
 			donothonStats.goals += 1;
 			db.prepare("UPDATE donothon_stats SET goals = ? WHERE id = ?").run(donothonStats.goals, donothonStats.id);
@@ -2828,33 +2703,12 @@ function TriggerTimerGoal(goalId) {
 	}
 }
 // funcion disparada al recibir un tip, recibe la cantidad en milesimas de dolar
-function TriggerTimerTip(tipAmount) {
-	if (timer.getParameters().enabled && timer.getParameters().event.tips)
-		if (timer.getParameters().tips !== undefined && tipAmount !== undefined) {
-			donothonStats.tips += tipAmount;
-			db.prepare("UPDATE donothon_stats SET tips = ? WHERE id = ?").run(donothonStats.tips, donothonStats.id);
-			// proceso la cantidad de segundos en base a el tip recibido
-			const seconds = Math.floor((timer.getParameters().tips * tipAmount) / 1000);
-			// añado al timer y envio a clientes
-			timer.AddTime(seconds);
-			SendTimerToPreview();
-			SendTimerToWsClients();
-			DonothonUpdateTips();
-		}
+function TriggerTimerTip(tipAmount, donothonId) {
+	db.prepare("UPDATE donothon_stats SET tips = ? WHERE id = ?").run(tipAmount, donothonId);
 }
 // funcion disparada al recibir un nuevo follower
-function TriggerTimerNewFollower() {
-	if (timer.getParameters().enabled && timer.getParameters().event.followers)
-		if (timer.getParameters().followers !== undefined) {
-			donothonStats.followers += 1;
-			db.prepare("UPDATE donothon_stats SET followers = ? WHERE id = ?").run(donothonStats.followers, donothonStats.id);
-			// añado el tiempo correspondiente al timer y envio
-
-			timer.AddTime(timer.getParameters().followers);
-			SendTimerToPreview();
-			SendTimerToWsClients();
-			DonothonUpdateFollowers();
-		}
+function TriggerTimerNewFollower(followersAmount, donothonId) {
+	db.prepare("UPDATE donothon_stats SET followers = ? WHERE id = ?").run(followersAmount, donothonId);
 }
 
 // funcion vinculada a TiggerTimerCounter/Sub/Goal ya que todas usan el mismo fragmento de codigo
@@ -2896,6 +2750,49 @@ app.post("/extension/count", (req, res) => {
 	res.json({ started: sessionStarted, counterList: list });
 });
 
+// arranca el timer y lo detiene
+app.post("/timer/start", (req, res) => {
+	// obtengo la fila de tiempo resante, si no existe creo una nueva con el start time
+	let timerRow = db.prepare("SELECT * FROM timer WHERE timer_id = ?").get(1);
+	if (!timerRow) {
+		db.prepare("INSERT INTO timer (timer_id, remaining_time) VALUES (?, ?)").run(1, timer.timerParameters.start);
+		timerRow = db.prepare("SELECT * FROM timer WHERE timer_id = ?").get(1);
+	}
+	timer.ToggleTimer(timerRow.remaining_time);
+	res.json({});
+});
+
+// arranca el timer desde el guardado en la base de datos
+function StartTimer() {
+	// obtengo la fila de tiempo resante, si no existe creo una nueva con el start time
+	let timerRow = db.prepare("SELECT * FROM timer WHERE timer_id = ?").get(1);
+	if (!timerRow) {
+		db.prepare("INSERT INTO timer (timer_id, remaining_time) VALUES (?, ?)").run(1, timer.timerParameters.start);
+		timerRow = db.prepare("SELECT * FROM timer WHERE timer_id = ?").get(1);
+	}
+	timer.Start(timerRow.remaining_time);
+}
+// detiene el timer y envia al los clientes
+function StopTimer() {
+	timer.Stop();
+}
+
+// agrega tiempo en segundos
+app.post("/timer/addTime", (req, res) => {
+	timer.AddTime(req.body.seconds);
+	res.json({});
+});
+// resetea el timer
+app.post("/timer/reset", (req, res) => {
+	ResetTimer();
+	res.json({});
+});
+
+app.post("/timer/enable", (req, res) => {
+	timer.Enable(req.body.enabled);
+	res.json({});
+});
+
 timer.timerEmitter.on("timerUpdate", (remain) => {
 	// actualizo el timer en la base de datos
 	db.prepare("UPDATE timer SET remaining_time = ? WHERE timer_id = 1").run(remain);
@@ -2932,47 +2829,49 @@ timer.timerEmitter.on("addedTime", (seconds) => {
 	}
 });
 
-// arranca el timer y lo detiene
-app.post("/timer/start", (req, res) => {
-	// obtengo la fila de tiempo resante, si no existe creo una nueva con el start time
-	let timerRow = db.prepare("SELECT * FROM timer WHERE timer_id = ?").get(1);
-	if (!timerRow) {
-		db.prepare("INSERT INTO timer (timer_id, remaining_time) VALUES (?, ?)").run(1, timer.getParameters().start);
-		timerRow = db.prepare("SELECT * FROM timer WHERE timer_id = ?").get(1);
+timer.donothonEmitter.on("followersTrigger", () => {
+	DonothonUpdateFollowers();
+});
+timer.donothonEmitter.on("tipsTrigger", () => {
+	DonothonUpdateTips();
+});
+timer.donothonEmitter.on("subsTrigger", () => {
+	DonothonUpdateSubs();
+});
+
+timer.timerEmitter.on("countersUpdated", () => {
+	SendCountersToTimerClients();
+	DonothonUpdateCounters();
+});
+timer.donothonEmitter.on("donothonUpdated", () => {
+	Donothon;
+});
+
+timer.timerEmitter.on("subsUpdated", (list) => {
+	SendSubsToClient(list);
+});
+
+timer.donothonEmitter.on("subsUpdated", (list) => {
+	DonothonUpdateSubs(list);
+});
+
+timer.timerEmitter.on("goalsUpdated", (goalslist) => {
+	SendGoalsToTimerClient(goalslist);
+});
+
+timer.donothonEmitter.on("subsUpdated", (subsList) => {
+	if (donothonClients && donothonClients.length > 0 && subsList && subsList.length > 0) {
+		let subs = [];
+		subsList.forEach((s) => {
+			let enabled = false;
+			const sub = timer.timerParameters.subs.find((su) => su.id == s.id);
+			if (sub && sub.enabled) {
+				enabled = true;
+			} else enabled = !!(s.amount > 0);
+			subs.push({ id: s.id, name: s.name, color: s.color, price: s.price, amount: s.amount, active: enabled });
+		});
+		donothonClients.forEach((res) => res.write(`data: ${JSON.stringify({ type: "subs", data: subs })}\n\n`));
 	}
-	timer.ToggleTimer(timerRow.remaining_time);
-	res.json({});
-});
-
-// arranca el timer desde el guardado en la base de datos
-function StartTimer() {
-	// obtengo la fila de tiempo resante, si no existe creo una nueva con el start time
-	let timerRow = db.prepare("SELECT * FROM timer WHERE timer_id = ?").get(1);
-	if (!timerRow) {
-		db.prepare("INSERT INTO timer (timer_id, remaining_time) VALUES (?, ?)").run(1, timer.getParameters().start);
-		timerRow = db.prepare("SELECT * FROM timer WHERE timer_id = ?").get(1);
-	}
-	timer.Start(timerRow.remaining_time);
-}
-// detiene el timer y envia al los clientes
-function StopTimer() {
-	timer.Stop();
-}
-
-// agrega tiempo en segundos
-app.post("/timer/addTime", (req, res) => {
-	timer.AddTime(req.body.seconds);
-	res.json({});
-});
-// resetea el timer
-app.post("/timer/reset", (req, res) => {
-	ResetTimer();
-	res.json({});
-});
-
-app.post("/timer/enable", (req, res) => {
-	timer.Enable(req.body.enabled);
-	res.json({});
 });
 
 // llamada al resetear el timer

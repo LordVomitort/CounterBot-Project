@@ -76,7 +76,7 @@ export function DonothonStatsPanel() {
 					if (evento.data) {
 						setCounters(() => evento.data);
 						setCountersActive(() => false);
-						if (evento.data.length > 1) {
+						if (evento.data.length > 0) {
 							evento.data.forEach((c: CounterStatType) => {
 								if (c.active) setCountersActive(() => true);
 							});
@@ -84,6 +84,10 @@ export function DonothonStatsPanel() {
 					}
 					break;
 			}
+		};
+
+		return () => {
+			eventSource.close();
 		};
 	}, []);
 
