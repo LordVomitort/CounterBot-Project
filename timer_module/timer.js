@@ -277,6 +277,34 @@ function LoadDonothonSubs(subs) {
 	donothonEmitter.emit("subsUpdateFailed");
 	return false;
 }
+
+function setTimerParams(mode, params) {
+	const MODES = {
+		start: (prms) => {
+			timerParameters.start = prms.time;
+		},
+		follower: (prms) => {
+			setFollowersParams(prms.time, prms.enabled);
+		},
+		tip: (prms) => {
+			setTipsParams(prms.time, prms.enabled);
+		},
+		subs: (prms) => {
+			setSubParam(prms.id, prms.time, prms.enabled);
+		},
+		goals: (prms) => {
+			setGoalParams(prms.id, prms.time, prms.enabled);
+		},
+		counters: (prms) => {
+			setCounterParams(prms.id, prms.time, prms.enabled);
+		},
+		events: (prms) => {
+			setEventsParams(prms.subs, prms.subsOnlyShared, prms.goals, prms.counters);
+		},
+	};
+	MODES[mode](params);
+}
+
 function setFollowersParams(amount, enabled) {
 	timerParameters.followers = amount;
 	timerParameters.event.followers = enabled;
@@ -336,7 +364,7 @@ function AddCounterToTimer(id, name, addCounterDatabase) {
 function DeleteCounterFromTimer(id, deleteDatabase) {
 	donothonStats.counters = donothonStats.counters.filter((c) => c.id !== id);
 	deleteDatabase(id, donothonStats.id);
-	timerEmitter.emit("countersUpdated");
+	timerEmitter.emit("counterDeleted", id);
 }
 
 function ModifyCounter(id, name, updateDatabase) {
@@ -346,6 +374,12 @@ function ModifyCounter(id, name, updateDatabase) {
 		updateDatabase(id, name, donothonStats.id);
 	}
 	timerEmitter.emit("countersUpdated");
+}
+
+function deleteTimerGoal(goalId, databaseDelete) {
+	timerParameters.goals = timerParameters.goals.filter((fg) => fg.id !== goalId);
+	databaseDelete(goalId);
+	timerEmitter.emit("goalsUpdated");
 }
 
 // funcion llamada al dispararse un contador (no se llamaran si se usa !set)
@@ -389,8 +423,8 @@ function TriggerTip(tipAmount, databaseUpdate) {
 	donothonEmitter.emit("tipsTrigger");
 }
 
-function TriggerSubs(subId, databaseUpdate) {
-	if (!timerParameters.enabled || !timerParameters.event.subs) return;
+function TriggerSubs(subId, databaseUpdate, shared) {
+	if (!timerParameters.enabled || !timerParameters.event.subs || shared != timerParameters.event.subsOnlyShared) return;
 	const sub = timerParameters.subs.find((s) => s.id == subId);
 	if (!sub || !sub.enabled) return;
 	AddTime(sub.amount);
@@ -427,6 +461,9 @@ module.exports = {
 	DeleteCounterFromTimer,
 	ModifyCounter,
 
+	deleteTimerGoal,
+
+	setTimerParams,
 	setFollowersParams,
 	setTipsParams,
 	setSubParam,

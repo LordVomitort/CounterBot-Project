@@ -6,4 +6,4 @@ RELEASE/
 crash.log
 program/
 *.db
-db/*.db
+db/
