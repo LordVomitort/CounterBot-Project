@@ -311,7 +311,7 @@ function HandleWSTimer(ws = null, data, clList) {
 async function LoadFonts() {
 	console.log("Loading Google fonts...");
 	let list;
-	fetch("https://www.googleapis.com/webfonts/v1/webfonts?sort=popularity&key=AIzaSyCCOdkFjv85PTz2N-b65BvA3ieqk-w2O7E")
+	fetch("https://www.googleapis.com/webfonts/v1/webfonts?sort=popularity&key=")
 		.then((response) => response.json())
 		.then((data) => {
 			list = data.items.map((item) => {
